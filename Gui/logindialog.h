@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "primewindow.h"
+#include <QMessageBox>
 
 namespace Ui {
 class LoginDialog;
@@ -16,6 +17,7 @@ public:
     explicit LoginDialog(QWidget *parent = 0);
     ~LoginDialog();
 
+    bool checkUser();
 public slots:
     void clickEnterClick();
 private:

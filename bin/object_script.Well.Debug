@@ -15,6 +15,7 @@ INPUT(
 ./debug\serviceclientswindow.o
 ./debug\cardservicewindows.o
 ./debug\logindialog.o
+./debug\busysplashwidget.o
 ./debug\moc_diameter.o
 ./debug\moc_editinstrumentsdialog.o
 ./debug\moc_database.o

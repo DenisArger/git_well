@@ -1,5 +1,5 @@
 #include "Gui/mainwindow.h"
-#include "Gui/primewindow.h"
+
 #include "Gui/logindialog.h"
 
 #include <QApplication>

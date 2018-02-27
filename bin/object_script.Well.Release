@@ -15,6 +15,7 @@ INPUT(
 ./release\serviceclientswindow.o
 ./release\cardservicewindows.o
 ./release\logindialog.o
+./release\busysplashwidget.o
 ./release\moc_diameter.o
 ./release\moc_editinstrumentsdialog.o
 ./release\moc_database.o

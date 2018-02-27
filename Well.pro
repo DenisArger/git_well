@@ -37,7 +37,8 @@ HEADERS += \
     Gui/stockwindow.h \
     Gui/serviceclientswindow.h \
     Gui/cardservicewindows.h \
-    Gui/logindialog.h
+    Gui/logindialog.h \
+    Gui/busysplashwidget.h
 
 SOURCES += \
     global.cpp \
@@ -55,7 +56,8 @@ SOURCES += \
     Gui/stockwindow.cpp \
     Gui/serviceclientswindow.cpp \
     Gui/cardservicewindows.cpp \
-    Gui/logindialog.cpp
+    Gui/logindialog.cpp \
+    Gui/busysplashwidget.cpp
 
 FORMS += \
     Gui/diameter.ui \
