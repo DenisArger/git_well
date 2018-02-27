@@ -173,12 +173,14 @@ public:
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         label = new QLabel(centralwidget);
         label->setObjectName(QStringLiteral("label"));
+        label->setEnabled(false);
         label->setFont(font);
 
         horizontalLayout_2->addWidget(label);
 
         lineEdit = new QLineEdit(centralwidget);
         lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        lineEdit->setEnabled(false);
         lineEdit->setFont(font);
 
         horizontalLayout_2->addWidget(lineEdit);
@@ -203,7 +205,7 @@ public:
         PrimeWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(PrimeWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1029, 31));
+        menubar->setGeometry(QRect(0, 0, 1029, 21));
         PrimeWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(PrimeWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));

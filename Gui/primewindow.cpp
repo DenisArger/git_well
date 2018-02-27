@@ -7,6 +7,11 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    //Скрывает строку настройки БД
+    ui->label->hide();
+    ui->lineEdit->hide();
+    ui->pushButton->hide();
+
     clientsWindows = new ClientsWindows;
     cardWindows = new CardClientWindows;
     serviceClientWindows = new ServiceClientsWindow;

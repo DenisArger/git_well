@@ -36,7 +36,8 @@ HEADERS += \
     Gui/cardclientwindows.h \
     Gui/stockwindow.h \
     Gui/serviceclientswindow.h \
-    Gui/cardservicewindows.h
+    Gui/cardservicewindows.h \
+    Gui/logindialog.h
 
 SOURCES += \
     global.cpp \
@@ -53,7 +54,8 @@ SOURCES += \
     Gui/cardclientwindows.cpp \
     Gui/stockwindow.cpp \
     Gui/serviceclientswindow.cpp \
-    Gui/cardservicewindows.cpp
+    Gui/cardservicewindows.cpp \
+    Gui/logindialog.cpp
 
 FORMS += \
     Gui/diameter.ui \
@@ -64,7 +66,8 @@ FORMS += \
     Gui/cardclientwindows.ui \
     Gui/stockwindow.ui \
     Gui/serviceclientswindow.ui \
-    Gui/cardservicewindows.ui
+    Gui/cardservicewindows.ui \
+    Gui/logindialog.ui
 
 
 

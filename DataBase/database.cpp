@@ -1,4 +1,5 @@
 #include "database.h"
+#include <QMessageBox>
 
 DataBase::DataBase(QObject *parent) : QObject(parent),fileName(" ")
 {
@@ -15,7 +16,8 @@ void DataBase::connectToDataBase()
     /* Перед подключением к базе данных производим проверку на её существование.
      * В зависимости от результата производим открытие базы данных или её восстановление
      * */
-   if(!QFile("C:/Users/pol/Documents/" DATABASE_NAME).exists()){
+   if(!QFile("../db/" DATABASE_NAME).exists()){
+       qDebug()<< "Файл базы данных не найден";
         //QMessageBox::critical(this,'Ошибка открытия БД',"Файл базы данных не найден.");
     } else {
         this->openDataBase();

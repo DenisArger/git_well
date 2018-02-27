@@ -260,6 +260,9 @@
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <widget class="QLabel" name="label">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="font">
          <font>
           <pointsize>11</pointsize>
@@ -272,6 +275,9 @@
       </item>
       <item>
        <widget class="QLineEdit" name="lineEdit">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="font">
          <font>
           <pointsize>11</pointsize>
@@ -330,7 +336,7 @@
      <x>0</x>
      <y>0</y>
      <width>1029</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

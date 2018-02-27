@@ -46,7 +46,7 @@
 
 //Вставить относительные пути к БД
 #define ACCESS  "DRIVER={Microsoft Access Driver (*.mdb)};"\
-    "FIL={MS Access};DBQ=C:\\Users\\pol\\Documents\\DatabaseWell.mdb"
+    "FIL={MS Access};DBQ=../db/DatabaseWell.mdb"
 
 #define ACCESS_SHORT  "DRIVER={Microsoft Access Driver (*.mdb)};"\
     "FIL={MS Access};DBQ="
