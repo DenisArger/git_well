@@ -27,7 +27,6 @@ HEADERS += \
     Model/heirqsqlquerymodel.h \
     Model/servicecardquerymodel.h \
     Model/serviceqsqlquerymodel.h \
-    Gui/diameter.h \
     Gui/editinstrumentsdialog.h \
     DataBase/database.h \
     Gui/operationstock.h \
@@ -46,7 +45,6 @@ SOURCES += \
     Model/heirqsqlquerymodel.cpp \
     Model/servicecardquerymodel.cpp \
     Model/serviceqsqlquerymodel.cpp \
-    Gui/diameter.cpp \
     Gui/editinstrumentsdialog.cpp \
     DataBase/database.cpp \
     Gui/operationstock.cpp \
@@ -60,7 +58,6 @@ SOURCES += \
     Gui/busysplashwidget.cpp
 
 FORMS += \
-    Gui/diameter.ui \
     Gui/editinstrumentsdialog.ui \
     Gui/operationstock.ui \
     Gui/primewindow.ui \

@@ -3,9 +3,6 @@
 
 #include <QMainWindow>
 #include <QShortcut>
-#include "Gui/clientscardwindows.h"
-#include "Gui/diameter.h"
-#include "Gui/service.h"
 
 #include "Gui/clientswindows.h"
 #include "Gui/cardclientwindows.h"
