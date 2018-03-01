@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_StockWindow_t {
-    QByteArrayData data[13];
-    char stringdata0[153];
+    QByteArrayData data[14];
+    char stringdata0[173];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -43,13 +43,15 @@ QT_MOC_LITERAL(8, 92, 22), // "clickCurrBalanceButton"
 QT_MOC_LITERAL(9, 115, 8), // "clickAdd"
 QT_MOC_LITERAL(10, 124, 9), // "clickEdit"
 QT_MOC_LITERAL(11, 134, 11), // "clickDelete"
-QT_MOC_LITERAL(12, 146, 6) // "addTab"
+QT_MOC_LITERAL(12, 146, 19), // "clickAddInstruments"
+QT_MOC_LITERAL(13, 166, 6) // "addTab"
 
     },
     "StockWindow\0parsingIdInstr\0\0index\0"
     "showHistory\0updateWindows\0clickClearButton\0"
     "clickSumButton\0clickCurrBalanceButton\0"
-    "clickAdd\0clickEdit\0clickDelete\0addTab"
+    "clickAdd\0clickEdit\0clickDelete\0"
+    "clickAddInstruments\0addTab"
 };
 #undef QT_MOC_LITERAL
 
@@ -59,7 +61,7 @@ static const uint qt_meta_data_StockWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -67,19 +69,21 @@ static const uint qt_meta_data_StockWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   64,    2, 0x0a /* Public */,
-       4,    0,   67,    2, 0x0a /* Public */,
-       5,    0,   68,    2, 0x0a /* Public */,
-       6,    0,   69,    2, 0x0a /* Public */,
-       7,    0,   70,    2, 0x0a /* Public */,
-       8,    0,   71,    2, 0x0a /* Public */,
-       9,    0,   72,    2, 0x0a /* Public */,
-      10,    0,   73,    2, 0x0a /* Public */,
-      11,    0,   74,    2, 0x0a /* Public */,
-      12,    0,   75,    2, 0x0a /* Public */,
+       1,    1,   69,    2, 0x0a /* Public */,
+       4,    0,   72,    2, 0x0a /* Public */,
+       5,    0,   73,    2, 0x0a /* Public */,
+       6,    0,   74,    2, 0x0a /* Public */,
+       7,    0,   75,    2, 0x0a /* Public */,
+       8,    0,   76,    2, 0x0a /* Public */,
+       9,    0,   77,    2, 0x0a /* Public */,
+      10,    0,   78,    2, 0x0a /* Public */,
+      11,    0,   79,    2, 0x0a /* Public */,
+      12,    0,   80,    2, 0x0a /* Public */,
+      13,    0,   81,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::QModelIndex,    3,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -108,7 +112,8 @@ void StockWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 6: _t->clickAdd(); break;
         case 7: _t->clickEdit(); break;
         case 8: _t->clickDelete(); break;
-        case 9: _t->addTab(); break;
+        case 9: _t->clickAddInstruments(); break;
+        case 10: _t->addTab(); break;
         default: ;
         }
     }
@@ -139,13 +144,13 @@ int StockWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
+        _id -= 11;
     }
     return _id;
 }

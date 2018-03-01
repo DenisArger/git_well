@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "QSqlQueryModel"
 #include "editinstrumentsdialog.h"
-#include "operationstock.h"
+#include "addinstruments.h"
 
 namespace Ui {
 class StockWindow;
@@ -24,6 +24,7 @@ public:
     void insertTabClassInstruments();
     void createUIClassInstruments();
     void setupModelClassInstruments(const QStringList &headers, int idClassInstruments);
+    void addClassIntruments(QString nameClassInstruments);
 public slots:
     void parsingIdInstr(QModelIndex index);
     void showHistory();
@@ -34,14 +35,16 @@ public slots:
     void clickAdd();
     void clickEdit();
     void clickDelete();
+    void clickAddInstruments();
 
     void addTab();
+
 private:
     Ui::StockWindow *ui;
 
     QSqlQueryModel    *model;
     EditInstrumentsDialog *editInstruments;
-    OperationStock * operationStock;
+    AddInstruments * addIntruments;
 
     int idDiameter_;
 };

@@ -6,7 +6,6 @@ INPUT(
 ./release/serviceqsqlquerymodel.o
 ./release/editinstrumentsdialog.o
 ./release/database.o
-./release/operationstock.o
 ./release/primewindow.o
 ./release/clientswindows.o
 ./release/cardclientwindows.o
@@ -15,9 +14,9 @@ INPUT(
 ./release/cardservicewindows.o
 ./release/logindialog.o
 ./release/busysplashwidget.o
+./release/addinstruments.o
 ./release/moc_editinstrumentsdialog.o
 ./release/moc_database.o
-./release/moc_operationstock.o
 ./release/moc_primewindow.o
 ./release/moc_clientswindows.o
 ./release/moc_cardclientwindows.o
@@ -25,4 +24,5 @@ INPUT(
 ./release/moc_serviceclientswindow.o
 ./release/moc_cardservicewindows.o
 ./release/moc_logindialog.o
+./release/moc_addinstruments.o
 );

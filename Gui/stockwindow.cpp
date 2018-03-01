@@ -12,7 +12,7 @@ StockWindow::StockWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     editInstruments=new EditInstrumentsDialog();
-    operationStock=new OperationStock();
+
 
     dataBase.connectToDataBase();
     this->setupModel(                QStringList() << trUtf8("ID")
@@ -28,16 +28,18 @@ StockWindow::StockWindow(QWidget *parent) :
     this->createUI();
 
     QToolButton *tb = new QToolButton();
+    addIntruments=new AddInstruments();
+
     tb->setText("+");
     tb->setAutoRaise(true);
     connect(tb, SIGNAL(clicked()), this, SLOT(addTab()));
-    connect(ui->addInstrButton,SIGNAL(clicked(bool)),operationStock, SLOT(show()));
     connect(ui->editBalanceButton,SIGNAL(clicked(bool)),editInstruments, SLOT(show()));
     connect(ui->tableView,SIGNAL(clicked(QModelIndex)),this,SLOT(parsingIdInstr(QModelIndex)));
     connect(ui->tableView,SIGNAL(clicked(QModelIndex)),this,SLOT(showHistory()));
     connect(editInstruments,SIGNAL(applyClick()),this,SLOT(updateWindows()));
-    connect(operationStock,SIGNAL(closeSignal()),this,SLOT(updateWindows()));
+    connect(addIntruments,SIGNAL(closeSignal()),this,SLOT(updateWindows()));
     connect(ui->closeButton,SIGNAL(clicked(bool)),this,SLOT(close()));
+    connect(ui->addInstrButton,SIGNAL(clicked(bool)),addIntruments,SLOT(show()));
 
 
 
@@ -64,6 +66,8 @@ void StockWindow::addTab()
         return;
         // Была нажата кнопка Cancel
     }
+    else
+        addClassIntruments(nameClassInstruments);
 
     ui->tab = new QWidget();
     ui->tab->setObjectName(QStringLiteral("tab_2"));
@@ -86,10 +90,17 @@ void StockWindow::addTab()
 
 }
 
+void StockWindow::addClassIntruments(QString nameClassInstruments)
+{
+    QString queryStr= QString("INSERT INTO ClassInstruments (NameClass) SELECT '%1'").arg(nameClassInstruments);
+    QSqlQuery query=dataBase.queryToBase(queryStr);
+}
+
 
 void StockWindow::insertTabClassInstruments()
 {
-    QString queryStr="SELECT ClassInstruments.ID,ClassInstruments.NameClass FROM ClassInstruments;";
+    QString queryStr="SELECT ClassInstruments.ID,ClassInstruments.NameClass \
+    FROM ClassInstruments where ClassInstruments.ID>0 ;";
     QSqlQuery query=dataBase.queryToBase(queryStr);
     while(query.next()) {
 
@@ -439,6 +450,11 @@ void StockWindow::clickEdit()
 }
 
 void StockWindow::clickDelete()
+{
+
+}
+
+void StockWindow::clickAddInstruments()
 {
 
 }

@@ -6,7 +6,6 @@ INPUT(
 ./debug/serviceqsqlquerymodel.o
 ./debug/editinstrumentsdialog.o
 ./debug/database.o
-./debug/operationstock.o
 ./debug/primewindow.o
 ./debug/clientswindows.o
 ./debug/cardclientwindows.o
@@ -15,9 +14,9 @@ INPUT(
 ./debug/cardservicewindows.o
 ./debug/logindialog.o
 ./debug/busysplashwidget.o
+./debug/addinstruments.o
 ./debug/moc_editinstrumentsdialog.o
 ./debug/moc_database.o
-./debug/moc_operationstock.o
 ./debug/moc_primewindow.o
 ./debug/moc_clientswindows.o
 ./debug/moc_cardclientwindows.o
@@ -25,4 +24,5 @@ INPUT(
 ./debug/moc_serviceclientswindow.o
 ./debug/moc_cardservicewindows.o
 ./debug/moc_logindialog.o
+./debug/moc_addinstruments.o
 );

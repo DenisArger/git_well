@@ -29,7 +29,6 @@ HEADERS += \
     Model/serviceqsqlquerymodel.h \
     Gui/editinstrumentsdialog.h \
     DataBase/database.h \
-    Gui/operationstock.h \
     Gui/primewindow.h \
     Gui/clientswindows.h \
     Gui/cardclientwindows.h \
@@ -37,7 +36,8 @@ HEADERS += \
     Gui/serviceclientswindow.h \
     Gui/cardservicewindows.h \
     Gui/logindialog.h \
-    Gui/busysplashwidget.h
+    Gui/busysplashwidget.h \
+    Gui/addinstruments.h
 
 SOURCES += \
     global.cpp \
@@ -47,7 +47,6 @@ SOURCES += \
     Model/serviceqsqlquerymodel.cpp \
     Gui/editinstrumentsdialog.cpp \
     DataBase/database.cpp \
-    Gui/operationstock.cpp \
     Gui/primewindow.cpp \
     Gui/clientswindows.cpp \
     Gui/cardclientwindows.cpp \
@@ -55,18 +54,19 @@ SOURCES += \
     Gui/serviceclientswindow.cpp \
     Gui/cardservicewindows.cpp \
     Gui/logindialog.cpp \
-    Gui/busysplashwidget.cpp
+    Gui/busysplashwidget.cpp \
+    Gui/addinstruments.cpp
 
 FORMS += \
     Gui/editinstrumentsdialog.ui \
-    Gui/operationstock.ui \
     Gui/primewindow.ui \
     Gui/clientswindows.ui \
     Gui/cardclientwindows.ui \
     Gui/stockwindow.ui \
     Gui/serviceclientswindow.ui \
     Gui/cardservicewindows.ui \
-    Gui/logindialog.ui
+    Gui/logindialog.ui \
+    Gui/addinstruments.ui
 
 
 
