@@ -6,6 +6,9 @@
 #include "editinstrumentsdialog.h"
 #include "addinstruments.h"
 
+
+#include <vector>
+using namespace std;
 namespace Ui {
 class StockWindow;
 }
@@ -25,6 +28,12 @@ public:
     void createUIClassInstruments();
     void setupModelClassInstruments(const QStringList &headers, int idClassInstruments);
     void addClassIntruments(QString nameClassInstruments);
+
+    //Установка модели для всех приборов
+    void setupModelBase(const QStringList &headers);
+    //Установка модели для всех прибора согласно ID прибора
+    void setupModelBaseID(const QStringList &headers, int idClassInstruments);
+
 public slots:
     void parsingIdInstr(QModelIndex index);
     void showHistory();
@@ -45,6 +54,8 @@ private:
     QSqlQueryModel    *model;
     EditInstrumentsDialog *editInstruments;
     AddInstruments * addIntruments;
+
+    vector<QTabWidget*>vecTabWidget;
 
     int idDiameter_;
 };

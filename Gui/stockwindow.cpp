@@ -15,11 +15,9 @@ StockWindow::StockWindow(QWidget *parent) :
 
 
     dataBase.connectToDataBase();
-    this->setupModel(                QStringList() << trUtf8("ID")
+    this->setupModelBase(QStringList() << trUtf8("ID")
                                      << trUtf8("Класс")
                                      << trUtf8("Название")
-                                     << trUtf8("Кол-во заказов за период")
-                                     << trUtf8("Потрачено за период")
                                      << trUtf8("Остаток")
                                      );
 
@@ -96,11 +94,51 @@ void StockWindow::addClassIntruments(QString nameClassInstruments)
     QSqlQuery query=dataBase.queryToBase(queryStr);
 }
 
+void StockWindow::setupModelBaseID(const QStringList &headers, int idClassInstruments)
+{
+    QString query;
+    if(idClassInstruments!=1){
+
+        query=QString("SELECT Instruments.id, ClassInstruments.NameClass,\
+                      Instruments.nameInstruments, Instruments.balance\
+                      FROM ClassInstruments INNER JOIN Instruments \
+                      ON ClassInstruments.ID = Instruments.idClassInstruments \
+                where  Instruments.id>0 and  Instruments.idClassInstruments=%1\
+                GROUP BY Instruments.id, ClassInstruments.NameClass,\
+                      Instruments.nameInstruments, Instruments.balance;").arg(idClassInstruments);;
+    }
+    else{
+        query=QString("SELECT Instruments.id,ClassInstruments.NameClass, \
+                      Instruments.nameInstruments, Count(Instruments.id) AS [Count-id], \
+                Sum(ClientsCard.dept) AS [Sum-dept], Instruments.balance\
+                FROM ClassInstruments INNER JOIN (ClientsCard INNER JOIN Instruments \
+                                                  ON ClientsCard.id_instruments = Instruments.id) ON ClassInstruments.ID = Instruments.idClassInstruments\
+                where Instruments.id >0 and  Instruments.idClassInstruments=%1\
+                GROUP BY Instruments.id, ClassInstruments.NameClass,  \
+                Instruments.nameInstruments, Instruments.balance;").arg(idClassInstruments);
+    }
+
+    /* Производим инициализацию модели представления данных
+     * с установкой имени таблицы в базе данных, по которому
+     * будет производится обращение в таблице
+     * */
+    model = new QSqlQueryModel(this);
+    model->setQuery(query , dataBase.getDatase());
+
+    qDebug()<<query;
+    /* Устанавливаем названия колонок в таблице с сортировкой данных*/
+
+    for(int i = 0, j = 0; i <model->columnCount(); i++, j++){
+        model->setHeaderData(i,Qt::Horizontal,headers[j]);
+
+    }
+}
+
 
 void StockWindow::insertTabClassInstruments()
 {
     QString queryStr="SELECT ClassInstruments.ID,ClassInstruments.NameClass \
-    FROM ClassInstruments where ClassInstruments.ID>0 ;";
+            FROM ClassInstruments where ClassInstruments.ID>0 ;";
     QSqlQuery query=dataBase.queryToBase(queryStr);
     while(query.next()) {
 
@@ -124,14 +162,22 @@ void StockWindow::insertTabClassInstruments()
         ui->verticalLayout_4->addWidget(ui->tableView);
         ui->tabWidget->insertTab( ui->tabWidget->count() - 1, ui->tab, nameClassInstruments);
 
-
-        this->setupModelClassInstruments(                QStringList() << trUtf8("ID")
-                                                         << trUtf8("Класс")
-                                                         << trUtf8("Название")
-                                                         << trUtf8("Кол-во заказов за период")
-                                                         << trUtf8("Потрачено за период")
-                                                         << trUtf8("Остаток")
-                                                         ,query.value(0).toInt());
+        if(query.value(0).toInt()!=1){
+            this->setupModelBaseID(                   QStringList() << trUtf8("ID")
+                                                      << trUtf8("Класс")
+                                                      << trUtf8("Название")
+                                                      << trUtf8("Остаток")
+                                                      ,query.value(0).toInt());
+        }
+        else{
+            this->setupModelBaseID(                QStringList() << trUtf8("ID")
+                                                   << trUtf8("Класс")
+                                                   << trUtf8("Название")
+                                                   << trUtf8("Кол-во заказов за период")
+                                                   << trUtf8("Потрачено за период")
+                                                   << trUtf8("Остаток")
+                                                   ,query.value(0).toInt());
+        }
         createUIClassInstruments();
     }
 }
@@ -182,6 +228,32 @@ void StockWindow::setupModel(const QStringList &headers)
 }
 
 
+void StockWindow:: setupModelBase(const QStringList &headers)
+{
+
+    QString query=QString("SELECT Instruments.id, ClassInstruments.NameClass,\
+                          Instruments.nameInstruments, Instruments.balance\
+                          FROM ClassInstruments INNER JOIN Instruments \
+                          ON ClassInstruments.ID = Instruments.idClassInstruments where  Instruments.id>0\
+            GROUP BY Instruments.id, ClassInstruments.NameClass,\
+                          Instruments.nameInstruments, Instruments.balance;");
+
+            /* Производим инициализацию модели представления данных
+                     * с установкой имени таблицы в базе данных, по которому
+                     * будет производится обращение в таблице
+                     * */
+            model = new QSqlQueryModel(this);
+    model->setQuery(query , dataBase.getDatase());
+
+    qDebug()<<query;
+    /* Устанавливаем названия колонок в таблице с сортировкой данных*/
+
+    for(int i = 0, j = 0; i <model->columnCount(); i++, j++){
+        model->setHeaderData(i,Qt::Horizontal,headers[j]);
+
+    }
+}
+
 void StockWindow::setupModelClassInstruments(const QStringList &headers, int idClassInstruments)
 {
     QDate dateToday = QDate::currentDate();
@@ -220,6 +292,8 @@ void StockWindow::setupModelClassInstruments(const QStringList &headers, int idC
 
 void StockWindow::createUI()
 {
+    //vecTabWidget->push_back(ui->tableView);
+
     ui->tableView->setModel(model);     // Устанавливаем модель на TableView
     ui->tableView->setColumnHidden(0, true);    // Скрываем колонку с id записей
     //ui->tableView->setColumnHidden(2, true);    // Скрываем колонку c количеством заказов за период
