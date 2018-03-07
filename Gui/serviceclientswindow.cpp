@@ -10,6 +10,22 @@ ServiceClientsWindow::ServiceClientsWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    cardServiceWindows=new CardServiceWindows(this);
+
+    connect(ui->filterButton,SIGNAL(clicked(bool)),this,SLOT(clickFilter()));
+    connect(ui->clearFilterButton,SIGNAL(clicked(bool)),this,SLOT(clickClear()));
+    connect(ui->closeButton,SIGNAL(clicked(bool)),this,SLOT(close()));
+    connect(ui->tableView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(doubleClickTable(QModelIndex)));
+
+    connect(cardServiceWindows,SIGNAL(closeEvent(QCloseEvent*)),this,SLOT(updateModel()));
+
+}
+
+
+void ServiceClientsWindow::showWindow()
+{
+    this->showMaximized();
+
     dataBase.connectToDataBase();
     this->setupModel(QStringList()  << trUtf8("ID")
                      << trUtf8("ID client")
@@ -43,13 +59,6 @@ ServiceClientsWindow::ServiceClientsWindow(QWidget *parent) :
     fillStatePump();
     fillLocationPump();
     fillSeasone();
-
-    connect(ui->filterButton,SIGNAL(clicked(bool)),this,SLOT(clickFilter()));
-    connect(ui->clearFilterButton,SIGNAL(clicked(bool)),this,SLOT(clickClear()));
-    connect(ui->closeButton,SIGNAL(clicked(bool)),this,SLOT(close()));
-    connect(ui->tableView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(doubleClickTable(QModelIndex)));
-
-
 }
 
 ServiceClientsWindow::~ServiceClientsWindow()
@@ -60,7 +69,7 @@ ServiceClientsWindow::~ServiceClientsWindow()
 
 void ServiceClientsWindow::setupModel(const QStringList &headers)
 {
-    QString query=QString("SELECT Service.id, Service.idClient, Region.region, District.district,\
+    mainQuery=QString("SELECT Service.id, Service.idClient, Region.region, District.district,\
                           ClientsCard.locality, ClientsCard.street, StateService.stateSevice, Service.dataBegin, \
                           StatePayment.statePayment, TypePump.typePump, StatePump.statePump, LocationPump.locationPump,\
                           Seasone.season, ClientsCard.surname,ClientsCard.name_, ClientsCard.patronymic, ClientsCard.mobilPhone, ClientsCard.otherPhone\
@@ -70,7 +79,7 @@ void ServiceClientsWindow::setupModel(const QStringList &headers)
                                                                                                                                                                 INNER JOIN Region ON District.id_region = Region.ID) ON Service.idClient = ClientsCard.ID)\
                                                                                                                            ON StatePayment.ID = Service.idStatePayment) ON StateService.ID = Service.idStateService)\
                                                                              ON TypePump.ID = Service.idTypePump) ON StatePump.ID = Service.idStatePump) \
-                                                   ON LocationPump.ID = Service.idLocationPump) ON Seasone.ID = Service.idSeasone;");
+                                                   ON LocationPump.ID = Service.idLocationPump) ON Seasone.ID = Service.idSeasone ORDER BY ClientsCard.ID DESC;");
 
 
             /* Производим инициализацию модели представления данных
@@ -78,15 +87,22 @@ void ServiceClientsWindow::setupModel(const QStringList &headers)
                      * будет производится обращение в таблице
                      * */
             model = new QSqlQueryModel(this);
-    model->setQuery(query , dataBase.getDatase());
+    model->setQuery(mainQuery , dataBase.getDatase());
 
-    qDebug()<<query;
+    qDebug()<<mainQuery;
     /* Устанавливаем названия колонок в таблице с сортировкой данных*/
 
     for(int i = 0, j = 0; i <model->columnCount(); i++, j++){
         model->setHeaderData(i,Qt::Horizontal,headers[j]);
 
     }
+}
+
+
+void ServiceClientsWindow::updateModel()
+{
+    model->setQuery(mainQuery , dataBase.getDatase());
+
 }
 
 void ServiceClientsWindow::createUI()
@@ -822,9 +838,7 @@ void ServiceClientsWindow::clickClear()
 
 void ServiceClientsWindow::doubleClickTable(const QModelIndex &index)
 {
-    CardServiceWindows  *w=new CardServiceWindows(this);
-
-    w->show();
+    cardServiceWindows->showWindow();
 
 
     //Получаем индекс нужного ИД
@@ -834,9 +848,7 @@ void ServiceClientsWindow::doubleClickTable(const QModelIndex &index)
     int idClient=index_.model()->data(index_, Qt::DisplayRole).toInt();
     int idServicet=index1.model()->data(index1, Qt::DisplayRole).toInt();
     res=fillDataService(idClient);
-    w->setIdService(idServicet);
-    w->setIdClient(idClient);
-    w->fillServiceCart(res);
-
-    model->setQuery(model->query().lastQuery());
+    cardServiceWindows->setIdService(idServicet);
+    cardServiceWindows->setIdClient(idClient);
+    cardServiceWindows->fillServiceCart(res);
 }

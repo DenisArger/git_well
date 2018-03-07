@@ -119,6 +119,7 @@ public:
     {
         if (CardServiceWindows->objectName().isEmpty())
             CardServiceWindows->setObjectName(QStringLiteral("CardServiceWindows"));
+        CardServiceWindows->setWindowModality(Qt::ApplicationModal);
         CardServiceWindows->resize(800, 1230);
         centralwidget = new QWidget(CardServiceWindows);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));

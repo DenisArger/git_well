@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_ServiceClientsWindow_t {
-    QByteArrayData data[6];
-    char stringdata0[68];
+    QByteArrayData data[8];
+    char stringdata0[91];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,11 +36,14 @@ QT_MOC_LITERAL(1, 21, 11), // "clickFilter"
 QT_MOC_LITERAL(2, 33, 0), // ""
 QT_MOC_LITERAL(3, 34, 10), // "clickClear"
 QT_MOC_LITERAL(4, 45, 16), // "doubleClickTable"
-QT_MOC_LITERAL(5, 62, 5) // "index"
+QT_MOC_LITERAL(5, 62, 5), // "index"
+QT_MOC_LITERAL(6, 68, 11), // "updateModel"
+QT_MOC_LITERAL(7, 80, 10) // "showWindow"
 
     },
     "ServiceClientsWindow\0clickFilter\0\0"
-    "clickClear\0doubleClickTable\0index"
+    "clickClear\0doubleClickTable\0index\0"
+    "updateModel\0showWindow"
 };
 #undef QT_MOC_LITERAL
 
@@ -50,7 +53,7 @@ static const uint qt_meta_data_ServiceClientsWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       3,   14, // methods
+       5,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -58,14 +61,18 @@ static const uint qt_meta_data_ServiceClientsWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   29,    2, 0x0a /* Public */,
-       3,    0,   30,    2, 0x0a /* Public */,
-       4,    1,   31,    2, 0x0a /* Public */,
+       1,    0,   39,    2, 0x0a /* Public */,
+       3,    0,   40,    2, 0x0a /* Public */,
+       4,    1,   41,    2, 0x0a /* Public */,
+       6,    0,   44,    2, 0x0a /* Public */,
+       7,    0,   45,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QModelIndex,    5,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -79,6 +86,8 @@ void ServiceClientsWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
         case 0: _t->clickFilter(); break;
         case 1: _t->clickClear(); break;
         case 2: _t->doubleClickTable((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
+        case 3: _t->updateModel(); break;
+        case 4: _t->showWindow(); break;
         default: ;
         }
     }
@@ -109,13 +118,13 @@ int ServiceClientsWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 3)
+        if (_id < 5)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 3;
+        _id -= 5;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 3)
+        if (_id < 5)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 3;
+        _id -= 5;
     }
     return _id;
 }

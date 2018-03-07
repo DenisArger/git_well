@@ -3,7 +3,7 @@
  <class>ClientsWindows</class>
  <widget class="QMainWindow" name="ClientsWindows">
   <property name="windowModality">
-   <enum>Qt::WindowModal</enum>
+   <enum>Qt::ApplicationModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -53,7 +53,7 @@
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>-7</y>
+           <y>0</y>
            <width>318</width>
            <height>787</height>
           </rect>
@@ -176,7 +176,7 @@
           <item>
            <widget class="QGroupBox" name="groupBox">
             <property name="title">
-             <string>GroupBox</string>
+             <string>Заказ</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <item>

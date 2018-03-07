@@ -9,18 +9,29 @@ EditInstrumentsDialog::EditInstrumentsDialog(QWidget *parent) :
     ui(new Ui::EditInstrumentsDialog),
     idDiameter_(0)
 {
-    ui->setupUi(this);
-
-    fillTypeOperation();
-    fillTypeInstr();
-    fillBalance();
-    setCurrentDate();
+    ui->setupUi(this);  
 
     connect(ui->cancelButton,SIGNAL(clicked(bool)),this,SLOT(close()));
     connect(ui->applyButton,SIGNAL(clicked(bool)),this,SLOT(clickApply()));
     connect(ui->applyButton,SIGNAL(clicked(bool)),this,SLOT(close()));
     connect(ui->reCountButton,SIGNAL(clicked(bool)),this,SLOT(clickReCount()));
     connect(ui->resetButton,SIGNAL(clicked(bool)),this,SLOT(fillBalance()));
+}
+
+void EditInstrumentsDialog::showWindow()
+{
+    this->show();
+
+    fillTypeOperation();
+    fillTypeInstr();
+    fillBalance();
+    setCurrentDate();
+
+    ui->typeInstrCombo->setCurrentIndex(currentTab_);
+    if(currentTab_)
+        ui->typeInstrCombo->setEnabled(false);
+    else
+        ui->typeInstrCombo->setEnabled(true);
 }
 
 EditInstrumentsDialog::~EditInstrumentsDialog()
@@ -31,7 +42,8 @@ EditInstrumentsDialog::~EditInstrumentsDialog()
 
 void EditInstrumentsDialog::clickApply()
 {
-    int idDiameter;
+    int idClassInstrument;
+    int idInstrument;
     int typeOperation;
     QString dateOperation;
     double countInstr;
@@ -40,17 +52,17 @@ void EditInstrumentsDialog::clickApply()
     QString queryStr;
 
 
-    idDiameter = ui->typeInstrCombo->currentIndex();
+    idInstrument = ui->typeInstrCombo->currentIndex();
     typeOperation = ui->typeOperCombo->currentIndex();
     dateOperation = ui->dateEdit->text();
     countInstr = ui->countInstrEdit->text().toDouble();
-    source = ui->sourceTextEdit->toPlainText();
+    source = ui->sourseLineEdit->text();
     notes = ui->noteTextEdit->toPlainText();
 
 
     queryStr="INSERT INTO MovementInstruments (idInstruments, typeOperation, \
             dateOperation, countInstr, source, notes)";
-    queryStr+=QString(" SELECT %1,%2,'%3',%4,'%5', '%6'").arg(idDiameter).arg(typeOperation).arg(dateOperation).arg(countInstr).arg(source).arg(notes);
+    queryStr+=QString(" SELECT %1,%2,'%3',%4,'%5', '%6'").arg(idInstrument).arg(typeOperation).arg(dateOperation).arg(countInstr).arg(source).arg(notes);
     dataBase.queryToBase(queryStr);
 
 
@@ -63,6 +75,8 @@ void EditInstrumentsDialog::clickApply()
 
 void EditInstrumentsDialog::fillTypeOperation()
 {
+    ui->typeOperCombo->clear();
+
     ui->typeOperCombo->addItem("");
     ui->typeOperCombo->addItem("Приход");
     ui->typeOperCombo->addItem("Расход");
@@ -75,7 +89,7 @@ void EditInstrumentsDialog::fillTypeInstr()
     ui->typeInstrCombo->clear();
     QSqlQuery query=dataBase.getQueryDiameter();
     while (query.next() ) {
-        ui->typeInstrCombo->addItem(query.value(1).toString(), query.value(0));
+        ui->typeInstrCombo->addItem(query.value(2).toString(), query.value(0));
     }
 }
 
@@ -137,4 +151,9 @@ void EditInstrumentsDialog::setCurrentDate()
     QDate dateToday = QDate::currentDate();
     ui->dateEdit->setDate(dateToday);
 
+}
+
+void EditInstrumentsDialog::setCurrentTab(int currentTab)
+{
+    currentTab_=currentTab;
 }

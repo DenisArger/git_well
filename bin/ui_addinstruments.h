@@ -45,6 +45,7 @@ public:
     {
         if (AddInstruments->objectName().isEmpty())
             AddInstruments->setObjectName(QStringLiteral("AddInstruments"));
+        AddInstruments->setWindowModality(Qt::ApplicationModal);
         AddInstruments->resize(400, 272);
         verticalLayout = new QVBoxLayout(AddInstruments);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));

@@ -3,7 +3,7 @@
  <class>PrimeWindow</class>
  <widget class="QMainWindow" name="PrimeWindow">
   <property name="windowModality">
-   <enum>Qt::WindowModal</enum>
+   <enum>Qt::ApplicationModal</enum>
   </property>
   <property name="geometry">
    <rect>
@@ -336,7 +336,7 @@
      <x>0</x>
      <y>0</y>
      <width>1029</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

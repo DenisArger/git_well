@@ -25,16 +25,19 @@ public:
     void setCurrTypeInstruments();
 
     void setCurrentDate();
+    void  setCurrentTab(int currentTab);
 public slots:
     void clickApply();
     void clickReCount();
     void fillBalance();
+    void showWindow();
 signals:
      void applyClick();
 private:
     Ui::EditInstrumentsDialog *ui;
     int idDiameter_;
     double balance_;
+    int currentTab_; //хранит выбранную текущую вкладку
 };
 
 #endif // EDITINSTRUMENTSDIALOG_H

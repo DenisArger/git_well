@@ -9,7 +9,18 @@ CardClientWindows::CardClientWindows(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    ui->setupUi(this);
+    connect(ui->regionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(fillDistrict()));
+    connect(ui->closeButton, SIGNAL(clicked(bool)), this, SLOT(close()));
+    connect(ui->saveButton, SIGNAL(clicked(bool)), this, SLOT(clickSaveButton()));
+    connect(ui->dataBeginCheckBox, SIGNAL(clicked(bool)), this, SLOT(clickDataBeginCheckBox()));
+    connect(ui->dataEndCheckBox, SIGNAL(clicked(bool)), this, SLOT(clickDataEndCheckBox()));
+
+}
+
+void CardClientWindows::showWindow()
+{
+    this->show();
+
     fillRegion();
     fillDistrict_FULL();
     fillDiameter();
@@ -17,13 +28,6 @@ CardClientWindows::CardClientWindows(QWidget *parent) :
 
     ui->dataBegindateEdit->setEnabled(false);
     ui->dataEndDateEdit->setEnabled(false);
-
-    connect(ui->regionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(fillDistrict()));
-    connect(ui->closeButton, SIGNAL(clicked(bool)), this, SLOT(close()));
-    connect(ui->saveButton, SIGNAL(clicked(bool)), this, SLOT(clickSaveButton()));
-    connect(ui->dataBeginCheckBox, SIGNAL(clicked(bool)), this, SLOT(clickDataBeginCheckBox()));
-    connect(ui->dataEndCheckBox, SIGNAL(clicked(bool)), this, SLOT(clickDataEndCheckBox()));
-
 }
 
 CardClientWindows::~CardClientWindows()
@@ -201,7 +205,9 @@ void  CardClientWindows::createNewClient()
 
     notes=ui->noteEdit->toPlainText();
 
-    query= QString("INSERT INTO ClientsCard (surname, name_, patronymic, mobilPhone,otherPhone \
+
+
+    query= QString("INSERT INTO ClientsCard (surname, name_, patronymic, mobilPhone,otherPhone, \
                    id_district, locality, street,dept, id_instruments, pump, service,");
     if(ui->dataBeginCheckBox->isChecked())
          query+=QString(" dataBegin, ");
@@ -209,7 +215,7 @@ void  CardClientWindows::createNewClient()
          query+=QString(" dataEnd, ");
 
     query+= QString(" notes )  SELECT '%1','%2','%3','%4', '%5', %6, '%7', '%8', %9, %10, %11, %12" ).arg(surname).arg(name).\
-            arg(patronymic).arg(mobilPhone).arg(id_district).arg(locality).\
+            arg(patronymic).arg(mobilPhone).arg(otherPhone).arg(id_district).arg(locality).\
             arg(street).arg(dept).arg(id_diameter).arg(pump).arg(service);
 
     if(ui->dataBeginCheckBox->isChecked())
@@ -219,8 +225,6 @@ void  CardClientWindows::createNewClient()
 
     query+=QString(" ,'%1' ").arg(notes);
 
-
-    //qDebug()<<query;
     dataBase.queryToBase(query);
 
     query="SELECT @@Identity";
@@ -319,4 +323,5 @@ void CardClientWindows::createServiceClient(int idClient)
 void CardClientWindows::closeEvent(QCloseEvent *event)
 {
     defaultContenWindow();
+    emit closeSignal();
 }

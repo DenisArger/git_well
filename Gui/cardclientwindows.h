@@ -60,17 +60,20 @@ public:
 
     void setIdClient(int id);
     void createServiceClient(int idClient);
-
     void closeEvent(QCloseEvent *event);
+
 public slots:
     void fillDistrict();
 
     void clickSaveButton();
     void clickDataBeginCheckBox();
     void clickDataEndCheckBox();
-
     void defaultContenWindow();
+    void showWindow();
 
+
+signals:
+    void closeSignal();
 private:
     /**
      Хранит состояние работы кнопки сохранить

@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_ClientsWindows_t {
-    QByteArrayData data[8];
-    char stringdata0[111];
+    QByteArrayData data[10];
+    char stringdata0[134];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -38,12 +38,15 @@ QT_MOC_LITERAL(3, 27, 12), // "fillDistrict"
 QT_MOC_LITERAL(4, 40, 17), // "clickFilterButton"
 QT_MOC_LITERAL(5, 58, 22), // "clickClearFilterButton"
 QT_MOC_LITERAL(6, 81, 23), // "clickDoubleClickedTable"
-QT_MOC_LITERAL(7, 105, 5) // "index"
+QT_MOC_LITERAL(7, 105, 5), // "index"
+QT_MOC_LITERAL(8, 111, 10), // "showWindow"
+QT_MOC_LITERAL(9, 122, 11) // "updateModel"
 
     },
     "ClientsWindows\0fillRegion\0\0fillDistrict\0"
     "clickFilterButton\0clickClearFilterButton\0"
-    "clickDoubleClickedTable\0index"
+    "clickDoubleClickedTable\0index\0showWindow\0"
+    "updateModel"
 };
 #undef QT_MOC_LITERAL
 
@@ -53,7 +56,7 @@ static const uint qt_meta_data_ClientsWindows[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -61,11 +64,13 @@ static const uint qt_meta_data_ClientsWindows[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   39,    2, 0x0a /* Public */,
-       3,    0,   40,    2, 0x0a /* Public */,
-       4,    0,   41,    2, 0x0a /* Public */,
-       5,    0,   42,    2, 0x0a /* Public */,
-       6,    1,   43,    2, 0x0a /* Public */,
+       1,    0,   49,    2, 0x0a /* Public */,
+       3,    0,   50,    2, 0x0a /* Public */,
+       4,    0,   51,    2, 0x0a /* Public */,
+       5,    0,   52,    2, 0x0a /* Public */,
+       6,    1,   53,    2, 0x0a /* Public */,
+       8,    0,   56,    2, 0x0a /* Public */,
+       9,    0,   57,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -73,6 +78,8 @@ static const uint qt_meta_data_ClientsWindows[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QModelIndex,    7,
+    QMetaType::Void,
+    QMetaType::Void,
 
        0        // eod
 };
@@ -88,6 +95,8 @@ void ClientsWindows::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 2: _t->clickFilterButton(); break;
         case 3: _t->clickClearFilterButton(); break;
         case 4: _t->clickDoubleClickedTable((*reinterpret_cast< QModelIndex(*)>(_a[1]))); break;
+        case 5: _t->showWindow(); break;
+        case 6: _t->updateModel(); break;
         default: ;
         }
     }
@@ -118,13 +127,13 @@ int ClientsWindows::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 7)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 5;
+        _id -= 7;
     }
     return _id;
 }

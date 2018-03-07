@@ -7,14 +7,7 @@ CardServiceWindows::CardServiceWindows(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    fillStateService();
-    fillStatePayment();
-    fillTypePump();
-    fillStatePump();
-    fillLocationPump();
-    fillSeasone();
-    fillDistrict_FULL();
-    fillRegion();
+
 
     connect(ui->regionCombo_2, SIGNAL(currentIndexChanged(int)), this, SLOT(fillDistrict()));
     connect(ui->closeButton, SIGNAL(clicked(bool)), this, SLOT(close()));
@@ -23,6 +16,19 @@ CardServiceWindows::CardServiceWindows(QWidget *parent) :
 
 }
 
+void CardServiceWindows::showWindow()
+{
+    this->show();
+
+    fillStateService();
+    fillStatePayment();
+    fillTypePump();
+    fillStatePump();
+    fillLocationPump();
+    fillSeasone();
+    fillDistrict_FULL();
+    fillRegion();
+}
 
 
 

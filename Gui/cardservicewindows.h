@@ -59,11 +59,16 @@ public:
     void createNextDataService(int index);
     void updateServiceCard();
 
+signals:
+    void closeEvent(QCloseEvent *event);
 
 public slots:
      void fillDistrict();
      void clickSaveButton();
      void changedCurrtentUndex(int index);
+     void showWindow();
+
+
 private:
     Ui::CardServiceWindows *ui;
 

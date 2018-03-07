@@ -55,9 +55,14 @@ public slots:
     void clickClearFilterButton();
     void clickDoubleClickedTable(QModelIndex index);
 
+    void showWindow();
+    void updateModel();
 private:
     Ui::ClientsWindows *ui;
     HeirQSqlQueryModel    *model;
+    CardClientWindows  *cardClientWindows;
+    QString mainQuery; //хранит основной запрос окна
+
 };
 
 #endif // CLIENTSWINDOWS_H

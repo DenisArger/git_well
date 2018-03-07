@@ -51,15 +51,20 @@ public:
 
 
     QString filterOtherPhone();
+
 public slots:
     void clickFilter();
     void clickClear();
     void doubleClickTable(const QModelIndex &index);
-
+    void updateModel();
+    void showWindow();
 private:
     Ui::ServiceClientsWindow *ui;
+    CardServiceWindows  *cardServiceWindows;
 
     QSqlQueryModel    *model;
+
+    QString mainQuery; //хранит основной запрос окна
 
     bool isStateService_;
     bool isStatePayment_;

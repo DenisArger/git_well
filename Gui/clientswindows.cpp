@@ -6,21 +6,35 @@ ClientsWindows::ClientsWindows(QWidget *parent) :
     ui(new Ui::ClientsWindows)
 {
     ui->setupUi(this);
+    cardClientWindows=new CardClientWindows(this);
+
+    connect(ui->regionCombo_2, SIGNAL(currentIndexChanged(int)), this, SLOT(fillDistrict()));
+    connect(ui->closeButton, SIGNAL(clicked(bool)), this, SLOT(close()));
+    connect(ui->filterButton, SIGNAL(clicked(bool)), this, SLOT(clickFilterButton()));
+    connect(ui->clearFilterButton, SIGNAL(clicked(bool)), this, SLOT(clickClearFilterButton()));
+    connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickDoubleClickedTable(QModelIndex)));
+    connect(cardClientWindows,SIGNAL(closeSignal()),this,SLOT(updateModel()));
+
+}
+
+void ClientsWindows::showWindow()
+{
+    this->showMaximized();
 
     dataBase.connectToDataBase();
     this->setupModel(QStringList() << trUtf8("ID")
-                                   << trUtf8("Service")
-                                   << trUtf8("Область")
-                                   << trUtf8("Район")
-                                   << trUtf8("Населенный пункт")
-                                   << trUtf8("Адрес")
-                                   << trUtf8("Диаметр")
-                                   << trUtf8("Телефон")
-                                   << trUtf8("Доп.телефоны")
-                                   << trUtf8("Фамилия")
-                                   << trUtf8("Имя")
-                                   << trUtf8("Отчество")
-               );
+                     << trUtf8("Service")
+                     << trUtf8("Область")
+                     << trUtf8("Район")
+                     << trUtf8("Населенный пункт")
+                     << trUtf8("Адрес")
+                     << trUtf8("Диаметр")
+                     << trUtf8("Телефон")
+                     << trUtf8("Доп.телефоны")
+                     << trUtf8("Фамилия")
+                     << trUtf8("Имя")
+                     << trUtf8("Отчество")
+                     );
 
     /*Инициализируем внешний вид таблицы с данными **/
     this->createUI();
@@ -29,15 +43,8 @@ ClientsWindows::ClientsWindows(QWidget *parent) :
     fillDistrict_FULL();
     fillDiameter();
 
-
-    connect(ui->regionCombo_2, SIGNAL(currentIndexChanged(int)), this, SLOT(fillDistrict()));
-    connect(ui->closeButton, SIGNAL(clicked(bool)), this, SLOT(close()));
-    connect(ui->filterButton, SIGNAL(clicked(bool)), this, SLOT(clickFilterButton()));
-    connect(ui->clearFilterButton, SIGNAL(clicked(bool)), this, SLOT(clickClearFilterButton()));
-    connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(clickDoubleClickedTable(QModelIndex)));
-
-
 }
+
 
 ClientsWindows::~ClientsWindows()
 {
@@ -47,22 +54,32 @@ ClientsWindows::~ClientsWindows()
 
 void ClientsWindows::setupModel(const QStringList &headers)
 {
+    mainQuery=QString("SELECT ClientsCard.ID,ClientsCard.service,Region.region, District.district, ClientsCard.locality, \
+ClientsCard.street, Instruments.nameInstruments,ClientsCard.mobilPhone, ClientsCard.otherPhone, ClientsCard.surname, \
+ClientsCard.name_, ClientsCard.patronymic FROM ((ClientsCard INNER JOIN Instruments ON ClientsCard.id_instruments = Instruments.id)\
+ INNER JOIN District ON ClientsCard.id_district = District.id) INNER JOIN Region ON District.id_region = Region.id ORDER BY ClientsCard.ID DESC;");
+
     /* Производим инициализацию модели представления данных
      * с установкой имени таблицы в базе данных, по которому
      * будет производится обращение в таблице
      * */
     model = new HeirQSqlQueryModel(this);
-    model->setQuery( QString("SELECT ClientsCard.ID,ClientsCard.service,Region.region, District.district, ClientsCard.locality, ClientsCard.street, Instruments.nameInstruments,\
-                                ClientsCard.mobilPhone, ClientsCard.otherPhone, ClientsCard.surname, ClientsCard.name_, ClientsCard.patronymic FROM ((ClientsCard INNER JOIN Instruments \
-    ON ClientsCard.id_instruments = Instruments.id) INNER JOIN District ON ClientsCard.id_district = District.id) INNER JOIN Region ON District.id_region = Region.id;"),
-                     dataBase.getDatase());
+    model->setQuery( mainQuery, dataBase.getDatase());
 
     /* Устанавливаем названия колонок в таблице с сортировкой данных*/
 
-   for(int i = 0, j = 0; i <model->columnCount(); i++, j++){
+    for(int i = 0, j = 0; i <model->columnCount(); i++, j++){
         model->setHeaderData(i,Qt::Horizontal,headers[j]);
 
     }
+}
+
+
+
+void ClientsWindows::updateModel()
+{
+    model->setQuery( mainQuery, dataBase.getDatase());
+
 }
 
 void ClientsWindows::createUI()
@@ -81,14 +98,14 @@ void ClientsWindows::createUI()
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
 
 
-   /* QModelIndex index;
+    /* QModelIndex index;
     index.sibling(2,2);
     QColor color(12,122,11);
 
     ui->tableView->model()->setData(index,color,Qt::BackgroundRole);*/
 
 
-     model->setQuery(model->query().lastQuery());
+    model->setQuery(model->query().lastQuery());
 
 
 }
@@ -116,19 +133,19 @@ void ClientsWindows::clickFilterButton()
 {
     QString queryTXT= QString("SELECT ClientsCard.ID,ClientsCard.service,Region.region, District.district, ClientsCard.locality, ClientsCard.street, Instruments.nameInstruments,\
                               ClientsCard.mobilPhone, ClientsCard.otherPhone, ClientsCard.surname, ClientsCard.name_, ClientsCard.patronymic\
-                                       FROM ((ClientsCard INNER JOIN Instruments ON ClientsCard.id_instruments = Instruments.id)\
-                       INNER JOIN District ON ClientsCard.id_district = District.id) INNER JOIN Region ON District.id_region = Region.id");
+                              FROM ((ClientsCard INNER JOIN Instruments ON ClientsCard.id_instruments = Instruments.id)\
+                                    INNER JOIN District ON ClientsCard.id_district = District.id) INNER JOIN Region ON District.id_region = Region.id");
 
 
 
 
-    queryTXT+=filterLocation();
+            queryTXT+=filterLocation();
 
-    if(ui->diameterCombo->currentIndex()){
-         queryTXT+=filterDiameter();
-     }
+            if(ui->diameterCombo->currentIndex()){
+            queryTXT+=filterDiameter();
+}
 
-    queryTXT+=filterPump();
+            queryTXT+=filterPump();
 
     queryTXT+=filterService();
 
@@ -148,8 +165,8 @@ void ClientsWindows::clickFilterButton()
 void ClientsWindows::clickClearFilterButton()
 {
     model->setQuery( QString("SELECT ClientsCard.ID,ClientsCard.service,Region.region, District.district, ClientsCard.locality, ClientsCard.street, Instruments.nameInstruments,\
-                                ClientsCard.mobilPhone, ClientsCard.otherPhone, ClientsCard.surname, ClientsCard.name_, ClientsCard.patronymic FROM ((ClientsCard INNER JOIN Instruments \
-    ON ClientsCard.id_Instruments = Instruments.id) INNER JOIN District ON ClientsCard.id_district = District.id) INNER JOIN Region ON District.id_region = Region.id;"),
+                             ClientsCard.mobilPhone, ClientsCard.otherPhone, ClientsCard.surname, ClientsCard.name_, ClientsCard.patronymic FROM ((ClientsCard INNER JOIN Instruments \
+                                                                                                                                                   ON ClientsCard.id_Instruments = Instruments.id) INNER JOIN District ON ClientsCard.id_district = District.id) INNER JOIN Region ON District.id_region = Region.id;"),
                      dataBase.getDatase());
 
 
@@ -179,20 +196,19 @@ void ClientsWindows::clickClearFilterButton()
 
 void ClientsWindows::clickDoubleClickedTable(QModelIndex index)
 {
-    CardClientWindows  *w=new CardClientWindows(this);
-    w->setStateSave(false);
 
-    w->show();
+    cardClientWindows->setStateSave(false);
+    cardClientWindows->showWindow();
 
     //Получаем индекс нужного ИД
     QModelIndex index_= index.sibling(index.row(),0);
     personale res;
     int idClient=index_.model()->data(index_, Qt::DisplayRole).toInt();
     res=fillDataClient(idClient);
-    w->setIdClient(idClient);
-    w->fillClientCart(res);
+    cardClientWindows->setIdClient(idClient);
+    cardClientWindows->fillClientCart(res);
 
-    model->setQuery(model->query().lastQuery());
+
 
 }
 
@@ -226,62 +242,62 @@ QString ClientsWindows::filterLocation()
         break;
     case 3:
         textFilter=QString( "WHERE ClientsCard.street LIKE '%%1%' AND \
-        ClientsCard.locality LIKE '%%2%' ").arg(street.arg(locality));
-        break;
-    case 4:
-        textFilter=QString(" WHERE ClientsCard.id_district = %1").arg(id_district);
+                            ClientsCard.locality LIKE '%%2%' ").arg(street.arg(locality));
+                            break;
+            case 4:
+                textFilter=QString(" WHERE ClientsCard.id_district = %1").arg(id_district);
         break;
     case 5:
         textFilter=QString(" WHERE ClientsCard.street LIKE '%%1%' AND \
-        ClientsCard.id_district LIKE '%2'").arg(street).arg(id_district);
-        break;
-    case 6:
-        textFilter=QString(" WHERE ClientsCard.locality LIKE '%%1%' AND \
-        ClientsCard.id_district = %2").arg(locality).arg(id_district);
-        break;
-    case 7:
-        textFilter=QString(" WHERE ClientsCard.street LIKE '%%1%' AND \
-        ClientsCard.locality LIKE '%%2%' AND \
-        ClientsCard.id_district = %3").arg(street).arg(locality).arg(id_district);
-        break;
-    case 8:
-        textFilter=QString(" WHERE District.id_region = %1").arg(id_region);
+                           ClientsCard.id_district LIKE '%2'").arg(street).arg(id_district);
+                           break;
+            case 6:
+                textFilter=QString(" WHERE ClientsCard.locality LIKE '%%1%' AND \
+                                   ClientsCard.id_district = %2").arg(locality).arg(id_district);
+                break;
+            case 7:
+                textFilter=QString(" WHERE ClientsCard.street LIKE '%%1%' AND \
+                                   ClientsCard.locality LIKE '%%2%' AND \
+                                   ClientsCard.id_district = %3").arg(street).arg(locality).arg(id_district);
+                break;
+            case 8:
+                textFilter=QString(" WHERE District.id_region = %1").arg(id_region);
         break;
     case 9:
         textFilter=QString( "WHERE ClientsCard.street LIKE '%%1%' AND \
-        District.id_region = %2").arg(street).arg(id_region);
-        break;
-    case 10:
-        textFilter=QString(" WHERE ClientsCard.locality LIKE '%%1%' AND \
-        District.id_region = %2").arg(locality).arg(id_region);
-        break;
-    case 11:
-        textFilter=QString(" WHERE ClientsCard.street LIKE '%%1%' AND \
-        ClientsCard.locality LIKE '%%2%' AND \
-        District.id_region = %3").arg(street).arg(locality).arg(id_region);
-        break;
-    case 12:
-        textFilter=QString(" WHERE  ClientsCard.id_district = %1 AND \
-        District.id_region = %2").arg(id_district).arg(id_region);
-        break;
-    case 13:
-        textFilter=QString(" WHERE ClientsCard.street LIKE '%%1%' AND \
-        ClientsCard.id_district = %2 AND \
-        District.id_region = %3").arg(street).arg(id_district).arg(id_region);
-        break;
-    case 14:
-        textFilter=QString(" WHERE ClientsCard.locality LIKE '%%1%' AND \
-        ClientsCard.id_district = %2 AND \
-        District.id_region = %3").arg(locality).arg(id_district).arg(id_region);
-        break;
-    case 15:
-        textFilter=QString(" WHERE ClientsCard.street LIKE '%%1%' AND \
-        ClientsCard.locality LIKE '%%2%' AND \
-        ClientsCard.id_district = %3 AND \
-        District.id_region = %4").arg(street).arg(locality).arg(id_district).arg(id_region);
-        break;
-    default:
-        textFilter="";
+                            District.id_region = %2").arg(street).arg(id_region);
+                break;
+            case 10:
+                textFilter=QString(" WHERE ClientsCard.locality LIKE '%%1%' AND \
+                                   District.id_region = %2").arg(locality).arg(id_region);
+                break;
+            case 11:
+                textFilter=QString(" WHERE ClientsCard.street LIKE '%%1%' AND \
+                                   ClientsCard.locality LIKE '%%2%' AND \
+                                   District.id_region = %3").arg(street).arg(locality).arg(id_region);
+                break;
+            case 12:
+                textFilter=QString(" WHERE  ClientsCard.id_district = %1 AND \
+                                   District.id_region = %2").arg(id_district).arg(id_region);
+                break;
+            case 13:
+                textFilter=QString(" WHERE ClientsCard.street LIKE '%%1%' AND \
+                                   ClientsCard.id_district = %2 AND \
+                District.id_region = %3").arg(street).arg(id_district).arg(id_region);
+                break;
+            case 14:
+                textFilter=QString(" WHERE ClientsCard.locality LIKE '%%1%' AND \
+                                   ClientsCard.id_district = %2 AND \
+                District.id_region = %3").arg(locality).arg(id_district).arg(id_region);
+                break;
+            case 15:
+                textFilter=QString(" WHERE ClientsCard.street LIKE '%%1%' AND \
+                                   ClientsCard.locality LIKE '%%2%' AND \
+                                   ClientsCard.id_district = %3 AND \
+                District.id_region = %4").arg(street).arg(locality).arg(id_district).arg(id_region);
+                break;
+            default:
+                textFilter="";
         break;
     }
 
@@ -462,145 +478,145 @@ QString ClientsWindows::filterPersonale()
     int parsing=parsingPersonale();
     if(!parsing){
         textFilter="";
-    return textFilter;
+        return textFilter;
     }
 
     if(parsingLocation()||ui->diameterCombo->currentIndex()||\
             ui->pumpCheckBox->isChecked()||ui->serviseCheckBox->isChecked()){
         switch (parsing) {
-       case 1:
+        case 1:
             textFilter=QString(" AND ClientsCard.mobilPhone LIKE '%%1%'").arg(phone);
             break;
-       case 2:
+        case 2:
             textFilter=QString(" AND ClientsCard.patronymic LIKE '%%1%'").arg(patronymic);
             break;
-       case 3:
+        case 3:
             textFilter=QString(" AND ClientsCard.mobilPhone LIKE '%%1%' \
-            AND ClientsCard.patronymic LIKE '%%2%'").arg(phone).arg(patronymic);
+                               AND ClientsCard.patronymic LIKE '%%2%'").arg(phone).arg(patronymic);
+                               break;
+                case 4:
+                    textFilter=QString(" AND ClientsCard.name_ LIKE '%%1%'").arg(name);
             break;
-       case 4:
-            textFilter=QString(" AND ClientsCard.name_ LIKE '%%1%'").arg(name);
-            break;
-       case 5:
+        case 5:
             textFilter=QString("    AND ClientsCard.mobilPhone LIKE '%%1%' \
-            AND ClientsCard.name_ LIKE '%%2%'").arg(phone).arg(name);
+                               AND ClientsCard.name_ LIKE '%%2%'").arg(phone).arg(name);
+                               break;
+                case 6:
+                    textFilter=QString("    AND ClientsCard.patronymic LIKE '%%1%' \
+                                       AND ClientsCard.name_ LIKE '%%2%'").arg(patronymic).arg(name);
+                                       break;
+                case 7:
+                    textFilter=QString(" AND ClientsCard.mobilPhone LIKE '%%1%'   \
+                                       AND ClientsCard.patronymic LIKE '%%2%' \
+                                       AND ClientsCard.name_ LIKE '%%3%'").arg(phone).arg(patronymic).arg(name);
+                                       break;
+                case 8:
+                    textFilter=QString(" AND ClientsCard.surname LIKE '%%1%'").arg(surname);
             break;
-       case 6:
-            textFilter=QString("    AND ClientsCard.patronymic LIKE '%%1%' \
-            AND ClientsCard.name_ LIKE '%%2%'").arg(patronymic).arg(name);
-            break;
-       case 7:
-             textFilter=QString(" AND ClientsCard.mobilPhone LIKE '%%1%'   \
-             AND ClientsCard.patronymic LIKE '%%2%' \
-             AND ClientsCard.name_ LIKE '%%3%'").arg(phone).arg(patronymic).arg(name);
-             break;
-       case 8:
-            textFilter=QString(" AND ClientsCard.surname LIKE '%%1%'").arg(surname);
-            break;
-       case 9:
+        case 9:
             textFilter=QString("    AND ClientsCard.mobilPhone LIKE '%%1%' \
-            AND ClientsCard.surname LIKE '%%2%'").arg(phone).arg(surname);
-            break;
-       case 10:
-            textFilter=QString("    AND ClientsCard.patronymic LIKE '%%1%' \
-            AND ClientsCard.surname LIKE '%%2%'").arg(patronymic).arg(surname);
-            break;
-       case 11:
-            textFilter=QString(" AND ClientsCard.mobilPhone LIKE '%%1%'   \
-            AND ClientsCard.patronymic LIKE '%%2%' \
-            AND ClientsCard.surname LIKE '%%3%'").arg(phone).arg(patronymic).arg(surname);
-            break;
-       case 12:
-            textFilter=QString("    AND ClientsCard.name LIKE '%%1%' \
-            AND ClientsCard.surname LIKE '%%2%'").arg(name).arg(surname);
-            break;
-       case 13:
-             textFilter=QString(" AND ClientsCard.mobilPhone LIKE '%%1%'   \
-             AND ClientsCard.name_ LIKE '%%2%' \
-             AND ClientsCard.surname LIKE '%%3%'").arg(phone).arg(name).arg(surname);
-             break;
-        case 14:
-             textFilter=QString(" AND ClientsCard.patronymic LIKE '%%1%'   \
-             AND ClientsCard.name_ LIKE '%%2%' \
-             AND ClientsCard.surname LIKE '%%3%'").arg(patronymic).arg(name).arg(surname);
-             break;
-       case 15:
-             textFilter=QString(" AND ClientsCard.mobilPhone LIKE '%%1%'   \
-             AND ClientsCard.patronymic LIKE '%%2%' \
-             AND ClientsCard.name_ LIKE '%%3%' \
-             AND ClientsCard.surname LIKE '%%4%'").arg(phone).arg(patronymic).arg(name).arg(surname);
-             break;
-        default:
-            break;
+                               AND ClientsCard.surname LIKE '%%2%'").arg(phone).arg(surname);
+                               break;
+                case 10:
+                    textFilter=QString("    AND ClientsCard.patronymic LIKE '%%1%' \
+                                       AND ClientsCard.surname LIKE '%%2%'").arg(patronymic).arg(surname);
+                                       break;
+                case 11:
+                    textFilter=QString(" AND ClientsCard.mobilPhone LIKE '%%1%'   \
+                                       AND ClientsCard.patronymic LIKE '%%2%' \
+                                       AND ClientsCard.surname LIKE '%%3%'").arg(phone).arg(patronymic).arg(surname);
+                                       break;
+                case 12:
+                    textFilter=QString("    AND ClientsCard.name LIKE '%%1%' \
+                                       AND ClientsCard.surname LIKE '%%2%'").arg(name).arg(surname);
+                                       break;
+                case 13:
+                    textFilter=QString(" AND ClientsCard.mobilPhone LIKE '%%1%'   \
+                                       AND ClientsCard.name_ LIKE '%%2%' \
+                                       AND ClientsCard.surname LIKE '%%3%'").arg(phone).arg(name).arg(surname);
+                                       break;
+                case 14:
+                    textFilter=QString(" AND ClientsCard.patronymic LIKE '%%1%'   \
+                                       AND ClientsCard.name_ LIKE '%%2%' \
+                                       AND ClientsCard.surname LIKE '%%3%'").arg(patronymic).arg(name).arg(surname);
+                                       break;
+                case 15:
+                    textFilter=QString(" AND ClientsCard.mobilPhone LIKE '%%1%'   \
+                                       AND ClientsCard.patronymic LIKE '%%2%' \
+                                       AND ClientsCard.name_ LIKE '%%3%' \
+                                       AND ClientsCard.surname LIKE '%%4%'").arg(phone).arg(patronymic).arg(name).arg(surname);
+                                       break;
+                default:
+                    break;
         }
 
     }
     else{
         switch (parsing) {
-       case 1:
+        case 1:
             textFilter=QString(" WHERE ClientsCard.mobilPhone LIKE '%%1%'").arg(phone);
             break;
-       case 2:
+        case 2:
             textFilter=QString(" WHERE ClientsCard.patronymic LIKE '%%1%'").arg(patronymic);
             break;
-       case 3:
+        case 3:
             textFilter=QString(" WHERE ClientsCard.mobilPhone LIKE '%%1%' \
-            AND ClientsCard.patronymic LIKE '%%2%'").arg(phone).arg(patronymic);
+                               AND ClientsCard.patronymic LIKE '%%2%'").arg(phone).arg(patronymic);
+                               break;
+                case 4:
+                    textFilter=QString(" WHERE ClientsCard.name_ LIKE '%%1%'").arg(name);
             break;
-       case 4:
-            textFilter=QString(" WHERE ClientsCard.name_ LIKE '%%1%'").arg(name);
-            break;
-       case 5:
+        case 5:
             textFilter=QString("    WHERE ClientsCard.mobilPhone LIKE '%%1%' \
-            AND ClientsCard.name_ LIKE '%%2%'").arg(phone).arg(name);
+                               AND ClientsCard.name_ LIKE '%%2%'").arg(phone).arg(name);
+                               break;
+                case 6:
+                    textFilter=QString("    WHERE ClientsCard.patronymic LIKE '%%1%' \
+                                       AND ClientsCard.name_ LIKE '%%2%'").arg(patronymic).arg(name);
+                                       break;
+                case 7:
+                    textFilter=QString(" WHERE ClientsCard.mobilPhone LIKE '%%1%'   \
+                                       AND ClientsCard.patronymic LIKE '%%2%' \
+                                       AND ClientsCard.name_ LIKE '%%3%'").arg(phone).arg(patronymic).arg(name);
+                                       break;
+                case 8:
+                    textFilter=QString(" WHERE ClientsCard.surname LIKE '%%1%'").arg(surname);
             break;
-       case 6:
-            textFilter=QString("    WHERE ClientsCard.patronymic LIKE '%%1%' \
-            AND ClientsCard.name_ LIKE '%%2%'").arg(patronymic).arg(name);
-            break;
-       case 7:
-             textFilter=QString(" WHERE ClientsCard.mobilPhone LIKE '%%1%'   \
-             AND ClientsCard.patronymic LIKE '%%2%' \
-             AND ClientsCard.name_ LIKE '%%3%'").arg(phone).arg(patronymic).arg(name);
-             break;
-       case 8:
-            textFilter=QString(" WHERE ClientsCard.surname LIKE '%%1%'").arg(surname);
-            break;
-       case 9:
+        case 9:
             textFilter=QString("    WHERE ClientsCard.mobilPhone LIKE '%%1%' \
-            AND ClientsCard.surname LIKE '%%2%'").arg(phone).arg(surname);
-            break;
-       case 10:
-            textFilter=QString("    WHERE ClientsCard.patronymic LIKE '%%1%' \
-            AND ClientsCard.surname LIKE '%%2%'").arg(patronymic).arg(surname);
-            break;
-       case 11:
-            textFilter=QString(" WHERE ClientsCard.mobilPhone LIKE '%%1%'   \
-            AND ClientsCard.patronymic LIKE '%%2%' \
-            AND ClientsCard.surname LIKE '%%3%'").arg(phone).arg(patronymic).arg(surname);
-            break;
-       case 12:
-            textFilter=QString("    WHERE ClientsCard.name LIKE '%%1%' \
-            AND ClientsCard.surname LIKE '%%2%'").arg(name).arg(surname);
-            break;
-       case 13:
-             textFilter=QString(" WHERE ClientsCard.mobilPhone LIKE '%%1%'   \
-             AND ClientsCard.name_ LIKE '%%2%' \
-             AND ClientsCard.surname LIKE '%%3%'").arg(phone).arg(name).arg(surname);
-             break;
-        case 14:
-             textFilter=QString(" WHERE ClientsCard.patronymic LIKE '%%1%'   \
-             AND ClientsCard.name_ LIKE '%%2%' \
-             AND ClientsCard.surname LIKE '%%3%'").arg(patronymic).arg(name).arg(surname);
-             break;
-       case 15:
-             textFilter=QString(" WHERE ClientsCard.mobilPhone LIKE '%%1%'   \
-             AND ClientsCard.patronymic LIKE '%%2%' \
-             AND ClientsCard.name_ LIKE '%%3%' \
-             AND ClientsCard.surname LIKE '%%4%'").arg(phone).arg(patronymic).arg(name).arg(surname);
-             break;
-        default:
-            break;
+                               AND ClientsCard.surname LIKE '%%2%'").arg(phone).arg(surname);
+                               break;
+                case 10:
+                    textFilter=QString("    WHERE ClientsCard.patronymic LIKE '%%1%' \
+                                       AND ClientsCard.surname LIKE '%%2%'").arg(patronymic).arg(surname);
+                                       break;
+                case 11:
+                    textFilter=QString(" WHERE ClientsCard.mobilPhone LIKE '%%1%'   \
+                                       AND ClientsCard.patronymic LIKE '%%2%' \
+                                       AND ClientsCard.surname LIKE '%%3%'").arg(phone).arg(patronymic).arg(surname);
+                                       break;
+                case 12:
+                    textFilter=QString("    WHERE ClientsCard.name LIKE '%%1%' \
+                                       AND ClientsCard.surname LIKE '%%2%'").arg(name).arg(surname);
+                                       break;
+                case 13:
+                    textFilter=QString(" WHERE ClientsCard.mobilPhone LIKE '%%1%'   \
+                                       AND ClientsCard.name_ LIKE '%%2%' \
+                                       AND ClientsCard.surname LIKE '%%3%'").arg(phone).arg(name).arg(surname);
+                                       break;
+                case 14:
+                    textFilter=QString(" WHERE ClientsCard.patronymic LIKE '%%1%'   \
+                                       AND ClientsCard.name_ LIKE '%%2%' \
+                                       AND ClientsCard.surname LIKE '%%3%'").arg(patronymic).arg(name).arg(surname);
+                                       break;
+                case 15:
+                    textFilter=QString(" WHERE ClientsCard.mobilPhone LIKE '%%1%'   \
+                                       AND ClientsCard.patronymic LIKE '%%2%' \
+                                       AND ClientsCard.name_ LIKE '%%3%' \
+                                       AND ClientsCard.surname LIKE '%%4%'").arg(phone).arg(patronymic).arg(name).arg(surname);
+                                       break;
+                default:
+                    break;
         }
     }
 }
@@ -621,13 +637,13 @@ personale ClientsWindows::fillDataClient(int ID_DataClient)
     QString query;
     personale pers;
     query=QString("SELECT ClientsCard.surname, ClientsCard.name_, ClientsCard.patronymic, ClientsCard.mobilPhone,\
-                     District.id_region, ClientsCard.id_district, ClientsCard.locality, ClientsCard.street, ClientsCard.dept, \
+                  District.id_region, ClientsCard.id_district, ClientsCard.locality, ClientsCard.street, ClientsCard.dept, \
                   ClientsCard.id_instruments, ClientsCard.pump, ClientsCard.service, ClientsCard.dataBegin, ClientsCard.dataEnd, ClientsCard.notes, ClientsCard.otherPhone\
                   FROM (ClientsCard INNER JOIN District ON ClientsCard.id_district = District.id)\
                   INNER JOIN Region ON District.id_region = Region.ID where ClientsCard.ID=%1;").arg(ID_DataClient);
 
-              //qDebug()<<query;
-    QSqlQuery queryNew=dataBase.queryToBase(query);
+            //qDebug()<<query;
+            QSqlQuery queryNew=dataBase.queryToBase(query);
     queryNew.first();
 
     pers.surname=queryNew.value(0).toString();

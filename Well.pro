@@ -37,7 +37,8 @@ HEADERS += \
     Gui/cardservicewindows.h \
     Gui/logindialog.h \
     Gui/busysplashwidget.h \
-    Gui/addinstruments.h
+    Gui/addinstruments.h \
+    config.h
 
 SOURCES += \
     global.cpp \

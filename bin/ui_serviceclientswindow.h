@@ -94,6 +94,7 @@ public:
     {
         if (ServiceClientsWindow->objectName().isEmpty())
             ServiceClientsWindow->setObjectName(QStringLiteral("ServiceClientsWindow"));
+        ServiceClientsWindow->setWindowModality(Qt::ApplicationModal);
         ServiceClientsWindow->resize(800, 1045);
         centralwidget = new QWidget(ServiceClientsWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));

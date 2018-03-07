@@ -3,7 +3,8 @@
 
 AddInstruments::AddInstruments(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::AddInstruments)
+    ui(new Ui::AddInstruments),
+    currentTab_(0)
 {
     ui->setupUi(this);
 
@@ -19,6 +20,17 @@ AddInstruments::~AddInstruments()
     delete ui;
 }
 
+void AddInstruments::showWindow()
+{
+    this->show();
+    ui->classInstrComboBox->setCurrentIndex(currentTab_);
+    if(currentTab_)
+        ui->classInstrComboBox->setEnabled(false);
+    else
+        ui->classInstrComboBox->setEnabled(true);
+
+}
+
 void AddInstruments::addNewInstr()
 {
     QString nameInstr;
@@ -31,9 +43,9 @@ void AddInstruments::addNewInstr()
     idClassInstruments=ui->classInstrComboBox->currentIndex();
     balanceInstr=ui->balanceLineEdit->text();
     queryStr=QString("INSERT INTO  Instruments (idClassInstruments,nameInstruments,balance) \
-    SELECT %1, '%2', %3").arg(idClassInstruments).arg(nameInstr).arg(balanceInstr);
+                     SELECT %1, '%2', %3").arg(idClassInstruments).arg(nameInstr).arg(balanceInstr);
 
-    dataBase.queryToBase(queryStr);
+                     dataBase.queryToBase(queryStr);
 
 }
 
@@ -51,4 +63,9 @@ void AddInstruments:: fillClassInstruments()
     while(query.next()) {
         ui->classInstrComboBox->addItem(query.value(1).toString(), query.value(0));
     }
+}
+
+void AddInstruments::setCurrentTab(int currentTab)
+{
+    currentTab_=currentTab;
 }

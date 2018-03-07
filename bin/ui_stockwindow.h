@@ -78,7 +78,7 @@ public:
     {
         if (StockWindow->objectName().isEmpty())
             StockWindow->setObjectName(QStringLiteral("StockWindow"));
-        StockWindow->setWindowModality(Qt::WindowModal);
+        StockWindow->setWindowModality(Qt::ApplicationModal);
         StockWindow->resize(1173, 633);
         centralwidget = new QWidget(StockWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));

@@ -21,13 +21,19 @@ public:
     void closeEvent(QCloseEvent *event);
 
     void fillClassInstruments();
+
+    void  setCurrentTab(int currentTab);
+
 signals:
     void closeSignal();
 
 public slots:
+    void showWindow();
     void addNewInstr();
 private:
     Ui::AddInstruments *ui;
+
+    int currentTab_; //хранит выбранную текущую вкладку
 };
 
 #endif // ADDINSTRUMENTS_H

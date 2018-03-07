@@ -60,7 +60,7 @@ public:
     {
         if (PrimeWindow->objectName().isEmpty())
             PrimeWindow->setObjectName(QStringLiteral("PrimeWindow"));
-        PrimeWindow->setWindowModality(Qt::WindowModal);
+        PrimeWindow->setWindowModality(Qt::ApplicationModal);
         PrimeWindow->resize(1029, 397);
         QFont font;
         font.setPointSize(11);
@@ -205,7 +205,7 @@ public:
         PrimeWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(PrimeWindow);
         menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 1029, 21));
+        menubar->setGeometry(QRect(0, 0, 1029, 26));
         PrimeWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(PrimeWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));

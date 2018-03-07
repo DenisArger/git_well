@@ -92,7 +92,7 @@ public:
     {
         if (ClientsWindows->objectName().isEmpty())
             ClientsWindows->setObjectName(QStringLiteral("ClientsWindows"));
-        ClientsWindows->setWindowModality(Qt::WindowModal);
+        ClientsWindows->setWindowModality(Qt::ApplicationModal);
         ClientsWindows->resize(991, 937);
         centralwidget = new QWidget(ClientsWindows);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
@@ -112,7 +112,7 @@ public:
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, -7, 318, 787));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 318, 787));
         verticalLayout_4 = new QVBoxLayout(scrollAreaWidgetContents);
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
         locationGroupBox = new QGroupBox(scrollAreaWidgetContents);
@@ -413,7 +413,7 @@ public:
         districtLabel_2->setText(QApplication::translate("ClientsWindows", "\320\240\320\260\320\271\320\276\320\275", Q_NULLPTR));
         localityLabel_2->setText(QApplication::translate("ClientsWindows", "\320\235\320\260\321\201\320\265\320\273\320\265\320\275\320\275\321\213\320\271 \320\277\321\203\320\275\320\272\321\202", Q_NULLPTR));
         streetLabel_2->setText(QApplication::translate("ClientsWindows", "\320\243\320\273\320\270\321\206\320\260,\320\264\320\276\320\274", Q_NULLPTR));
-        groupBox->setTitle(QApplication::translate("ClientsWindows", "GroupBox", Q_NULLPTR));
+        groupBox->setTitle(QApplication::translate("ClientsWindows", "\320\227\320\260\320\272\320\260\320\267", Q_NULLPTR));
         diameterLabel->setText(QApplication::translate("ClientsWindows", "\320\224\320\270\320\260\320\274\320\265\321\202\321\200", Q_NULLPTR));
         pumpCheckBox->setText(QApplication::translate("ClientsWindows", "\320\235\320\260\321\201\320\276\321\201", Q_NULLPTR));
         serviseCheckBox->setText(QApplication::translate("ClientsWindows", "\320\237\321\200\320\265\320\264\320\273\320\276\320\266\320\265\320\275\320\270\320\265 \320\276\320\261\321\201\320\273\321\203\320\266\320\270\320\262\320\260\320\275\320\270\321\217", Q_NULLPTR));

@@ -111,7 +111,7 @@ QSqlQuery DataBase::getQueryDiameter()
 {
     if(this->openDataBase()){
           QSqlQuery query;
-        if(!query.exec("SELECT *from Instruments where idClassInstruments=0"))
+        if(!query.exec("SELECT *from Instruments where idClassInstruments=1"))
            qDebug() << query.lastError().text();
        return query;
     }

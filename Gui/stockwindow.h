@@ -47,15 +47,22 @@ public slots:
     void clickAddInstruments();
 
     void addTab();
+    void setCurrentTab(int index);
 
+    void showWindow();
 private:
     Ui::StockWindow *ui;
 
-    QSqlQueryModel    *model;
+    QSqlQueryModel *modelTemp; //временная модель данных
+    QSqlQueryModel    *modelMain;// модель данных  вкладки Все
     EditInstrumentsDialog *editInstruments;
     AddInstruments * addIntruments;
 
     vector<QTabWidget*>vecTabWidget;
+
+    QString mainQuery; //запрос  вкладки Все
+    vector<QString>vecQueryTab; //запросы остальных вкладок
+    vector<QSqlQueryModel *> vecQueryModelTab; //модели остальных вкладок
 
     int idDiameter_;
 };

@@ -30,16 +30,16 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
 
 
     /*showMaximized - открывать окно развернуто*/
-    connect(ui->clientsBaseButton,SIGNAL(clicked(bool)),clientsWindows,SLOT(showMaximized()));
-    connect(ui->newOrderButton,SIGNAL(clicked(bool)),cardWindows,SLOT(show()));
-    connect(ui->serviceClientsButtton,SIGNAL(clicked(bool)),serviceClientWindows,SLOT(showMaximized()));
-    connect(ui->stockButton,SIGNAL(clicked(bool)),stockWindows,SLOT(showMaximized()));
+    connect(ui->clientsBaseButton,SIGNAL(clicked(bool)),clientsWindows,SLOT(showWindow()));
+    connect(ui->newOrderButton,SIGNAL(clicked(bool)),cardWindows,SLOT(showWindow()));
+    connect(ui->serviceClientsButtton,SIGNAL(clicked(bool)),serviceClientWindows,SLOT(showWindow()));
+    connect(ui->stockButton,SIGNAL(clicked(bool)),stockWindows,SLOT(showWindow()));
 
 
-    connect(keyF5, SIGNAL(activated()), cardWindows,SLOT(show()));
-    connect(keyF6, SIGNAL(activated()), stockWindows,SLOT(show()));
-    connect(keyF7, SIGNAL(activated()), clientsWindows,SLOT(showMaximized()));
-    connect(keyF8, SIGNAL(activated()), serviceClientWindows,SLOT(showMaximized()));
+    connect(keyF5, SIGNAL(activated()), cardWindows,SLOT(showWindow()));
+    connect(keyF6, SIGNAL(activated()), stockWindows,SLOT(showWindow()));
+    connect(keyF7, SIGNAL(activated()), clientsWindows,SLOT(showWindow()));
+    connect(keyF8, SIGNAL(activated()), serviceClientWindows,SLOT(showWindow()));
 
 
  }

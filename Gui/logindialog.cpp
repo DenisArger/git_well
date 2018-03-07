@@ -27,16 +27,6 @@ void LoginDialog::clickEnterClick()
     if(checkUser()){
         close();
 
-        //BusySplashWidget splash("Please wait…", this);
-
-        //QFutureWatcher<void> watcher;
-        //connect(&watcher, SIGNAL(finished()), &splash, SLOT(quit()));
-
-        //QFuture<void> future = QtConcurrent::run(ReadGiantZipFile);
-        //watcher.setFuture(future);
-
-        //splash.exec();
-
         PrimeWindow *pr= new PrimeWindow();
         pr->show();
 
