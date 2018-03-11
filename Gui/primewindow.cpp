@@ -16,6 +16,7 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
     cardWindows = new CardClientWindows;
     serviceClientWindows = new ServiceClientsWindow;
     stockWindows = new StockWindow;
+    stockWindows_Antony = new StockWindow_Antony;
 
     keyF5 = new QShortcut(this);   // Инициализируем объект
     keyF6 = new QShortcut(this);   // Инициализируем объект
@@ -33,11 +34,11 @@ PrimeWindow::PrimeWindow(QWidget *parent) :
     connect(ui->clientsBaseButton,SIGNAL(clicked(bool)),clientsWindows,SLOT(showWindow()));
     connect(ui->newOrderButton,SIGNAL(clicked(bool)),cardWindows,SLOT(showWindow()));
     connect(ui->serviceClientsButtton,SIGNAL(clicked(bool)),serviceClientWindows,SLOT(showWindow()));
-    connect(ui->stockButton,SIGNAL(clicked(bool)),stockWindows,SLOT(showWindow()));
+    connect(ui->stockButton,SIGNAL(clicked(bool)),stockWindows_Antony,SLOT(showWindow()));
 
 
     connect(keyF5, SIGNAL(activated()), cardWindows,SLOT(showWindow()));
-    connect(keyF6, SIGNAL(activated()), stockWindows,SLOT(showWindow()));
+    connect(keyF6, SIGNAL(activated()), stockWindows_Antony,SLOT(showWindow()));
     connect(keyF7, SIGNAL(activated()), clientsWindows,SLOT(showWindow()));
     connect(keyF8, SIGNAL(activated()), serviceClientWindows,SLOT(showWindow()));
 

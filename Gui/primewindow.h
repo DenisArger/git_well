@@ -8,6 +8,7 @@
 #include "Gui/cardclientwindows.h"
 #include "Gui/serviceclientswindow.h"
 #include "Gui/stockwindow.h"
+#include "Gui/stockwindow_Antony.h"
 
 namespace Ui {
 class PrimeWindow;
@@ -29,6 +30,7 @@ private:
     CardClientWindows *cardWindows;
     ServiceClientsWindow *serviceClientWindows;
     StockWindow *stockWindows;
+    StockWindow_Antony *stockWindows_Antony;
 
     QShortcut       *keyF5;    // объект горячей клавиши F5
     QShortcut       *keyF6;    // объект горячей клавиши F6

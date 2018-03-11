@@ -38,7 +38,8 @@ HEADERS += \
     Gui/logindialog.h \
     Gui/busysplashwidget.h \
     Gui/addinstruments.h \
-    config.h
+    config.h \
+    Gui/stockwindow_Antony.h
 
 SOURCES += \
     global.cpp \
@@ -56,7 +57,8 @@ SOURCES += \
     Gui/cardservicewindows.cpp \
     Gui/logindialog.cpp \
     Gui/busysplashwidget.cpp \
-    Gui/addinstruments.cpp
+    Gui/addinstruments.cpp \
+    Gui/stockwindow_Antony.cpp
 
 FORMS += \
     Gui/editinstrumentsdialog.ui \
