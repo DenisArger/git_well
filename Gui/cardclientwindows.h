@@ -62,6 +62,7 @@ public:
     void createServiceClient(int idClient);
     void closeEvent(QCloseEvent *event);
 
+    void deleteServiceClient(int idClient);
 public slots:
     void fillDistrict();
 

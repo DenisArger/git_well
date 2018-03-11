@@ -8,3 +8,4 @@ DataBase  dataBase;
 
 int gWidth=0;
 int gHeight=0;
+int idLoginGlobal=0;

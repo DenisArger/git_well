@@ -9,4 +9,6 @@ extern DataBase  dataBase;
 
 extern int gWidth;
 extern int gHeight;
+
+extern int idLoginGlobal;
 #endif // GLOBALE_H

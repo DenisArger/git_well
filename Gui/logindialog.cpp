@@ -44,11 +44,12 @@ bool LoginDialog::checkUser()
     bool check=false;
     QString loginStr= ui->loginLineEdit->text();
     QString passStr= ui->passLineEdit->text();
-    QString queryStr="SELECT Login.NameLogin, Login.Password FROM Login;";
+    QString queryStr="SELECT Login.ID,Login.NameLogin, Login.Password FROM Login;";
     QSqlQuery query= dataBase.queryToBase(queryStr);
     while(query.next()){
-        if(loginStr==query.value(0).toString()){
-            check= passStr==query.value(1).toString();
+        if(loginStr==query.value(1).toString()){
+            check= passStr==query.value(2).toString();
+            idLoginGlobal=query.value(0).toInt();
             break;
         }
 

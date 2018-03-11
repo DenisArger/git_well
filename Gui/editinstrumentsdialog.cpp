@@ -9,7 +9,7 @@ EditInstrumentsDialog::EditInstrumentsDialog(QWidget *parent) :
     ui(new Ui::EditInstrumentsDialog),
     idDiameter_(0)
 {
-    ui->setupUi(this);  
+    ui->setupUi(this);
 
     connect(ui->cancelButton,SIGNAL(clicked(bool)),this,SLOT(close()));
     connect(ui->applyButton,SIGNAL(clicked(bool)),this,SLOT(clickApply()));
@@ -59,14 +59,26 @@ void EditInstrumentsDialog::clickApply()
     source = ui->sourseLineEdit->text();
     notes = ui->noteTextEdit->toPlainText();
 
+    if(idLoginGlobal!=1){
+        queryStr="INSERT INTO MovementInstruments (idInstruments, typeOperation, \
+                dateOperation, countInstr, source, notes)";
+                queryStr+=QString(" SELECT %1,%2,'%3',%4,'%5', '%6'").arg(idInstrument).arg(typeOperation).arg(dateOperation).arg(countInstr).arg(source).arg(notes);
+    }
+    else{
+        queryStr="INSERT INTO MovementInstruments_Antony (idInstruments, typeOperation, \
+                dateOperation, countInstr, source, notes)";
+                queryStr+=QString(" SELECT %1,%2,'%3',%4,'%5', '%6'").arg(idInstrument).arg(typeOperation).arg(dateOperation).arg(countInstr).arg(source).arg(notes);
 
-    queryStr="INSERT INTO MovementInstruments (idInstruments, typeOperation, \
-            dateOperation, countInstr, source, notes)";
-    queryStr+=QString(" SELECT %1,%2,'%3',%4,'%5', '%6'").arg(idInstrument).arg(typeOperation).arg(dateOperation).arg(countInstr).arg(source).arg(notes);
+    }
     dataBase.queryToBase(queryStr);
 
+    if(idLoginGlobal!=1){
+        queryStr= QString( "UPDATE Instruments SET balance = %1 WHERE id=%2").arg( balance_).arg( idDiameter_);
+    }
+    else{
+        queryStr= QString( "UPDATE Instruments_Antony SET balance = %1 WHERE id=%2").arg( balance_).arg( idDiameter_);
+    }
 
-    queryStr= QString( "UPDATE Instruments SET balance = %1 WHERE id=%2").arg( balance_).arg( idDiameter_);
     dataBase.queryToBase(queryStr);
 
 
@@ -113,7 +125,13 @@ void EditInstrumentsDialog::setIdDiameter(int idDiam)
 
 void EditInstrumentsDialog::fillBalance()
 {
-    QString queryStr=QString("SELECT balance FROM Instruments where id=%1").arg(idDiameter_);
+    QString queryStr;
+    if(idLoginGlobal!=1){
+        queryStr=QString("SELECT balance FROM Instruments where id=%1").arg(idDiameter_);}
+    else{
+        queryStr=QString("SELECT balance FROM Instruments_Antony where id=%1").arg(idDiameter_);
+    }
+
     QSqlQuery query= dataBase.queryToBase(queryStr);
     query.first();
     balance_=query.value(0).toDouble();
@@ -132,8 +150,8 @@ void EditInstrumentsDialog::clickReCount()
     fillBalance();
     //Приход
     if (ui->typeOperCombo->currentIndex()==1) {
-       balance_+=ui->countInstrEdit->text().toDouble();
-       ui->balanceLineEdit->setText(QString("%1").arg(balance_));
+        balance_+=ui->countInstrEdit->text().toDouble();
+        ui->balanceLineEdit->setText(QString("%1").arg(balance_));
     }
     //Расход
     if (ui->typeOperCombo->currentIndex()==2) {

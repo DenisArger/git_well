@@ -102,32 +102,59 @@ void StockWindow::setCurrentTab(int index)
 
 void StockWindow::addClassIntruments(QString nameClassInstruments)
 {
-    QString queryStr= QString("INSERT INTO ClassInstruments (NameClass) SELECT '%1'").arg(nameClassInstruments);
-    QSqlQuery query=dataBase.queryToBase(queryStr);
+    QString queryStr;
+    if(idLoginGlobal!=1)
+        queryStr= QString("INSERT INTO ClassInstruments (NameClass) SELECT '%1'").arg(nameClassInstruments);
+    else
+        queryStr= QString("INSERT INTO ClassInstruments_Antony (NameClass) SELECT '%1'").arg(nameClassInstruments);
+
+    dataBase.queryToBase(queryStr);
 }
 
 void StockWindow::setupModelBaseID(const QStringList &headers, int idClassInstruments)
 {
     QString query;
     if(idClassInstruments!=1){
-
-        query=QString("SELECT Instruments.id, ClassInstruments.NameClass,\
-                      Instruments.nameInstruments, Instruments.balance\
-                      FROM ClassInstruments INNER JOIN Instruments \
-                      ON ClassInstruments.ID = Instruments.idClassInstruments \
-                where  Instruments.id>0 and  Instruments.idClassInstruments=%1\
-                GROUP BY Instruments.id, ClassInstruments.NameClass,\
-                      Instruments.nameInstruments, Instruments.balance;").arg(idClassInstruments);;
+        if(idLoginGlobal!=1){
+            query=QString("SELECT Instruments.id, ClassInstruments.NameClass,\
+                          Instruments.nameInstruments, Instruments.balance\
+                          FROM ClassInstruments INNER JOIN Instruments \
+                          ON ClassInstruments.ID = Instruments.idClassInstruments \
+                    where  Instruments.id>0 and  Instruments.idClassInstruments=%1\
+                    GROUP BY Instruments.id, ClassInstruments.NameClass,\
+                          Instruments.nameInstruments, Instruments.balance;").arg(idClassInstruments);
+        }
+        else{
+            query=QString("SELECT Instruments_Antony.id, ClassInstruments_Antony.NameClass,\
+                          Instruments_Antony.nameInstruments, Instruments_Antony.balance\
+                          FROM ClassInstruments_Antony INNER JOIN Instruments_Antony \
+                          ON ClassInstruments_Antony.ID = Instruments_Antony.idClassInstruments \
+                    where  Instruments_Antony.id>0 and  Instruments_Antony.idClassInstruments=%1\
+                    GROUP BY Instruments_Antony.id, ClassInstruments_Antony.NameClass,\
+                          Instruments_Antony.nameInstruments, Instruments_Antony.balance;").arg(idClassInstruments);
+        }
     }
     else{
-        query=QString("SELECT Instruments.id,ClassInstruments.NameClass, \
-                      Instruments.nameInstruments, Count(Instruments.id) AS [Count-id], \
-                Sum(ClientsCard.dept) AS [Sum-dept], Instruments.balance\
-                FROM ClassInstruments INNER JOIN (ClientsCard INNER JOIN Instruments \
-                                                  ON ClientsCard.id_instruments = Instruments.id) ON ClassInstruments.ID = Instruments.idClassInstruments\
-                where Instruments.id >0 and  Instruments.idClassInstruments=%1\
-                GROUP BY Instruments.id, ClassInstruments.NameClass,  \
-                Instruments.nameInstruments, Instruments.balance;").arg(idClassInstruments);
+        if(idLoginGlobal!=1){
+            query=QString("SELECT Instruments.id,ClassInstruments.NameClass, \
+                          Instruments.nameInstruments, Count(Instruments.id) AS [Count-id], \
+                    Sum(ClientsCard.dept) AS [Sum-dept], Instruments.balance\
+                    FROM ClassInstruments INNER JOIN (ClientsCard INNER JOIN Instruments \
+                                                      ON ClientsCard.id_instruments = Instruments.id) ON ClassInstruments.ID = Instruments.idClassInstruments\
+                    where Instruments.id >0 and  Instruments.idClassInstruments=%1\
+                    GROUP BY Instruments.id, ClassInstruments.NameClass,  \
+                    Instruments.nameInstruments, Instruments.balance;").arg(idClassInstruments);
+        }
+        else{
+            query=QString("SELECT Instruments_Antony.id,ClassInstruments_Antony.NameClass, \
+                          Instruments_Antony.nameInstruments, Count(Instruments_Antony.id) AS [Count-id], \
+                    Sum(ClientsCard.dept) AS [Sum-dept], Instruments_Antony.balance\
+                    FROM ClassInstruments_Antony INNER JOIN (ClientsCard INNER JOIN Instruments_Antony \
+                                                             ON ClientsCard_Antony.id_instruments = Instruments_Antony.id) ON ClassInstruments_Antony.ID = Instruments_Antony.idClassInstruments\
+                    where Instruments_Antony.id >0 and  Instruments_Antony.idClassInstruments=%1\
+                    GROUP BY Instruments_Antony.id, ClassInstruments_Antony.NameClass,  \
+                    Instruments_Antony.nameInstruments, Instruments_Antony.balance;").arg(idClassInstruments);
+        }
     }
 
     /* Производим инициализацию модели представления данных
@@ -150,8 +177,15 @@ void StockWindow::setupModelBaseID(const QStringList &headers, int idClassInstru
 
 void StockWindow::insertTabClassInstruments()
 {
-    QString queryStr="SELECT ClassInstruments.ID,ClassInstruments.NameClass \
-            FROM ClassInstruments where ClassInstruments.ID>0 ;";
+    QString queryStr;
+    if(idLoginGlobal!=1){
+        queryStr="SELECT ClassInstruments.ID,ClassInstruments.NameClass \
+                FROM ClassInstruments where ClassInstruments.ID>0 ;";
+    }
+    else{
+        queryStr="SELECT ClassInstruments_Antony.ID,ClassInstruments_Antony.NameClass \
+                FROM ClassInstruments_Antony where ClassInstruments_Antony.ID>0 ;";
+    }
     QSqlQuery query=dataBase.queryToBase(queryStr);
     while(query.next()) {
 
@@ -246,13 +280,22 @@ void StockWindow::setupModel(const QStringList &headers)
 
 void StockWindow:: setupModelBase(const QStringList &headers)
 {
-
-    mainQuery=QString("SELECT Instruments.id, ClassInstruments.NameClass,\
-                      Instruments.nameInstruments, Instruments.balance\
-                      FROM ClassInstruments INNER JOIN Instruments \
-                      ON ClassInstruments.ID = Instruments.idClassInstruments where  Instruments.id>0\
-            GROUP BY Instruments.id, ClassInstruments.NameClass,\
-                      Instruments.nameInstruments, Instruments.balance;");
+    if(idLoginGlobal!=1){
+        mainQuery=QString("SELECT Instruments.id, ClassInstruments.NameClass,\
+                          Instruments.nameInstruments, Instruments.balance\
+                          FROM ClassInstruments INNER JOIN Instruments \
+                          ON ClassInstruments.ID = Instruments.idClassInstruments where  Instruments.id>0\
+                GROUP BY Instruments.id, ClassInstruments.NameClass,\
+                          Instruments.nameInstruments, Instruments.balance;");
+    }
+    else{
+        mainQuery=QString("SELECT Instruments_Antony.id, ClassInstruments_Antony.NameClass,\
+                          Instruments_Antony.nameInstruments, Instruments_Antony.balance\
+                          FROM ClassInstruments_Antony INNER JOIN Instruments_Antony \
+                          ON ClassInstruments_Antony.ID = Instruments_Antony.idClassInstruments where  Instruments_Antony.id>0\
+                GROUP BY Instruments_Antony.id, ClassInstruments_Antony.NameClass,\
+                          Instruments_Antony.nameInstruments, Instruments_Antony.balance;");
+    }
 
     /* Производим инициализацию модели представления данных
     * с установкой имени таблицы в базе данных, по которому
@@ -382,18 +425,29 @@ void StockWindow::showHistory()
     QString notes;
     QFont font;
 
+    if(idLoginGlobal!=1){
+        queryStr=QString("SELECT MovementInstruments.dateOperation, Instruments.nameInstruments, \
+                         MovementInstruments.typeOperation, MovementInstruments.countInstr,MovementInstruments.source,\
+                         MovementInstruments.notes  FROM MovementInstruments INNER JOIN Instruments ON\
+                         (MovementInstruments.idInstruments = Instruments.id) \
+                         AND (MovementInstruments.idInstruments = Instruments.id) where  \
+                         MovementInstruments.idInstruments=%1  ORDER BY MovementInstruments.dateOperation DESC ").arg(idDiameter_);
+    }
+    else{
 
-    queryStr=QString("SELECT MovementInstruments.dateOperation, Instruments.nameInstruments, \
-MovementInstruments.typeOperation, MovementInstruments.countInstr,MovementInstruments.source,\
- MovementInstruments.notes  FROM MovementInstruments INNER JOIN Instruments ON\
- (MovementInstruments.idInstruments = Instruments.id) \
-AND (MovementInstruments.idInstruments = Instruments.id) where  \
-MovementInstruments.idInstruments=%1  ORDER BY MovementInstruments.dateOperation DESC ").arg(idDiameter_);
+        queryStr=QString("SELECT MovementInstruments_Antony.dateOperation, Instruments_Antony.nameInstruments, \
+                         MovementInstruments_Antony.typeOperation, MovementInstruments_Antony.countInstr,\
+                         MovementInstruments_Antony.source,\
+                         MovementInstruments_Antony.notes  FROM MovementInstruments_Antony INNER JOIN Instruments_Antony ON\
+                         (MovementInstruments_Antony.idInstruments = Instruments_Antony.id) \
+                         AND (MovementInstruments_Antony.idInstruments = Instruments_Antony.id) where  \
+                         MovementInstruments_Antony.idInstruments=%1  ORDER BY MovementInstruments_Antony.dateOperation DESC ").arg(idDiameter_);
+    }
 
     querySql=dataBase.queryToBase(queryStr);
 
 
-            font.setPointSize(10);
+    font.setPointSize(10);
     ui->legendTextEdit->setFont(font);
 
     ui->legendTextEdit->setTextColor(QColor(0,155,255));
@@ -473,7 +527,7 @@ void StockWindow::updateWindows()
     modelMain->setQuery(modelMain->query().lastQuery());
 
     for(int i=0;i<vecQueryModelTab.size();i++){
-       vecQueryModelTab[i]->setQuery(vecQueryModelTab[i]->query().lastQuery());
+        vecQueryModelTab[i]->setQuery(vecQueryModelTab[i]->query().lastQuery());
     }
 
     showHistory();
@@ -495,12 +549,22 @@ void StockWindow::clickClearButton()
      * будет производится обращение в таблице
      * */
     //model = new QSqlQueryModel(this);
-    modelMain->setQuery( QString("SELECT Instruments.id, Instruments.nameInstruments, Count(Instruments.id) \
-                             AS [Count-id], Sum(ClientsCard.dept) AS [Sum-dept], Instruments.balance\
-            FROM ClientsCard INNER JOIN Instruments ON ClientsCard.id_instruments = Instruments.id\
-            WHERE (((ClientsCard.dataEnd) Between #%1# and  #%2#))\
-            GROUP BY Instruments.id, Instruments.nameInstruments, Instruments.balance;")
-    .arg(dateTodayBackStr).arg(dateTodayStr), dataBase.getDatase());
+    if(idLoginGlobal!=1){
+        modelMain->setQuery( QString("SELECT Instruments.id, Instruments.nameInstruments, Count(Instruments.id) \
+                                     AS [Count-id], Sum(ClientsCard.dept) AS [Sum-dept], Instruments.balance\
+                FROM ClientsCard INNER JOIN Instruments ON ClientsCard.id_instruments = Instruments.id\
+                WHERE (((ClientsCard.dataEnd) Between #%1# and  #%2#))\
+                GROUP BY Instruments.id, Instruments.nameInstruments, Instruments.balance;")
+        .arg(dateTodayBackStr).arg(dateTodayStr), dataBase.getDatase());
+    }
+    else{
+        modelMain->setQuery( QString("SELECT Instruments_Antony.id, Instruments_Antony.nameInstruments, Count(Instruments_Antony.id) \
+                                     AS [Count-id], Sum(ClientsCard.dept) AS [Sum-dept], Instruments_Antony.balance\
+                FROM ClientsCard INNER JOIN Instruments_Antony ON ClientsCard.id_instruments = Instruments_Antony.id\
+                WHERE (((ClientsCard.dataEnd) Between #%1# and  #%2#))\
+                GROUP BY Instruments_Antony.id, Instruments_Antony.nameInstruments, Instruments_Antony.balance;")
+        .arg(dateTodayBackStr).arg(dateTodayStr), dataBase.getDatase());
+    }
 
     modelMain->setQuery(modelMain->query().lastQuery());
     qDebug() << modelMain->query().lastError().text();
@@ -510,54 +574,67 @@ void StockWindow::clickSumButton()
 {
     QString dateTodayStr= ui->dataEnddateEdit->text().replace(".","/");
     QString dateTodayBackStr= ui->dataBegindateEdit->text().replace(".","/");
-    QString query= QString("SELECT Instruments.id, Instruments.nameInstruments, Count(Instruments.id) \
-                           AS [Count-id], Sum(ClientsCard.dept) AS [Sum-dept], Instruments.balance\
-            FROM ClientsCard INNER JOIN Instruments ON ClientsCard.id_instruments = Instruments.id\
-            WHERE (((ClientsCard.dataEnd) Between #%1# and  #%2#))\
-            GROUP BY Instruments.id, Instruments.nameInstruments, Instruments.balance;")
-    .arg(dateTodayBackStr).arg(dateTodayStr);
+
+    QString query;
+    if(idLoginGlobal!=1){
+        query= QString("SELECT Instruments.id, Instruments.nameInstruments, Count(Instruments.id) \
+                       AS [Count-id], Sum(ClientsCard.dept) AS [Sum-dept], Instruments.balance\
+                FROM ClientsCard INNER JOIN Instruments ON ClientsCard.id_instruments = Instruments.id\
+                WHERE (((ClientsCard.dataEnd) Between #%1# and  #%2#))\
+                GROUP BY Instruments.id, Instruments.nameInstruments, Instruments.balance;")
+        .arg(dateTodayBackStr).arg(dateTodayStr);
+    }
+    else{
+        query= QString("SELECT Instruments_Antony.id, Instruments_Antony.nameInstruments, Count(Instruments_Antony.id) \
+                       AS [Count-id], Sum(ClientsCard.dept) AS [Sum-dept], Instruments_Antony.balance\
+                FROM ClientsCard INNER JOIN Instruments_Antony ON ClientsCard.id_instruments = Instruments_Antony.id\
+                WHERE (((ClientsCard.dataEnd) Between #%1# and  #%2#))\
+                GROUP BY Instruments_Antony.id, Instruments_Antony.nameInstruments, Instruments_Antony.balance;")
+        .arg(dateTodayBackStr).arg(dateTodayStr);
+    }
 
 
 
-    /* Производим инициализацию модели представления данных
+
+        /* Производим инициализацию модели представления данных
       * с установкой имени таблицы в базе данных, по которому
       * будет производится обращение в таблице
       * */
-    //model = new QSqlQueryModel(this);
-    modelMain->setQuery(query, dataBase.getDatase());
+        //model = new QSqlQueryModel(this);
+        modelMain->setQuery(query, dataBase.getDatase());
 
-    qDebug()<<query;
-    QSqlQuery queryRun=modelMain->query();
+        qDebug()<<query;
+        QSqlQuery queryRun=modelMain->query();
 
-    modelMain->setQuery(queryRun.lastQuery());
-
-
-    //qDebug() << model->query().lastError().text();
-}
-
-void StockWindow::clickCurrBalanceButton()
-{
-
-}
+        modelMain->setQuery(queryRun.lastQuery());
 
 
-void StockWindow::clickAdd()
-{
+        //qDebug() << model->query().lastError().text();
+    }
 
-}
+    void StockWindow::clickCurrBalanceButton()
+    {
+
+    }
 
 
-void StockWindow::clickEdit()
-{
+    void StockWindow::clickAdd()
+    {
 
-}
+    }
 
-void StockWindow::clickDelete()
-{
 
-}
+    void StockWindow::clickEdit()
+    {
 
-void StockWindow::clickAddInstruments()
-{
+    }
 
-}
+    void StockWindow::clickDelete()
+    {
+
+    }
+
+    void StockWindow::clickAddInstruments()
+    {
+
+    }

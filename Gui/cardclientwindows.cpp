@@ -293,6 +293,8 @@ void CardClientWindows::updateClient()
    // qDebug()<<queryNew.value(0).toInt();
             if(!(queryNew.value(0).toInt())&& ui->serviseCheckBox->isChecked())
                 createServiceClient(id_client);
+            else  if((queryNew.value(0).toInt())&& !(ui->serviseCheckBox->isChecked()))
+                deleteServiceClient(id_client);
 
 
 
@@ -319,6 +321,11 @@ void CardClientWindows::createServiceClient(int idClient)
     dataBase.queryToBase(query);
 }
 
+void CardClientWindows::deleteServiceClient(int idClient)
+{
+    QString query= QString("delete from  Service where idClient=%1 ").arg(idClient);
+    dataBase.queryToBase(query);
+}
 
 void CardClientWindows::closeEvent(QCloseEvent *event)
 {
