@@ -69,7 +69,8 @@ FORMS += \
     Gui/serviceclientswindow.ui \
     Gui/cardservicewindows.ui \
     Gui/logindialog.ui \
-    Gui/addinstruments.ui
+    Gui/addinstruments.ui \
+    Gui/stockwindow_Antony.ui
 
 
 

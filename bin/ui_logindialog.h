@@ -58,6 +58,7 @@ public:
 
         loginLineEdit = new QLineEdit(LoginDialog);
         loginLineEdit->setObjectName(QStringLiteral("loginLineEdit"));
+        loginLineEdit->setFont(font);
 
         horizontalLayout->addWidget(loginLineEdit);
 
@@ -75,6 +76,7 @@ public:
 
         passLineEdit = new QLineEdit(LoginDialog);
         passLineEdit->setObjectName(QStringLiteral("passLineEdit"));
+        passLineEdit->setFont(font);
         passLineEdit->setEchoMode(QLineEdit::Password);
 
         horizontalLayout_2->addWidget(passLineEdit);
@@ -102,6 +104,9 @@ public:
 
         retranslateUi(LoginDialog);
 
+        enterButton->setDefault(false);
+
+
         QMetaObject::connectSlotsByName(LoginDialog);
     } // setupUi
 
@@ -111,6 +116,7 @@ public:
         label->setText(QApplication::translate("LoginDialog", "\320\230\320\274\321\217 \320\277\320\276\320\273\321\214\320\267\320\276\320\262\320\260\321\202\320\265\320\273\321\217", Q_NULLPTR));
         label_2->setText(QApplication::translate("LoginDialog", "\320\237\320\260\321\200\320\276\320\273\321\214", Q_NULLPTR));
         enterButton->setText(QApplication::translate("LoginDialog", "\320\222\320\276\320\271\321\202\320\270", Q_NULLPTR));
+        enterButton->setShortcut(QApplication::translate("LoginDialog", "Return, Enter", Q_NULLPTR));
         cancelPushButton->setText(QApplication::translate("LoginDialog", "\320\236\321\202\320\274\320\265\320\275\320\260", Q_NULLPTR));
     } // retranslateUi
 

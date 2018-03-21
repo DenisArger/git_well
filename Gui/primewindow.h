@@ -24,6 +24,8 @@ public:
 
 
 
+public slots:
+    void showStockWindows();
 private:
     Ui::PrimeWindow *ui;
     ClientsWindows *clientsWindows;

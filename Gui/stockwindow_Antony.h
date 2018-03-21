@@ -10,7 +10,7 @@
 #include <vector>
 using namespace std;
 namespace Ui {
-class StockWindow;
+class StockWindow_Antony;
 }
 
 class StockWindow_Antony : public QMainWindow
@@ -33,25 +33,30 @@ public:
     void setupModelBase(const QStringList &headers);
     //Установка модели для всех прибора согласно ID прибора
     void setupModelBaseID(const QStringList &headers, int idClassInstruments);
-
+    //Добвление записей в мар
+    void insertMapTab();
+    QString getNameClassIntrument(int index);
 public slots:
     void parsingIdInstr(QModelIndex index);
     void showHistory();
     void updateWindows();
-    void clickClearButton();
-    void clickSumButton();
-    void clickCurrBalanceButton();
     void clickAdd();
     void clickEdit();
     void clickDelete();
     void clickAddInstruments();
 
+    void deleteClassInstruments(int index);
+
     void addTab();
     void setCurrentTab(int index);
 
+    void editNameClassInstrument(int index);
+
     void showWindow();
+    void showConfirmDelete(int index);
+    void setMapTab();
 private:
-    Ui::StockWindow *ui;
+    Ui::StockWindow_Antony *ui;
 
     QSqlQueryModel *modelTemp; //временная модель данных
     QSqlQueryModel    *modelMain;// модель данных  вкладки Все
@@ -64,6 +69,8 @@ private:
     vector<QString>vecQueryTab; //запросы остальных вкладок
     vector<QSqlQueryModel *> vecQueryModelTab; //модели остальных вкладок
 
+    QMap<int,int> mapTab; // информацию о номере владки и ID группы материалов
+    int currentTab_; //Хранит текущую выбранную вкладку
     int idDiameter_;
 };
 

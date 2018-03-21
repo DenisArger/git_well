@@ -1,14 +1,15 @@
 #include "stockwindow_Antony.h"
-#include "ui_stockwindow.h"
+#include "ui_stockwindow_Antony.h"
 
 #include <QToolButton>
 #include "global.h"
 #include "QFont"
 #include <QInputDialog>
+#include <QLabel>
 
 StockWindow_Antony::StockWindow_Antony(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::StockWindow)
+    ui(new Ui::StockWindow_Antony)
 {
     ui->setupUi(this);
     editInstruments=new EditInstrumentsDialog();
@@ -32,21 +33,29 @@ StockWindow_Antony::StockWindow_Antony(QWidget *parent) :
     tb->setAutoRaise(true);
     connect(tb, SIGNAL(clicked()), this, SLOT(addTab()));
     connect(ui->editBalanceButton,SIGNAL(clicked(bool)),editInstruments, SLOT(showWindow()));
+
     connect(ui->tableView,SIGNAL(clicked(QModelIndex)),this,SLOT(parsingIdInstr(QModelIndex)));
     connect(ui->tableView,SIGNAL(clicked(QModelIndex)),this,SLOT(showHistory()));
+
     connect(editInstruments,SIGNAL(applyClick()),this,SLOT(updateWindows()));
     connect(addIntruments,SIGNAL(closeSignal()),this,SLOT(updateWindows()));
     connect(ui->closeButton,SIGNAL(clicked(bool)),this,SLOT(close()));
     connect(ui->addInstrButton,SIGNAL(clicked(bool)),addIntruments,SLOT(showWindow()));
+    connect(ui->addInstrButton,SIGNAL(clicked(bool)),this,SLOT(setMapTab()));
 
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(setCurrentTab(int)));
+    connect(ui->tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(showConfirmDelete(int)));
+    connect(ui->tabWidget,SIGNAL(tabBarDoubleClicked(int)),this,SLOT(editNameClassInstrument(int)));
 
 
     ui->tabWidget->addTab(new QLabel("You can add tabs by pressing <b>\"+\"</b>"), QString());
     ui->tabWidget->setTabEnabled(1, false);
     ui->tabWidget->tabBar()->setTabButton(1, QTabBar::RightSide, tb);
 
+    //Добавление владок для групп материалов
     insertTabClassInstruments();
+    //Заполнение словаря
+    insertMapTab();
 }
 
 StockWindow_Antony::~StockWindow_Antony()
@@ -63,16 +72,16 @@ void StockWindow_Antony::showWindow()
 void StockWindow_Antony::addTab()
 {
     bool ok;
-    QString nameClassInstruments = QInputDialog::getText(this, tr("Создание вкладки"),
-                                                         tr("Название вкладки:"), QLineEdit::Normal,
+    QFont  font;
+    font.setPointSize(11);
+    QApplication::setFont(font);
+    QString nameClassInstruments = QInputDialog::getText(this, tr("Добавление группы материалов"),
+                                                         tr("Введите название группы материалов:"), QLineEdit::Normal,
                                                          "", &ok);
     if (!ok) {
         return;
         // Была нажата кнопка Cancel
     }
-    else
-        addClassIntruments(nameClassInstruments);
-
     ui->tab = new QWidget();
     ui->tab->setObjectName(QStringLiteral("tab_2"));
     ui->verticalLayout_4 = new QVBoxLayout(ui->tab);
@@ -91,19 +100,76 @@ void StockWindow_Antony::addTab()
     ui->verticalLayout_4->addWidget(ui->tableView);
     ui->tabWidget->insertTab( ui->tabWidget->count() - 1, ui->tab, nameClassInstruments);
 
-
+    addClassIntruments(nameClassInstruments);
+    //Заполнить словарь
+    insertMapTab();
+    //Изменить текущую вкладку
+    ui->tabWidget->setCurrentIndex(ui->tabWidget->count() - 2);
 }
 
 void StockWindow_Antony::setCurrentTab(int index)
 {
     addIntruments->setCurrentTab(index);
     editInstruments->setCurrentTab(index);
+    currentTab_=index;
+}
+
+void StockWindow_Antony::editNameClassInstrument(int index)
+{
+    if (!index)
+        return;
+
+    bool ok;
+    QFont  font;
+    QString nameClass;
+    font.setPointSize(11);
+    QApplication::setFont(font);
+
+    QInputDialog inputDialog(this);
+
+    nameClass=inputDialog.getText(this, tr("Изменить название группы материалов"),
+                        tr("Введите название группы материалов:"), QLineEdit::Normal,
+                        getNameClassIntrument(index), &ok);
+
+
+    if (!ok) {
+        return;
+        // Была нажата кнопка Cancel
+    }
+
+    //Переименовать группу материалов
+    int idClassInstrument;
+    QString queryStr;
+
+    ui->tabWidget->setTabText(index,nameClass);
+    idClassInstrument=mapTab.value(index);
+    queryStr=QString("update ClassInstruments_Antony \
+    set NameClass = '%1'  where ID=%2").arg(nameClass).arg(idClassInstrument);
+    dataBase.queryToBase(queryStr);
+
+    updateWindows();
+
+
 }
 
 void StockWindow_Antony::addClassIntruments(QString nameClassInstruments)
 {
     QString queryStr= QString("INSERT INTO ClassInstruments_Antony (NameClass) SELECT '%1'").arg(nameClassInstruments);
     QSqlQuery query=dataBase.queryToBase(queryStr);
+    //Получаем последний ID
+    queryStr="SELECT @@Identity";
+    query=dataBase.queryToBase(queryStr);
+    query.first();
+    int idClassInstrument=query.value(0).toInt();
+
+    this->setupModelBaseID(                   QStringList() << trUtf8("ID")
+                                              << trUtf8("Класс")
+                                              << trUtf8("Название")
+                                              << trUtf8("Остаток")
+                                              ,idClassInstrument);
+    this->createUIClassInstruments();
+    //Перезапись комбо
+    addIntruments->fillClassInstruments();
 }
 
 void StockWindow_Antony::setupModelBaseID(const QStringList &headers, int idClassInstruments)
@@ -124,7 +190,7 @@ void StockWindow_Antony::setupModelBaseID(const QStringList &headers, int idClas
                       Instruments_Antony.nameInstruments, Count(Instruments_Antony.id) AS [Count-id], \
                 Sum(ClientsCard.dept) AS [Sum-dept], Instruments_Antony.balance\
                 FROM ClassInstruments_Antony INNER JOIN (ClientsCard INNER JOIN Instruments_Antony \
-                                                  ON ClientsCard.id_instruments = Instruments_Antony.id) ON ClassInstruments_Antony.ID = Instruments_Antony.idClassInstruments\
+                                                         ON ClientsCard.id_instruments = Instruments_Antony.id) ON ClassInstruments_Antony.ID = Instruments_Antony.idClassInstruments\
                 where Instruments_Antony.id >0 and  Instruments_Antony.idClassInstruments=%1\
                 GROUP BY Instruments_Antony.id, ClassInstruments_Antony.NameClass,  \
                 Instruments_Antony.nameInstruments, Instruments_Antony.balance;").arg(idClassInstruments);
@@ -198,51 +264,6 @@ void StockWindow_Antony::insertTabClassInstruments()
     }
 }
 
-void StockWindow_Antony::fillDate()
-{
-    QDate dateToday = QDate::currentDate();
-    QDate dateTodayBack= dateToday.addDays(-7);
-    ui->dataBegindateEdit->setDate(dateTodayBack);
-    ui->dataEnddateEdit->setDate(dateToday);
-}
-
-
-void StockWindow_Antony::setupModel(const QStringList &headers)
-{
-    QDate dateToday = QDate::currentDate();
-    QDate dateTodayBack= dateToday.addDays(-7);
-    ui->dataBegindateEdit->setDate(dateTodayBack);
-    ui->dataEnddateEdit->setDate(dateToday);
-
-    QString dateTodayStr= ui->dataEnddateEdit->text().replace(".","/");
-    QString dateTodayBackStr= ui->dataBegindateEdit->text().replace(".","/");
-    QString query=QString("SELECT Instruments_Antony.id,ClassInstruments_Antony.NameClass, \
-                          Instruments_Antony.nameInstruments, Count(Instruments_Antony.id) AS [Count-id], \
-            Sum(ClientsCard.dept) AS [Sum-dept], Instruments_Antony.balance\
-            FROM ClassInstruments_Antony INNER JOIN (ClientsCard INNER JOIN Instruments_Antony \
-                                              ON ClientsCard.id_instruments = Instruments_Antony.id) ON ClassInstruments_Antony.ID = Instruments_Antony.idClassInstruments\
-            where Instruments_Antony.id >0\
-            GROUP BY Instruments_Antony.id, ClassInstruments_Antony.NameClass,  \
-            Instruments_Antony.nameInstruments, Instruments_Antony.balance;") .arg(dateTodayBackStr).arg(dateTodayStr);
-
-    //WHERE (((ClientsCard.dataEnd) Between #%1# and  #%2#))
-
-    /* Производим инициализацию модели представления данных
-     * с установкой имени таблицы в базе данных, по которому
-     * будет производится обращение в таблице
-     * */
-    QSqlQueryModel *model = new QSqlQueryModel(this);
-    model->setQuery(query , dataBase.getDatase());
-
-    qDebug()<<query;
-    /* Устанавливаем названия колонок в таблице с сортировкой данных*/
-
-    for(int i = 0, j = 0; i <model->columnCount(); i++, j++){
-        model->setHeaderData(i,Qt::Horizontal,headers[j]);
-
-    }
-}
-
 
 void StockWindow_Antony:: setupModelBase(const QStringList &headers)
 {
@@ -254,11 +275,11 @@ void StockWindow_Antony:: setupModelBase(const QStringList &headers)
             GROUP BY Instruments_Antony.id, ClassInstruments_Antony.NameClass,\
                       Instruments_Antony.nameInstruments, Instruments_Antony.balance;");
 
-    /* Производим инициализацию модели представления данных
-    * с установкой имени таблицы в базе данных, по которому
-    * будет производится обращение в таблице
-    * */
-    modelMain = new QSqlQueryModel(this);
+            /* Производим инициализацию модели представления данных
+                            * с установкой имени таблицы в базе данных, по которому
+                            * будет производится обращение в таблице
+                            * */
+            modelMain = new QSqlQueryModel(this);
     modelMain->setQuery(mainQuery , dataBase.getDatase());
 
     qDebug()<<mainQuery;
@@ -273,25 +294,15 @@ void StockWindow_Antony:: setupModelBase(const QStringList &headers)
 
 void StockWindow_Antony::setupModelClassInstruments(const QStringList &headers, int idClassInstruments)
 {
-    QDate dateToday = QDate::currentDate();
-    QDate dateTodayBack= dateToday.addDays(-7);
-    ui->dataBegindateEdit->setDate(dateTodayBack);
-    ui->dataEnddateEdit->setDate(dateToday);
-
-    //QString dateTodayStr= ui->dataEnddateEdit->text().replace(".","/");
-    //QString dateTodayBackStr= ui->dataBegindateEdit->text().replace(".","/");
     QString query=QString("SELECT Instruments_Antony.id,ClassInstruments_Antony.NameClass, \
                           Instruments_Antony.nameInstruments, Count(Instruments_Antony.id) AS [Count-id], \
             Sum(ClientsCard.dept) AS [Sum-dept], Instruments_Antony.balance\
             FROM ClassInstruments_Antony INNER JOIN (ClientsCard INNER JOIN Instruments_Antony \
-                                              ON ClientsCard.id_instruments = Instruments_Antony.id) ON ClassInstruments_Antony.ID = Instruments_Antony.idClassInstruments\
+                                                     ON ClientsCard.id_instruments = Instruments_Antony.id) ON ClassInstruments_Antony.ID = Instruments_Antony.idClassInstruments\
             where Instruments_Antony.id >0 and  Instruments_Antony.idClassInstruments=%1\
             GROUP BY Instruments_Antony.id, ClassInstruments_Antony.NameClass,  \
             Instruments_Antony.nameInstruments, Instruments_Antony.balance;").arg(idClassInstruments);
     vecQueryTab.push_back(query);
-
-
-    //WHERE (((ClientsCard.dataEnd) Between #%1# and  #%2#))
 
     /* Производим инициализацию модели представления данных
      * с установкой имени таблицы в базе данных, по которому
@@ -313,8 +324,6 @@ void StockWindow_Antony::setupModelClassInstruments(const QStringList &headers, 
 
 void StockWindow_Antony::createUI()
 {
-    //vecTabWidget->push_back(ui->tableView);
-
     ui->tableView->setModel(modelMain);     // Устанавливаем модель на TableView
     ui->tableView->setColumnHidden(0, true);    // Скрываем колонку с id записей
     //ui->tableView->setColumnHidden(2, true);    // Скрываем колонку c количеством заказов за период
@@ -384,13 +393,13 @@ void StockWindow_Antony::showHistory()
 
 
     queryStr=QString("SELECT MovementInstruments_Antony.dateOperation, Instruments_Antony.nameInstruments, \
-MovementInstruments_Antony.typeOperation, MovementInstruments_Antony.countInstr,MovementInstruments_Antony.source,\
- MovementInstruments_Antony.notes  FROM MovementInstruments_Antony INNER JOIN Instruments_Antony ON\
- (MovementInstruments_Antony.idInstruments = Instruments_Antony.id) \
-AND (MovementInstruments_Antony.idInstruments = Instruments_Antony.id) where  \
-MovementInstruments_Antony.idInstruments=%1  ORDER BY MovementInstruments_Antony.dateOperation DESC ").arg(idDiameter_);
+                     MovementInstruments_Antony.typeOperation, MovementInstruments_Antony.countInstr,MovementInstruments_Antony.source,\
+                     MovementInstruments_Antony.notes  FROM MovementInstruments_Antony INNER JOIN Instruments_Antony ON\
+                     (MovementInstruments_Antony.idInstruments = Instruments_Antony.id) \
+                     AND (MovementInstruments_Antony.idInstruments = Instruments_Antony.id) where  \
+                     MovementInstruments_Antony.idInstruments=%1  ORDER BY MovementInstruments_Antony.dateOperation DESC ").arg(idDiameter_);
 
-    querySql=dataBase.queryToBase(queryStr);
+            querySql=dataBase.queryToBase(queryStr);
 
 
             font.setPointSize(10);
@@ -473,72 +482,15 @@ void StockWindow_Antony::updateWindows()
     modelMain->setQuery(modelMain->query().lastQuery());
 
     for(int i=0;i<vecQueryModelTab.size();i++){
-       vecQueryModelTab[i]->setQuery(vecQueryModelTab[i]->query().lastQuery());
+        QString query=vecQueryModelTab[i]->query().lastQuery();
+        qDebug()<< query;
+        vecQueryModelTab[i]->setQuery(query);
     }
 
     showHistory();
 }
 
-void StockWindow_Antony::clickClearButton()
-{
-    QDate dateToday = QDate::currentDate();
-    QDate dateTodayBack= dateToday.addDays(-7);
-    ui->dataBegindateEdit->setDate(dateTodayBack);
-    ui->dataEnddateEdit->setDate(dateToday);
 
-    QString dateTodayStr= ui->dataEnddateEdit->text().replace(".","/");
-    QString dateTodayBackStr= ui->dataBegindateEdit->text().replace(".","/");
-
-
-    /* Производим инициализацию модели представления данных
-     * с установкой имени таблицы в базе данных, по которому
-     * будет производится обращение в таблице
-     * */
-    //model = new QSqlQueryModel(this);
-    modelMain->setQuery( QString("SELECT Instruments_Antony.id, Instruments_Antony.nameInstruments, Count(Instruments_Antony.id) \
-                             AS [Count-id], Sum(ClientsCard.dept) AS [Sum-dept], Instruments_Antony.balance\
-            FROM ClientsCard INNER JOIN Instruments_Antony ON ClientsCard.id_instruments = Instruments_Antony.id\
-            WHERE (((ClientsCard.dataEnd) Between #%1# and  #%2#))\
-            GROUP BY Instruments_Antony.id, Instruments_Antony.nameInstruments, Instruments_Antony.balance;")
-    .arg(dateTodayBackStr).arg(dateTodayStr), dataBase.getDatase());
-
-    modelMain->setQuery(modelMain->query().lastQuery());
-    qDebug() << modelMain->query().lastError().text();
-}
-
-void StockWindow_Antony::clickSumButton()
-{
-    QString dateTodayStr= ui->dataEnddateEdit->text().replace(".","/");
-    QString dateTodayBackStr= ui->dataBegindateEdit->text().replace(".","/");
-    QString query= QString("SELECT Instruments_Antony.id, Instruments_Antony.nameInstruments, Count(Instruments_Antony.id) \
-                           AS [Count-id], Sum(ClientsCard.dept) AS [Sum-dept], Instruments_Antony.balance\
-            FROM ClientsCard INNER JOIN Instruments_Antony ON ClientsCard.id_instruments = Instruments_Antony.id\
-            WHERE (((ClientsCard.dataEnd) Between #%1# and  #%2#))\
-            GROUP BY Instruments_Antony.id, Instruments_Antony.nameInstruments, Instruments_Antony.balance;")
-    .arg(dateTodayBackStr).arg(dateTodayStr);
-
-
-
-    /* Производим инициализацию модели представления данных
-      * с установкой имени таблицы в базе данных, по которому
-      * будет производится обращение в таблице
-      * */
-    //model = new QSqlQueryModel(this);
-    modelMain->setQuery(query, dataBase.getDatase());
-
-    qDebug()<<query;
-    QSqlQuery queryRun=modelMain->query();
-
-    modelMain->setQuery(queryRun.lastQuery());
-
-
-    //qDebug() << model->query().lastError().text();
-}
-
-void StockWindow_Antony::clickCurrBalanceButton()
-{
-
-}
 
 
 void StockWindow_Antony::clickAdd()
@@ -560,4 +512,107 @@ void StockWindow_Antony::clickDelete()
 void StockWindow_Antony::clickAddInstruments()
 {
 
+}
+
+void StockWindow_Antony::showConfirmDelete(int index)
+{
+    QString nameClass=getNameClassIntrument(index);
+
+    QMessageBox mb(QString("Подтверждение удаления"),
+                   QString("Вы уверены, что хотите удалить группу материалов \"%1\"? Действия отменить будет невозможно.").arg(nameClass),
+                   QMessageBox::Warning,
+                   QMessageBox::Yes,
+                   QMessageBox::No | QMessageBox::Default | QMessageBox::Escape ,
+                   QMessageBox::NoButton );
+    //Переименовать названия кнопок на русский язык
+    mb.setButtonText(QMessageBox::Yes, tr("Да"));
+    mb.setButtonText(QMessageBox::No, tr("Отмена"));
+
+    //Если нажата кнопку Да
+    if( mb.exec() == QMessageBox::Yes ){
+
+        int idClassInstruments= mapTab.value(currentTab_);
+        //Удалить группу материалов из БД и связанные с ней записи
+        deleteClassInstruments(idClassInstruments);
+        //Удалить вкладку
+        ui->tabWidget->removeTab(currentTab_);
+        //Перезаписать комбобох с группами материалов
+        addIntruments->fillClassInstruments();
+        //Обновить вкладки
+        updateWindows();
+        //Заполнить словарь
+        insertMapTab();
+        //Изменить текушую вкладку
+        ui->tabWidget->setCurrentIndex(0);
+    }
+
+}
+
+void StockWindow_Antony::setMapTab()
+{
+    addIntruments->setMapTab(mapTab);
+}
+
+void StockWindow_Antony::deleteClassInstruments(int index)
+{
+    QString queryStr;
+    QSqlQuery  querySql;
+
+    //Получить список инструментов относящихся к удаляемой группе
+    queryStr=QString("SELECT Instruments_Antony.* FROM Instruments_Antony\
+                     WHERE (((Instruments_Antony.idClassInstruments)=%1))").arg(index);
+    dataBase.queryToBase(queryStr);
+
+   //Удаляем записи с ID инструмента, относящегося к удаляемой группе
+    while (querySql.next()) {
+            queryStr=QString("DELETE MovementInstruments_Antony.* FROM MovementInstruments_Antony\
+            WHERE (((MovementInstruments_Antony.idInstruments)=%1))").arg(querySql.value(0).toInt());
+
+    }
+
+    //Удаляем список инструментов, относящихся к удаляемой группе
+    queryStr=QString("DELETE Instruments_Antony.*FROM Instruments_Antony\
+                     WHERE (((Instruments_Antony.idClassInstruments)=%1))").arg(index);
+    dataBase.queryToBase(queryStr);
+
+    //Удаляем группу иструментов
+    queryStr=QString("DELETE ClassInstruments_Antony.*\
+                     FROM ClassInstruments_Antony\
+                     WHERE (((ClassInstruments_Antony.ID)=%1))").arg(index);
+    dataBase.queryToBase(queryStr);
+
+}
+
+
+void StockWindow_Antony::insertMapTab()
+{
+    mapTab.clear();
+    QString queryStr="SELECT ClassInstruments_Antony.ID,ClassInstruments_Antony.NameClass \
+            FROM ClassInstruments_Antony where ClassInstruments_Antony.ID>0 ;";
+    QSqlQuery query=dataBase.queryToBase(queryStr);
+    int i=1;
+    while(query.next()&& i<=ui->tabWidget->count()+1) {
+        mapTab.insert(i,query.value(0).toInt());
+        i++;
+    }
+}
+
+
+QString StockWindow_Antony::getNameClassIntrument(int index)
+{
+    int idClassInstrument;
+    QString queryStr;
+    QSqlQuery query;
+    QString nameClassInstr;
+
+
+    idClassInstrument=mapTab.value(index);
+    queryStr=QString("SELECT ClassInstruments_Antony.*\
+            FROM ClassInstruments_Antony\
+            WHERE (((ClassInstruments_Antony.ID)=%1));").arg(idClassInstrument);
+    query=dataBase.queryToBase(queryStr);
+    query.first();
+    nameClassInstr=query.value(1).toString();
+
+    return nameClassInstr;
 }
