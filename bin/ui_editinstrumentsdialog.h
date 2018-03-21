@@ -35,13 +35,13 @@ public:
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
     QLabel *typeInstrLabel_2;
-    QComboBox *classInstrCombo;
+    QComboBox *classInstrumentCombo;
     QHBoxLayout *horizontalLayout_2;
     QLabel *typeInstrLabel;
-    QComboBox *typeInstrCombo;
+    QComboBox *instrumentCombo;
     QHBoxLayout *horizontalLayout_3;
     QLabel *typeOperLabel;
-    QComboBox *typeOperCombo;
+    QComboBox *typeOperationCombo;
     QHBoxLayout *horizontalLayout_4;
     QLabel *dateLabel;
     QDateEdit *dateEdit;
@@ -71,7 +71,7 @@ public:
         if (EditInstrumentsDialog->objectName().isEmpty())
             EditInstrumentsDialog->setObjectName(QStringLiteral("EditInstrumentsDialog"));
         EditInstrumentsDialog->setWindowModality(Qt::ApplicationModal);
-        EditInstrumentsDialog->resize(400, 665);
+        EditInstrumentsDialog->resize(412, 665);
         QFont font;
         font.setPointSize(11);
         EditInstrumentsDialog->setFont(font);
@@ -90,11 +90,11 @@ public:
 
         horizontalLayout->addWidget(typeInstrLabel_2);
 
-        classInstrCombo = new QComboBox(groupBox);
-        classInstrCombo->setObjectName(QStringLiteral("classInstrCombo"));
-        classInstrCombo->setMinimumSize(QSize(120, 0));
+        classInstrumentCombo = new QComboBox(groupBox);
+        classInstrumentCombo->setObjectName(QStringLiteral("classInstrumentCombo"));
+        classInstrumentCombo->setMinimumSize(QSize(120, 0));
 
-        horizontalLayout->addWidget(classInstrCombo);
+        horizontalLayout->addWidget(classInstrumentCombo);
 
 
         verticalLayout->addLayout(horizontalLayout);
@@ -108,11 +108,11 @@ public:
 
         horizontalLayout_2->addWidget(typeInstrLabel);
 
-        typeInstrCombo = new QComboBox(groupBox);
-        typeInstrCombo->setObjectName(QStringLiteral("typeInstrCombo"));
-        typeInstrCombo->setMinimumSize(QSize(120, 0));
+        instrumentCombo = new QComboBox(groupBox);
+        instrumentCombo->setObjectName(QStringLiteral("instrumentCombo"));
+        instrumentCombo->setMinimumSize(QSize(120, 0));
 
-        horizontalLayout_2->addWidget(typeInstrCombo);
+        horizontalLayout_2->addWidget(instrumentCombo);
 
 
         verticalLayout->addLayout(horizontalLayout_2);
@@ -126,11 +126,11 @@ public:
 
         horizontalLayout_3->addWidget(typeOperLabel);
 
-        typeOperCombo = new QComboBox(groupBox);
-        typeOperCombo->setObjectName(QStringLiteral("typeOperCombo"));
-        typeOperCombo->setMinimumSize(QSize(120, 0));
+        typeOperationCombo = new QComboBox(groupBox);
+        typeOperationCombo->setObjectName(QStringLiteral("typeOperationCombo"));
+        typeOperationCombo->setMinimumSize(QSize(120, 0));
 
-        horizontalLayout_3->addWidget(typeOperCombo);
+        horizontalLayout_3->addWidget(typeOperationCombo);
 
 
         verticalLayout->addLayout(horizontalLayout_3);

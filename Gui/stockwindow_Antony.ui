@@ -85,7 +85,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="editInstrButton">
+                <widget class="QPushButton" name="editNameInstrButton">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -105,12 +105,12 @@
                  </property>
                  <property name="text">
                   <string>Изменить 
-материал</string>
+название материала</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="editBalanceButton">
+                <widget class="QPushButton" name="editBalanceInstrButton">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                    <horstretch>0</horstretch>

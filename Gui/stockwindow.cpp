@@ -402,7 +402,7 @@ void StockWindow::parsingIdInstr(QModelIndex index)
     //Получаем индекс нужного ИД
     QModelIndex indexID= index.sibling(index.row(),0);
     idDiameter_=indexID.model()->data(indexID, Qt::DisplayRole).toInt();
-    editInstruments->setIdDiameter(idDiameter_);
+    editInstruments->setIdInstrument(idDiameter_);
     editInstruments->setCurrTypeInstruments();
     editInstruments->fillBalance();
 

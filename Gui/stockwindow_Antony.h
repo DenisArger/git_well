@@ -36,6 +36,7 @@ public:
     //Добвление записей в мар
     void insertMapTab();
     QString getNameClassIntrument(int index);
+    QString getNameInstrument();
 public slots:
     void parsingIdInstr(QModelIndex index);
     void showHistory();
@@ -46,15 +47,18 @@ public slots:
     void clickAddInstruments();
 
     void deleteClassInstruments(int index);
+    void deleteInstrument();
 
     void addTab();
     void setCurrentTab(int index);
 
     void editNameClassInstrument(int index);
+    void editNameInstrument();
 
     void showWindow();
     void showConfirmDelete(int index);
     void setMapTab();
+    void showEditBalanceWindows();
 private:
     Ui::StockWindow_Antony *ui;
 
@@ -71,7 +75,7 @@ private:
 
     QMap<int,int> mapTab; // информацию о номере владки и ID группы материалов
     int currentTab_; //Хранит текущую выбранную вкладку
-    int idDiameter_;
+    int idInstrument_; //ИД выбранного прибора
 };
 
 #endif // STOCKWINDOW_ANTONY_H

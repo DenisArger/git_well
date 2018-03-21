@@ -7,7 +7,7 @@
 EditInstrumentsDialog::EditInstrumentsDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditInstrumentsDialog),
-    idDiameter_(0)
+    idInstrument_(0)
 {
     ui->setupUi(this);
 
@@ -23,15 +23,16 @@ void EditInstrumentsDialog::showWindow()
     this->show();
 
     fillTypeOperation();
-    fillTypeInstr();
+    fillInstrument();
     fillBalance();
     setCurrentDate();
 
-    ui->typeInstrCombo->setCurrentIndex(currentTab_);
+    ui->instrumentCombo->setCurrentIndex(currentTab_);
     if(currentTab_)
-        ui->typeInstrCombo->setEnabled(false);
-    else
-        ui->typeInstrCombo->setEnabled(true);
+        ui->instrumentCombo->setEnabled(false);
+    else{
+        ui->instrumentCombo->setEnabled(true);
+    }
 }
 
 EditInstrumentsDialog::~EditInstrumentsDialog()
@@ -52,8 +53,8 @@ void EditInstrumentsDialog::clickApply()
     QString queryStr;
 
 
-    idInstrument = ui->typeInstrCombo->currentIndex();
-    typeOperation = ui->typeOperCombo->currentIndex();
+    idInstrument = ui->instrumentCombo->currentIndex();
+    typeOperation = ui->typeOperationCombo->currentIndex();
     dateOperation = ui->dateEdit->text();
     countInstr = ui->countInstrEdit->text().toDouble();
     source = ui->sourseLineEdit->text();
@@ -73,10 +74,10 @@ void EditInstrumentsDialog::clickApply()
     dataBase.queryToBase(queryStr);
 
     if(idLoginGlobal!=1){
-        queryStr= QString( "UPDATE Instruments SET balance = %1 WHERE id=%2").arg( balance_).arg( idDiameter_);
+        queryStr= QString( "UPDATE Instruments SET balance = %1 WHERE id=%2").arg( balance_).arg( idInstrument_);
     }
     else{
-        queryStr= QString( "UPDATE Instruments_Antony SET balance = %1 WHERE id=%2").arg( balance_).arg( idDiameter_);
+        queryStr= QString( "UPDATE Instruments_Antony SET balance = %1 WHERE id=%2").arg( balance_).arg( idInstrument_);
     }
 
     dataBase.queryToBase(queryStr);
@@ -87,21 +88,42 @@ void EditInstrumentsDialog::clickApply()
 
 void EditInstrumentsDialog::fillTypeOperation()
 {
-    ui->typeOperCombo->clear();
+    ui->typeOperationCombo->clear();
 
-    ui->typeOperCombo->addItem("");
-    ui->typeOperCombo->addItem("Приход");
-    ui->typeOperCombo->addItem("Расход");
+    ui->typeOperationCombo->addItem("");
+    ui->typeOperationCombo->addItem("Приход");
+    ui->typeOperationCombo->addItem("Расход");
 
 }
 
 
-void EditInstrumentsDialog::fillTypeInstr()
+void EditInstrumentsDialog::fillInstrument()
 {
-    ui->typeInstrCombo->clear();
+    ui->instrumentCombo->clear();
+    mapComboInstr_.clear();
     QSqlQuery query=dataBase.getQueryDiameter();
+    int i=0;
     while (query.next() ) {
-        ui->typeInstrCombo->addItem(query.value(2).toString(), query.value(0));
+        mapComboInstr_.insert(i,query.value(0).toInt());
+        ui->instrumentCombo->addItem(query.value(2).toString(), query.value(0));
+        i++;
+    }
+}
+
+void EditInstrumentsDialog::fillClassInstrument()
+{
+    ui->classInstrumentCombo->clear();
+    mapComboClassInstr_.clear();
+    QString queryStr;
+    QSqlQuery query;
+    queryStr=QString("SELECT ClassInstruments.*\
+                     FROM ClassInstruments;");
+    query=dataBase.queryToBase(queryStr);
+    int i=0;
+    while (query.next() ) {
+        mapComboClassInstr_.insert(i,query.value(0).toInt());
+        ui->classInstrumentCombo->addItem(query.value(1).toString(), query.value(0));
+        i++;
     }
 }
 
@@ -118,18 +140,18 @@ void EditInstrumentsDialog::consumptionOperaton()
 
 }
 
-void EditInstrumentsDialog::setIdDiameter(int idDiam)
+void EditInstrumentsDialog::setIdInstrument(int idInstrument)
 {
-    idDiameter_=idDiam;
+    idInstrument_=idInstrument;
 }
 
 void EditInstrumentsDialog::fillBalance()
 {
     QString queryStr;
     if(idLoginGlobal!=1){
-        queryStr=QString("SELECT balance FROM Instruments where id=%1").arg(idDiameter_);}
+        queryStr=QString("SELECT balance FROM Instruments where id=%1").arg(idInstrument_);}
     else{
-        queryStr=QString("SELECT balance FROM Instruments_Antony where id=%1").arg(idDiameter_);
+        queryStr=QString("SELECT balance FROM Instruments_Antony where id=%1").arg(idInstrument_);
     }
 
     QSqlQuery query= dataBase.queryToBase(queryStr);
@@ -141,7 +163,7 @@ void EditInstrumentsDialog::fillBalance()
 
 void EditInstrumentsDialog::setCurrTypeInstruments()
 {
-    ui->typeInstrCombo->setCurrentIndex(idDiameter_);
+    ui->instrumentCombo->setCurrentIndex(idInstrument_);
 }
 
 
@@ -149,12 +171,12 @@ void EditInstrumentsDialog::clickReCount()
 {
     fillBalance();
     //Приход
-    if (ui->typeOperCombo->currentIndex()==1) {
+    if (ui->typeOperationCombo->currentIndex()==1) {
         balance_+=ui->countInstrEdit->text().toDouble();
         ui->balanceLineEdit->setText(QString("%1").arg(balance_));
     }
     //Расход
-    if (ui->typeOperCombo->currentIndex()==2) {
+    if (ui->typeOperationCombo->currentIndex()==2) {
         balance_-=ui->countInstrEdit->text().toDouble();
         ui->balanceLineEdit->setText(QString("%1").arg(balance_));
 

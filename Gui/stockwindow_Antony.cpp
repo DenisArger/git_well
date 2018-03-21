@@ -9,7 +9,8 @@
 
 StockWindow_Antony::StockWindow_Antony(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::StockWindow_Antony)
+    ui(new Ui::StockWindow_Antony),
+    idInstrument_(-1)
 {
     ui->setupUi(this);
     editInstruments=new EditInstrumentsDialog();
@@ -32,7 +33,7 @@ StockWindow_Antony::StockWindow_Antony(QWidget *parent) :
     tb->setText("+");
     tb->setAutoRaise(true);
     connect(tb, SIGNAL(clicked()), this, SLOT(addTab()));
-    connect(ui->editBalanceButton,SIGNAL(clicked(bool)),editInstruments, SLOT(showWindow()));
+    connect(ui->editBalanceInstrButton,SIGNAL(clicked(bool)),this, SLOT(showEditBalanceWindows()));
 
     connect(ui->tableView,SIGNAL(clicked(QModelIndex)),this,SLOT(parsingIdInstr(QModelIndex)));
     connect(ui->tableView,SIGNAL(clicked(QModelIndex)),this,SLOT(showHistory()));
@@ -42,6 +43,11 @@ StockWindow_Antony::StockWindow_Antony(QWidget *parent) :
     connect(ui->closeButton,SIGNAL(clicked(bool)),this,SLOT(close()));
     connect(ui->addInstrButton,SIGNAL(clicked(bool)),addIntruments,SLOT(showWindow()));
     connect(ui->addInstrButton,SIGNAL(clicked(bool)),this,SLOT(setMapTab()));
+    connect(ui->editNameInstrButton,SIGNAL(clicked(bool)),this,SLOT(editNameInstrument()));
+    connect(ui->deleteInstrButton,SIGNAL(clicked(bool)),this,SLOT(deleteInstrument()));
+
+
+
 
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(setCurrentTab(int)));
     connect(ui->tabWidget,SIGNAL(tabCloseRequested(int)),this,SLOT(showConfirmDelete(int)));
@@ -109,6 +115,7 @@ void StockWindow_Antony::addTab()
 
 void StockWindow_Antony::setCurrentTab(int index)
 {
+    idInstrument_=-1;
     addIntruments->setCurrentTab(index);
     editInstruments->setCurrentTab(index);
     currentTab_=index;
@@ -150,6 +157,41 @@ void StockWindow_Antony::editNameClassInstrument(int index)
     updateWindows();
 
 
+}
+
+void StockWindow_Antony::editNameInstrument()
+{
+    if(idInstrument_==-1){
+        QMessageBox::information(NULL,"Подсказка", "Выберите материал для редактирования.");
+        return;
+    }
+
+
+    bool ok;
+    QFont  font;
+    QString nameClass;
+    font.setPointSize(11);
+    QApplication::setFont(font);
+
+    QInputDialog inputDialog(this);
+
+    nameClass=inputDialog.getText(this, tr("Изменить название материала"),
+                        tr("Введите название  материала:"), QLineEdit::Normal,
+                       getNameInstrument(), &ok);
+
+
+    if (!ok) {
+        return;
+        // Была нажата кнопка Cancel
+    }
+
+    //Переименовать материал
+    QString queryStr;
+    queryStr=QString("update Instruments_Antony \
+    set nameInstruments = '%1'  where ID=%2").arg(nameClass).arg(idInstrument_);
+    dataBase.queryToBase(queryStr);
+
+    updateWindows();
 }
 
 void StockWindow_Antony::addClassIntruments(QString nameClassInstruments)
@@ -367,8 +409,8 @@ void StockWindow_Antony::parsingIdInstr(QModelIndex index)
 {
     //Получаем индекс нужного ИД
     QModelIndex indexID= index.sibling(index.row(),0);
-    idDiameter_=indexID.model()->data(indexID, Qt::DisplayRole).toInt();
-    editInstruments->setIdDiameter(idDiameter_);
+    idInstrument_=indexID.model()->data(indexID, Qt::DisplayRole).toInt();
+    editInstruments->setIdInstrument(idInstrument_);
     editInstruments->setCurrTypeInstruments();
     editInstruments->fillBalance();
 
@@ -397,9 +439,8 @@ void StockWindow_Antony::showHistory()
                      MovementInstruments_Antony.notes  FROM MovementInstruments_Antony INNER JOIN Instruments_Antony ON\
                      (MovementInstruments_Antony.idInstruments = Instruments_Antony.id) \
                      AND (MovementInstruments_Antony.idInstruments = Instruments_Antony.id) where  \
-                     MovementInstruments_Antony.idInstruments=%1  ORDER BY MovementInstruments_Antony.dateOperation DESC ").arg(idDiameter_);
-
-            querySql=dataBase.queryToBase(queryStr);
+                     MovementInstruments_Antony.idInstruments=%1  ORDER BY MovementInstruments_Antony.dateOperation DESC ").arg(idInstrument_);
+    querySql=dataBase.queryToBase(queryStr);
 
 
             font.setPointSize(10);
@@ -583,6 +624,35 @@ void StockWindow_Antony::deleteClassInstruments(int index)
 
 }
 
+void StockWindow_Antony::deleteInstrument()
+{
+    if(idInstrument_==-1){
+        QMessageBox::information(NULL,"Подсказка", "Выберите материал для удаления.");
+        return;
+    }
+
+    QMessageBox mb(QString("Подтверждение удаления"),
+                   QString("Вы уверены, что хотите удалить выбранный материал \"%1\"? Действия отменить будет невозможно.").arg(getNameInstrument()),
+                   QMessageBox::Warning,
+                   QMessageBox::Yes,
+                   QMessageBox::No | QMessageBox::Default | QMessageBox::Escape ,
+                   QMessageBox::NoButton );
+    //Переименовать названия кнопок на русский язык
+    mb.setButtonText(QMessageBox::Yes, tr("Да"));
+    mb.setButtonText(QMessageBox::No, tr("Отмена"));
+
+    //Если нажата кнопку Да
+    if( mb.exec() == QMessageBox::Yes ){
+        QString queryStr;
+        queryStr=QString("DELETE Instruments_Antony.*FROM Instruments_Antony\
+                         WHERE (((Instruments_Antony.id)=%1))").arg(idInstrument_);
+        dataBase.queryToBase(queryStr);
+
+        updateWindows();
+    }
+
+}
+
 
 void StockWindow_Antony::insertMapTab()
 {
@@ -615,4 +685,30 @@ QString StockWindow_Antony::getNameClassIntrument(int index)
     nameClassInstr=query.value(1).toString();
 
     return nameClassInstr;
+}
+
+QString StockWindow_Antony::getNameInstrument()
+{
+    QString queryStr;
+    QSqlQuery query;
+    QString nameInstr;
+
+    queryStr=QString("SELECT Instruments_Antony.*\
+            FROM Instruments_Antony\
+            WHERE (((Instruments_Antony.id)=%1));").arg(idInstrument_);
+    query=dataBase.queryToBase(queryStr);
+    query.first();
+    nameInstr=query.value(2).toString();
+
+    return nameInstr;
+}
+
+
+void StockWindow_Antony::showEditBalanceWindows()
+{
+    if(idInstrument_==-1){
+        QMessageBox::information(NULL,"Подсказка", "Выберите материал для редактирования остатка.");
+        return;
+    }
+    editInstruments->showWindow();
 }
