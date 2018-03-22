@@ -113,20 +113,75 @@ void ClientsWindows::createUI()
 void ClientsWindows::fillRegion()
 {
     ui->regionCombo_2->clear();
+     mapComboGegion_.clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->regionCombo_2->setInsertPolicy(QComboBox::NoInsert);
+    ui->regionCombo_2->setEditable(true);
     QSqlQuery query=dataBase.getQueryRegion();
+    int i=0;
     while(query.next()) {
+        mapComboGegion_.insert(i,query.value(0).toInt());
         ui->regionCombo_2->addItem(query.value(1).toString(), query.value(0));
-    }
+        i++;    }
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT Region.region\
+                     FROM Region;");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->regionCombo_2 );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->regionCombo_2->setCompleter(completer);
+    ui->regionCombo_2->setAutoCompletion(true);
 }
 
 void ClientsWindows::fillDistrict()
 {
     ui->districtCombo_2->clear();
+    mapComboDistrict_.clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->districtCombo_2->setInsertPolicy(QComboBox::NoInsert);
+    ui->districtCombo_2->setEditable(true);
+
     int id_Region=ui->regionCombo_2->currentIndex();
     QSqlQuery query=dataBase.getQueryDistrict(id_Region);
+     int i=0;
     while (query.next()) {
+        //заполнение словаря
+        mapComboDistrict_.insert(i,query.value(0).toInt());
         ui->districtCombo_2->addItem(query.value(1).toString(), query.value(0));
+        i++;
     }
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT District.district\
+                     FROM District\
+                     WHERE (((District.id_region)=%1))\
+                     ORDER BY District.district;").arg(id_Region);
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->districtCombo_2 );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->districtCombo_2->setCompleter(completer);
+    ui->districtCombo_2->setAutoCompletion(true);
 }
 
 void ClientsWindows::clickFilterButton()
@@ -139,13 +194,13 @@ void ClientsWindows::clickFilterButton()
 
 
 
-            queryTXT+=filterLocation();
+    queryTXT+=filterLocation();
 
-            if(ui->diameterCombo->currentIndex()){
-            queryTXT+=filterDiameter();
-}
+    if(ui->diameterCombo->currentIndex()){
+    queryTXT+=filterDiameter();
+    }
 
-            queryTXT+=filterPump();
+    queryTXT+=filterPump();
 
     queryTXT+=filterService();
 
@@ -154,9 +209,10 @@ void ClientsWindows::clickFilterButton()
     queryTXT+=filterOtherPhone();
 
     queryTXT+=";";
-    //qDebug()<<queryTXT;
+    qDebug()<<queryTXT;
 
-    model->setQuery(queryTXT,dataBase.getDatase());
+    mainQuery=queryTXT;
+    model->setQuery(mainQuery,dataBase.getDatase());
     model->setQuery(model->query().lastQuery());
     qDebug() << model->query().lastError().text();
 
@@ -164,10 +220,11 @@ void ClientsWindows::clickFilterButton()
 
 void ClientsWindows::clickClearFilterButton()
 {
-    model->setQuery( QString("SELECT ClientsCard.ID,ClientsCard.service,Region.region, District.district, ClientsCard.locality, ClientsCard.street, Instruments.nameInstruments,\
-                             ClientsCard.mobilPhone, ClientsCard.otherPhone, ClientsCard.surname, ClientsCard.name_, ClientsCard.patronymic FROM ((ClientsCard INNER JOIN Instruments \
-                                                                                                                                                   ON ClientsCard.id_Instruments = Instruments.id) INNER JOIN District ON ClientsCard.id_district = District.id) INNER JOIN Region ON District.id_region = Region.id;"),
-                     dataBase.getDatase());
+    QString queryStr;
+    queryStr=QString("SELECT ClientsCard.ID,ClientsCard.service,Region.region, District.district, ClientsCard.locality, ClientsCard.street, Instruments.nameInstruments,\
+                     ClientsCard.mobilPhone, ClientsCard.otherPhone, ClientsCard.surname, ClientsCard.name_, ClientsCard.patronymic FROM ((ClientsCard INNER JOIN Instruments \
+                     ON ClientsCard.id_Instruments = Instruments.id) INNER JOIN District ON ClientsCard.id_district = District.id) INNER JOIN Region ON District.id_region = Region.id;");
+    model->setQuery(queryStr,dataBase.getDatase());
 
 
     model->setQuery(model->query().lastQuery());
@@ -191,7 +248,7 @@ void ClientsWindows::clickClearFilterButton()
     ui->phoneLineEdit->clear();
     ui->otherLineEdit->clear();
 
-
+    mainQuery=queryStr;
 }
 
 void ClientsWindows::clickDoubleClickedTable(QModelIndex index)
@@ -215,17 +272,45 @@ void ClientsWindows::clickDoubleClickedTable(QModelIndex index)
 void ClientsWindows::fillDistrict_FULL()
 {
     ui->districtCombo_2->clear();
+     mapComboDistrict_.clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->districtCombo_2->setInsertPolicy(QComboBox::NoInsert);
+    ui->districtCombo_2->setEditable(true);
     QSqlQuery query=dataBase.getQueryDistrict_FULL();
+    int i=0;
     while (query.next()) {
+        //заполнение словаря
+        mapComboDistrict_.insert(i,query.value(0).toInt());
         ui->districtCombo_2->addItem(query.value(1).toString(), query.value(0));
+        i++;
     }
+
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT District.district\
+                     FROM District;");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->districtCombo_2 );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->districtCombo_2->setCompleter(completer);
+    ui->districtCombo_2->setAutoCompletion(true);
 }
 
 
 QString ClientsWindows::filterLocation()
 {
-    int id_region=ui->regionCombo_2->currentIndex();
-    int id_district=ui->districtCombo_2->currentIndex();
+    int id_region=mapComboGegion_.value(ui->regionCombo_2->currentIndex());
+    int id_district=mapComboDistrict_.value(ui->districtCombo_2->currentIndex());
     QString locality= ui->localityLineEdit_2->text();
     QString street= ui->streetLineEdit_3->text();
 
@@ -244,8 +329,8 @@ QString ClientsWindows::filterLocation()
         textFilter=QString( "WHERE ClientsCard.street LIKE '%%1%' AND \
                             ClientsCard.locality LIKE '%%2%' ").arg(street.arg(locality));
                             break;
-            case 4:
-                textFilter=QString(" WHERE ClientsCard.id_district = %1").arg(id_district);
+   case 4:
+       textFilter=QString(" WHERE ClientsCard.id_district = %1").arg(id_district);
         break;
     case 5:
         textFilter=QString(" WHERE ClientsCard.street LIKE '%%1%' AND \
@@ -307,7 +392,7 @@ QString ClientsWindows::filterLocation()
 
 QString ClientsWindows::filterDiameter()
 {
-    int id_diameter=ui->diameterCombo->currentIndex();
+    int id_diameter=mapComboInstrument_.value(ui->diameterCombo->currentIndex());
     QString  textFilter;
     if(parsingLocation())
         textFilter=QString(" AND ClientsCard.id_instruments=%1").arg(id_diameter);
@@ -377,8 +462,9 @@ QString ClientsWindows::filterOtherPhone()
 int ClientsWindows::parsingLocation()
 {
     int parsing;
-    int id_region=ui->regionCombo_2->currentIndex();
-    int id_district=ui->districtCombo_2->currentIndex();
+    int id_region=mapComboGegion_.value(ui->regionCombo_2->currentIndex());
+    int id_district=mapComboDistrict_.value(ui->districtCombo_2->currentIndex());
+
     QString locality= ui->localityLineEdit_2->text();
     QString street= ui->streetLineEdit_3->text();
 
@@ -625,10 +711,37 @@ QString ClientsWindows::filterPersonale()
 void ClientsWindows::fillDiameter()
 {
     ui->diameterCombo->clear();
+    mapComboInstrument_.clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->diameterCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->diameterCombo->setEditable(true);
     QSqlQuery query=dataBase.getQueryDiameter();
+    int i=0;
     while (query.next()) {
         ui->diameterCombo->addItem(query.value(2).toString(), query.value(0));
+        mapComboInstrument_.insert(i,query.value(0).toInt());
+        i++;
     }
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT Instruments.nameInstruments\
+                     FROM Instruments\
+                     WHERE (((Instruments.idClassInstruments)=1));");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->diameterCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->diameterCombo->setCompleter(completer);
+    ui->diameterCombo->setAutoCompletion(true);
 }
 
 

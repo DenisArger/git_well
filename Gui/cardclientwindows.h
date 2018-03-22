@@ -5,7 +5,7 @@
 #include "global.h"
 #include <QCompleter>
 
-
+#include <QMap>
 
 namespace Ui {
 class CardClientWindows;
@@ -85,6 +85,11 @@ private:
     bool stateSave;
     int id_client;
     Ui::CardClientWindows *ui;
+
+    QMap<int,int> mapComboGegion_; // хранит соответсвие комбо и ID областей
+    QMap<int,int> mapComboDistrict_; // хранит соответсвие комбо и ID районов
+    QMap<int,int> mapComboInstrument_; // хранит соответсвие комбо и ID инструментов
+
 };
 
 #endif // CARDCLIENTWINDOWS_H

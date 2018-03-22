@@ -6,6 +6,8 @@
 #include "global.h"
 #include "Model/servicecardquerymodel.h"
 
+#include <QCompleter>
+
 namespace Ui {
 class CardServiceWindows;
 }
@@ -76,6 +78,11 @@ private:
     int id_client;
     int id_service;
     ServiceCardQueryModel    *model;
+
+    QMap<int,int> mapComboGegion_; // хранит соответсвие комбо и ID областей
+    QMap<int,int> mapComboDistrict_; // хранит соответсвие комбо и ID районов
+    QMap<int,int> mapComboInstrument_; // хранит соответсвие комбо и ID инструментов
+
 };
 
 #endif // CARDSERVICEWINDOWS_H

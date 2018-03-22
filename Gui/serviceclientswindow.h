@@ -25,7 +25,7 @@ public:
     /**    Заполнение данными   */
     personaleService fillDataService(int idClient);
     void fillRegion();
-    void fillDistrict();
+
     void fillDistrict_FULL();
     void fillStateService();
     void fillStatePayment();
@@ -58,6 +58,7 @@ public slots:
     void doubleClickTable(const QModelIndex &index);
     void updateModel();
     void showWindow();
+    void fillDistrict();
 private:
     Ui::ServiceClientsWindow *ui;
     CardServiceWindows  *cardServiceWindows;
@@ -72,6 +73,12 @@ private:
     bool isStateInstr_;
     bool isLocationInstr_;
     bool isSeasone_;
+
+
+    QMap<int,int> mapComboGegion_; // хранит соответсвие комбо и ID областей
+    QMap<int,int> mapComboDistrict_; // хранит соответсвие комбо и ID районов
+    QMap<int,int> mapComboInstrument_; // хранит соответсвие комбо и ID инструментов
+
 };
 
 #endif // SERVICECLIENTSWINDOW_H

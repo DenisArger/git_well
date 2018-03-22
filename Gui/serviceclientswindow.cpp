@@ -16,6 +16,7 @@ ServiceClientsWindow::ServiceClientsWindow(QWidget *parent) :
     connect(ui->clearFilterButton,SIGNAL(clicked(bool)),this,SLOT(clickClear()));
     connect(ui->closeButton,SIGNAL(clicked(bool)),this,SLOT(close()));
     connect(ui->tableView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(doubleClickTable(QModelIndex)));
+    connect(ui->regionCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(fillDistrict()));
 
     connect(cardServiceWindows,SIGNAL(closeEvent(QCloseEvent*)),this,SLOT(updateModel()));
 
@@ -51,7 +52,6 @@ void ServiceClientsWindow::showWindow()
     this->createUI();
 
     fillRegion();
-    fillDistrict();
     fillDistrict_FULL();
     fillStateService();
     fillStatePayment();
@@ -173,89 +173,315 @@ personaleService ServiceClientsWindow::fillDataService(int idClient)
 void ServiceClientsWindow::fillRegion()
 {
     ui->regionCombo->clear();
+    mapComboGegion_.clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->regionCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->regionCombo->setEditable(true);
     QSqlQuery query=dataBase.getQueryRegion();
+    int i=0;
     while(query.next()) {
+         //заполнение словаря
+        mapComboGegion_.insert(i,query.value(0).toInt());
         ui->regionCombo->addItem(query.value(1).toString(), query.value(0));
+        i++;
     }
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT Region.region\
+                     FROM Region;");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->regionCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->regionCombo->setCompleter(completer);
+    ui->regionCombo->setAutoCompletion(true);
 }
 
 void ServiceClientsWindow::fillDistrict()
 {
     ui->districtCombo->clear();
+    mapComboDistrict_.clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->districtCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->districtCombo->setEditable(true);
+
     int id_Region=ui->regionCombo->currentIndex();
-    QSqlQuery query=dataBase.getQueryDistrict(id_Region);
-    while (query.next()) {
-        ui->districtCombo->addItem(query.value(1).toString(), query.value(0));
+    if(!id_Region){
+        fillDistrict_FULL();
+        return;
     }
+
+
+    QSqlQuery query=dataBase.getQueryDistrict(id_Region);
+    int i=0;
+    while (query.next()) {
+         //заполнение словаря
+        mapComboDistrict_.insert(i,query.value(0).toInt());
+        ui->districtCombo->addItem(query.value(1).toString(), query.value(0));
+        i++;
+    }
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT District.district\
+                     FROM District\
+                     WHERE (((District.id_region)=%1))\
+                     ORDER BY District.district;").arg(id_Region);
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->districtCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->districtCombo->setCompleter(completer);
+    ui->districtCombo->setAutoCompletion(true);
 }
 
 void ServiceClientsWindow::fillDistrict_FULL()
 {
     ui->districtCombo->clear();
+    mapComboDistrict_.clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->districtCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->districtCombo->setEditable(true);
     QSqlQuery query=dataBase.getQueryDistrict_FULL();
+    int i=0;
     while (query.next()) {
+        //заполнение словаря
+        mapComboDistrict_.insert(i,query.value(0).toInt());
         ui->districtCombo->addItem(query.value(1).toString(), query.value(0));
+        i++;
     }
+
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT District.district\
+                     FROM District;");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->districtCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->districtCombo->setCompleter(completer);
+    ui->districtCombo->setAutoCompletion(true);
 }
 
 
 void ServiceClientsWindow::fillStateService()
 {
     ui->stateServiceCombo->clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->stateServiceCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->stateServiceCombo->setEditable(true);
+
     QSqlQuery query=dataBase.queryToBase("SELECT StateService.*FROM StateService;");
     while(query.next()) {
         ui->stateServiceCombo->addItem(query.value(1).toString(), query.value(0));
     }
+
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT StateService.stateSevice\
+                     FROM StateService;");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->stateServiceCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->stateServiceCombo->setCompleter(completer);
+    ui->stateServiceCombo->setAutoCompletion(true);
 }
 
 void ServiceClientsWindow::fillStatePayment()
 {
     ui->statePaymentCombo->clear();
-
+    //Строка не будет вставлена ​​в поле со списком
+    ui->statePaymentCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->statePaymentCombo->setEditable(true);
     QSqlQuery query=dataBase.queryToBase("SELECT StatePayment.* FROM StatePayment;");
     while(query.next()) {
         ui->statePaymentCombo->addItem(query.value(1).toString(), query.value(0));
     }
+
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT StatePayment.statePayment\
+                     FROM StatePayment;");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->statePaymentCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->statePaymentCombo->setCompleter(completer);
+    ui->statePaymentCombo->setAutoCompletion(true);
 }
 
 void ServiceClientsWindow::fillTypePump()
 {
     ui->typePumpCombo->clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->typePumpCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->typePumpCombo->setEditable(true);
 
     QSqlQuery query=dataBase.queryToBase("SELECT TypePump.* FROM TypePump;");
     while(query.next()) {
         ui->typePumpCombo->addItem(query.value(1).toString(), query.value(0));
     }
+
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT TypePump.typePump\
+                     FROM TypePump;");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->typePumpCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->typePumpCombo->setCompleter(completer);
+    ui->typePumpCombo->setAutoCompletion(true);
 }
 
 void ServiceClientsWindow::fillStatePump()
 {
     ui->statePumpCombo->clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->statePumpCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->statePumpCombo->setEditable(true);
 
     QSqlQuery query=dataBase.queryToBase("SELECT StatePump.* FROM StatePump;");
     while(query.next()) {
         ui->statePumpCombo->addItem(query.value(1).toString(), query.value(0));
     }
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT StatePump.statePump\
+                     FROM StatePump;");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->statePumpCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->statePumpCombo->setCompleter(completer);
+    ui->statePumpCombo->setAutoCompletion(true);
 }
 
 void ServiceClientsWindow::fillLocationPump()
 {
     ui->locationePumpCombo->clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->locationePumpCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->locationePumpCombo->setEditable(true);
 
     QSqlQuery query=dataBase.queryToBase("SELECT LocationPump.* FROM LocationPump;");
     while(query.next()) {
         ui->locationePumpCombo->addItem(query.value(1).toString(), query.value(0));
     }
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT LocationPump.locationPump\
+                     FROM LocationPump;");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->locationePumpCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->locationePumpCombo->setCompleter(completer);
+    ui->locationePumpCombo->setAutoCompletion(true);
 }
 
 void ServiceClientsWindow::fillSeasone()
 {
     ui->seasonaCombo->clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->seasonaCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->seasonaCombo->setEditable(true);
 
     QSqlQuery query=dataBase.queryToBase("SELECT Seasone.* FROM Seasone;");
     while(query.next()) {
         ui->seasonaCombo->addItem(query.value(1).toString(), query.value(0));
     }
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT Seasone.season\
+                     FROM Seasone;");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->seasonaCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->seasonaCombo->setCompleter(completer);
+    ui->seasonaCombo->setAutoCompletion(true);
 }
 
 
@@ -299,7 +525,8 @@ void ServiceClientsWindow::clickFilter()
     queryTXT+=";";*/
     qDebug()<<queryStr;
 
-    model->setQuery(queryStr,dataBase.getDatase());
+    mainQuery=queryStr;
+    model->setQuery(mainQuery,dataBase.getDatase());
     model->setQuery(model->query().lastQuery());
     qDebug() << model->query().lastError().text();
 }
@@ -308,8 +535,8 @@ void ServiceClientsWindow::clickFilter()
 
 QString ServiceClientsWindow::filterLocation()
 {
-    int id_region=ui->regionCombo->currentIndex();
-    int id_district=ui->districtCombo->currentIndex();
+    int id_region=mapComboGegion_.value(ui->regionCombo->currentIndex());
+    int id_district=mapComboDistrict_.value(ui->districtCombo->currentIndex());
     QString locality= ui->localityLineEdit->text();
     QString street= ui->streetLineEdit->text();
 
@@ -832,7 +1059,7 @@ void ServiceClientsWindow::clickClear()
     ui->locationePumpCombo->setCurrentIndex(0);
     ui->seasonaCombo->setCurrentIndex(0);
 
-
+    mainQuery=query;
 
 }
 

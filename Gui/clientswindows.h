@@ -63,6 +63,9 @@ private:
     CardClientWindows  *cardClientWindows;
     QString mainQuery; //хранит основной запрос окна
 
+    QMap<int,int> mapComboGegion_; // хранит соответсвие комбо и ID областей
+    QMap<int,int> mapComboDistrict_; // хранит соответсвие комбо и ID районов
+    QMap<int,int> mapComboInstrument_; // хранит соответсвие комбо и ID инструментов
 };
 
 #endif // CLIENTSWINDOWS_H

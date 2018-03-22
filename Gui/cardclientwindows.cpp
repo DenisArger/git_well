@@ -39,12 +39,17 @@ CardClientWindows::~CardClientWindows()
 void CardClientWindows::fillRegion()
 {
     ui->regionCombo->clear();
+    mapComboGegion_.clear();
     //Строка не будет вставлена ​​в поле со списком
     ui->regionCombo->setInsertPolicy(QComboBox::NoInsert);
     ui->regionCombo->setEditable(true);
     QSqlQuery query=dataBase.getQueryRegion();
+    int i=0;
     while(query.next()) {
+         //заполнение словаря
+        mapComboGegion_.insert(i,query.value(0).toInt());
         ui->regionCombo->addItem(query.value(1).toString(), query.value(0));
+        i++;
     }
 
     //Реализуем возможность автозаполнения comboBox
@@ -80,12 +85,12 @@ void CardClientWindows::fillClientCart(personale pers)
     ui->patronymicLineEdit->setText(pers.patronymic);
     ui->mobilPhoneLineEdit->setText(pers.phone);
     ui->otherPhoneLineEdit->setText(pers.otherPhone);
-    ui->regionCombo->setCurrentIndex(pers.id_region);
-    ui->districtCombo->setCurrentIndex(pers.id_district);
+    ui->regionCombo->setCurrentIndex(mapComboGegion_.key(pers.id_region));
+    ui->districtCombo->setCurrentIndex(mapComboDistrict_.key(pers.id_district));
     ui->localityLineEdit->setText(pers.locality);
     ui->streetLineEdit->setText(pers.street);
     ui->depthLineEdit->setText(pers.dept);
-    ui->diameterCombo->setCurrentIndex(pers.id_diameter);
+    ui->diameterCombo->setCurrentIndex(mapComboInstrument_.key(pers.id_diameter));
     ui->pumpCheckBox->setChecked(pers.pump);
     ui->serviseCheckBox->setChecked(pers.service);
     ui->dataBegindateEdit->setDateTime(pers.dataBegin);
@@ -96,11 +101,41 @@ void CardClientWindows::fillClientCart(personale pers)
 void CardClientWindows::fillDistrict()
 {
     ui->districtCombo->clear();
+    mapComboDistrict_.clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->districtCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->districtCombo->setEditable(true);
+
     int id_Region=ui->regionCombo->currentIndex();
     QSqlQuery query=dataBase.getQueryDistrict(id_Region);
+    int i=0;
     while (query.next()) {
+         //заполнение словаря
+        mapComboDistrict_.insert(i,query.value(0).toInt());
         ui->districtCombo->addItem(query.value(1).toString(), query.value(0));
+        i++;
     }
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT District.district\
+                     FROM District\
+                     WHERE (((District.id_region)=%1))\
+                     ORDER BY District.district;").arg(id_Region);
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->districtCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->districtCombo->setCompleter(completer);
+    ui->districtCombo->setAutoCompletion(true);
 }
 
 void CardClientWindows::clickSaveButton()
@@ -164,12 +199,17 @@ void CardClientWindows::defaultContenWindow()
 void CardClientWindows::fillDistrict_FULL()
 {
     ui->districtCombo->clear();
+    mapComboDistrict_.clear();
     //Строка не будет вставлена ​​в поле со списком
     ui->districtCombo->setInsertPolicy(QComboBox::NoInsert);
     ui->districtCombo->setEditable(true);
     QSqlQuery query=dataBase.getQueryDistrict_FULL();
+    int i=0;
     while (query.next()) {
+        //заполнение словаря
+        mapComboDistrict_.insert(i,query.value(0).toInt());
         ui->districtCombo->addItem(query.value(1).toString(), query.value(0));
+        i++;
     }
 
 
@@ -199,12 +239,16 @@ void CardClientWindows::fillDistrict_FULL()
 void CardClientWindows::fillDiameter()
 {
     ui->diameterCombo->clear();
+    mapComboInstrument_.clear();
     //Строка не будет вставлена ​​в поле со списком
     ui->diameterCombo->setInsertPolicy(QComboBox::NoInsert);
     ui->diameterCombo->setEditable(true);
     QSqlQuery query=dataBase.getQueryDiameter();
+    int i=0;
     while (query.next()) {
         ui->diameterCombo->addItem(query.value(2).toString(), query.value(0));
+        mapComboInstrument_.insert(i,query.value(0).toInt());
+                i++;
     }
 
 
@@ -253,8 +297,8 @@ void  CardClientWindows::createNewClient()
     mobilPhone=ui->mobilPhoneLineEdit->text();
     otherPhone=ui->otherPhoneLineEdit->text();
 
-    id_district=ui->districtCombo->currentIndex();
-    id_diameter=ui->diameterCombo->currentIndex();
+    id_district=mapComboDistrict_.value(ui->districtCombo->currentIndex());
+    id_diameter=mapComboInstrument_.value(ui->diameterCombo->currentIndex());
 
     locality=ui->localityLineEdit->text();
     street=ui->streetLineEdit->text();
@@ -324,8 +368,8 @@ void CardClientWindows::updateClient()
     mobilPhone=ui->mobilPhoneLineEdit->text();
     otherPhone=ui->otherPhoneLineEdit->text();
 
-    id_district=ui->districtCombo->currentIndex();
-    id_diameter=ui->diameterCombo->currentIndex();
+    id_district=mapComboDistrict_.value(ui->districtCombo->currentIndex());
+    id_diameter=mapComboInstrument_.value(ui->diameterCombo->currentIndex());
 
     locality=ui->localityLineEdit->text();
     street=ui->streetLineEdit->text();
