@@ -85,8 +85,10 @@ QSqlQuery DataBase::getQueryDistrict(int id_Region)
 
     if(this->openDataBase()){
           QSqlQuery query;
-        if(!query.exec(QString("SELECT *from District where ID=0 OR ID_REGION=%1").arg(id_Region)))
-           qDebug() << query.lastError().text();
+        if(!query.exec(QString("SELECT *  FROM District\
+                               WHERE (((District.[ID])=0)) OR (((District.[ID_REGION])=%1))\
+                               ORDER BY District.district;").arg(id_Region)))
+       qDebug() << query.lastError().text();
        return query;
     }
 
@@ -98,7 +100,8 @@ QSqlQuery DataBase::getQueryDistrict_FULL()
 
     if(this->openDataBase()){
           QSqlQuery query;
-        if(!query.exec(QString("SELECT *from District ")))
+        if(!query.exec(QString("SELECT District.*, *FROM District\
+                               ORDER BY District.district; ")))
            qDebug() << query.lastError().text();
        return query;
     }

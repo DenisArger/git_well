@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "global.h"
+#include <QCompleter>
 
 
 
@@ -63,7 +64,7 @@ public:
     void closeEvent(QCloseEvent *event);
 
     void deleteServiceClient(int idClient);
-public slots:
+ public slots:
     void fillDistrict();
 
     void clickSaveButton();

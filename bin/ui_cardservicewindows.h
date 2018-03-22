@@ -266,6 +266,7 @@ public:
         regionCombo_2->setObjectName(QStringLiteral("regionCombo_2"));
         regionCombo_2->setEnabled(true);
         regionCombo_2->setFont(font1);
+        regionCombo_2->setEditable(false);
 
         horizontalLayout_19->addWidget(regionCombo_2);
 
@@ -285,6 +286,7 @@ public:
         districtCombo_2->setObjectName(QStringLiteral("districtCombo_2"));
         districtCombo_2->setEnabled(true);
         districtCombo_2->setFont(font1);
+        districtCombo_2->setEditable(false);
 
         horizontalLayout_20->addWidget(districtCombo_2);
 

@@ -284,6 +284,7 @@ release/moc_editinstrumentsdialog.cpp: C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWi
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/qfiledevice.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtGui/qvector2d.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtGui/qtouchdevice.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QMap \
 		../Gui/editinstrumentsdialog.h \
 		release/moc_predefs.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/bin/moc.exe
@@ -814,6 +815,8 @@ release/moc_primewindow.cpp: C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QMai
 		../Model/heirqsqlquerymodel.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtSql/QSqlQueryModel \
 		../Gui/cardclientwindows.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QCompleter \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qcompleter.h \
 		../Gui/serviceclientswindow.h \
 		../Gui/cardservicewindows.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QDateTime \
@@ -821,6 +824,7 @@ release/moc_primewindow.cpp: C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QMai
 		../Gui/stockwindow.h \
 		../Gui/editinstrumentsdialog.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QDialog \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QMap \
 		../Gui/addinstruments.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QWidget \
 		../Gui/stockwindow_Antony.h \
@@ -1091,6 +1095,8 @@ release/moc_clientswindows.cpp: C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/Q
 		../Model/heirqsqlquerymodel.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtSql/QSqlQueryModel \
 		../Gui/cardclientwindows.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QCompleter \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qcompleter.h \
 		../Gui/clientswindows.h \
 		release/moc_predefs.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/bin/moc.exe
@@ -1355,6 +1361,8 @@ release/moc_cardclientwindows.cpp: C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidget
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QMessageBox \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qmessagebox.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qdialog.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QCompleter \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qcompleter.h \
 		../Gui/cardclientwindows.h \
 		release/moc_predefs.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/bin/moc.exe
@@ -1472,6 +1480,7 @@ release/moc_stockwindow.cpp: C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QMai
 		../Gui/editinstrumentsdialog.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QDialog \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qdialog.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QMap \
 		../Gui/addinstruments.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QWidget \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtSql/QSqlQuery \
@@ -2431,6 +2440,8 @@ release/moc_logindialog.cpp: C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QWid
 		../Model/heirqsqlquerymodel.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtSql/QSqlQueryModel \
 		../Gui/cardclientwindows.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QCompleter \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qcompleter.h \
 		../Gui/serviceclientswindow.h \
 		../Gui/cardservicewindows.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QDateTime \
@@ -2438,6 +2449,7 @@ release/moc_logindialog.cpp: C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QWid
 		../Gui/stockwindow.h \
 		../Gui/editinstrumentsdialog.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QDialog \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QMap \
 		../Gui/addinstruments.h \
 		../Gui/stockwindow_Antony.h \
 		../Gui/logindialog.h \
@@ -2703,6 +2715,7 @@ release/moc_addinstruments.cpp: C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/Q
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QMessageBox \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qmessagebox.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qdialog.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QMap \
 		../Gui/addinstruments.h \
 		release/moc_predefs.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/bin/moc.exe
@@ -2820,6 +2833,7 @@ release/moc_stockwindow_Antony.cpp: C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidge
 		../Gui/editinstrumentsdialog.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QDialog \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qdialog.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QMap \
 		../Gui/addinstruments.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QWidget \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtSql/QSqlQuery \
@@ -3562,6 +3576,8 @@ release/main.o: ../main.cpp ../config.h \
 		../Model/heirqsqlquerymodel.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtSql/QSqlQueryModel \
 		../Gui/cardclientwindows.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QCompleter \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qcompleter.h \
 		../Gui/serviceclientswindow.h \
 		../Gui/cardservicewindows.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QDateTime \
@@ -3569,6 +3585,7 @@ release/main.o: ../main.cpp ../config.h \
 		../Gui/stockwindow.h \
 		../Gui/editinstrumentsdialog.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QDialog \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QMap \
 		../Gui/addinstruments.h \
 		../Gui/stockwindow_Antony.h \
 		../GUI/primewindow.h \
@@ -4087,6 +4104,7 @@ release/editinstrumentsdialog.o: ../Gui/editinstrumentsdialog.cpp ../Gui/editins
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/qfiledevice.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtGui/qvector2d.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtGui/qtouchdevice.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QMap \
 		ui_editinstrumentsdialog.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QVariant \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QAction \
@@ -4808,6 +4826,8 @@ release/primewindow.o: ../Gui/primewindow.cpp ../Gui/primewindow.h \
 		../Model/heirqsqlquerymodel.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtSql/QSqlQueryModel \
 		../Gui/cardclientwindows.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QCompleter \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qcompleter.h \
 		../Gui/serviceclientswindow.h \
 		../Gui/cardservicewindows.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QDateTime \
@@ -4815,6 +4835,7 @@ release/primewindow.o: ../Gui/primewindow.cpp ../Gui/primewindow.h \
 		../Gui/stockwindow.h \
 		../Gui/editinstrumentsdialog.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QDialog \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QMap \
 		../Gui/addinstruments.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QWidget \
 		../Gui/stockwindow_Antony.h \
@@ -5122,6 +5143,8 @@ release/clientswindows.o: ../Gui/clientswindows.cpp ../Gui/clientswindows.h \
 		../Model/heirqsqlquerymodel.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtSql/QSqlQueryModel \
 		../Gui/cardclientwindows.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QCompleter \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qcompleter.h \
 		ui_clientswindows.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QVariant \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QAction \
@@ -5431,6 +5454,8 @@ release/cardclientwindows.o: ../Gui/cardclientwindows.cpp ../Gui/cardclientwindo
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QMessageBox \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qmessagebox.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qdialog.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QCompleter \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qcompleter.h \
 		ui_cardclientwindows.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QVariant \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QAction \
@@ -5595,6 +5620,7 @@ release/stockwindow.o: ../Gui/stockwindow.cpp ../Gui/stockwindow.h \
 		../Gui/editinstrumentsdialog.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QDialog \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qdialog.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QMap \
 		../Gui/addinstruments.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QWidget \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtSql/QSqlQuery \
@@ -6699,6 +6725,8 @@ release/logindialog.o: ../Gui/logindialog.cpp ../Gui/logindialog.h \
 		../Model/heirqsqlquerymodel.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtSql/QSqlQueryModel \
 		../Gui/cardclientwindows.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QCompleter \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qcompleter.h \
 		../Gui/serviceclientswindow.h \
 		../Gui/cardservicewindows.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QDateTime \
@@ -6706,6 +6734,7 @@ release/logindialog.o: ../Gui/logindialog.cpp ../Gui/logindialog.h \
 		../Gui/stockwindow.h \
 		../Gui/editinstrumentsdialog.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QDialog \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QMap \
 		../Gui/addinstruments.h \
 		../Gui/stockwindow_Antony.h \
 		ui_logindialog.h \
@@ -7132,6 +7161,7 @@ release/addinstruments.o: ../Gui/addinstruments.cpp ../Gui/addinstruments.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QMessageBox \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qmessagebox.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qdialog.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QMap \
 		ui_addinstruments.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QVariant \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QAction \
@@ -7279,6 +7309,7 @@ release/stockwindow_Antony.o: ../Gui/stockwindow_Antony.cpp ../Gui/stockwindow_A
 		../Gui/editinstrumentsdialog.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QDialog \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/qdialog.h \
+		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtCore/QMap \
 		../Gui/addinstruments.h \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtWidgets/QWidget \
 		C:/Qt/Qt5.8.0/5.8/mingw53_32/include/QtSql/QSqlQuery \

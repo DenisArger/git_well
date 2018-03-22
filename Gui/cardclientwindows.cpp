@@ -4,8 +4,8 @@
 CardClientWindows::CardClientWindows(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::CardClientWindows),
-     stateSave(true),
-     id_client(-1)
+    stateSave(true),
+    id_client(-1)
 {
     ui->setupUi(this);
 
@@ -39,10 +39,33 @@ CardClientWindows::~CardClientWindows()
 void CardClientWindows::fillRegion()
 {
     ui->regionCombo->clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->regionCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->regionCombo->setEditable(true);
     QSqlQuery query=dataBase.getQueryRegion();
     while(query.next()) {
         ui->regionCombo->addItem(query.value(1).toString(), query.value(0));
     }
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT Region.region\
+                     FROM Region;");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->regionCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->regionCombo->setCompleter(completer);
+    ui->regionCombo->setAutoCompletion(true);
+
 }
 
 void CardClientWindows::fillClientCart(personale pers)
@@ -122,29 +145,53 @@ void CardClientWindows::defaultContenWindow()
     ui->localityLineEdit->clear();
     ui->streetLineEdit->clear();
 
-   ui->dataBeginCheckBox->setChecked(false);
-   ui->dataEndCheckBox->setChecked(false);
+    ui->dataBeginCheckBox->setChecked(false);
+    ui->dataEndCheckBox->setChecked(false);
 
-   ui->dataBegindateEdit->setEnabled(false);
-   ui->dataEndDateEdit->setEnabled(false);
+    ui->dataBegindateEdit->setEnabled(false);
+    ui->dataEndDateEdit->setEnabled(false);
 
-   fillDate();
+    fillDate();
 
-   ui->depthLineEdit->clear();
-   ui->diameterCombo->setCurrentIndex(0);
-   ui->pumpCheckBox->setChecked(false);
-   ui->serviseCheckBox->setChecked(false);
-   ui->noteEdit->clear();
+    ui->depthLineEdit->clear();
+    ui->diameterCombo->setCurrentIndex(0);
+    ui->pumpCheckBox->setChecked(false);
+    ui->serviseCheckBox->setChecked(false);
+    ui->noteEdit->clear();
 
 }
 
 void CardClientWindows::fillDistrict_FULL()
 {
     ui->districtCombo->clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->districtCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->districtCombo->setEditable(true);
     QSqlQuery query=dataBase.getQueryDistrict_FULL();
     while (query.next()) {
         ui->districtCombo->addItem(query.value(1).toString(), query.value(0));
     }
+
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT District.district\
+                     FROM District;");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->districtCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->districtCombo->setCompleter(completer);
+    ui->districtCombo->setAutoCompletion(true);
+
 }
 
 
@@ -152,10 +199,34 @@ void CardClientWindows::fillDistrict_FULL()
 void CardClientWindows::fillDiameter()
 {
     ui->diameterCombo->clear();
+    //Строка не будет вставлена ​​в поле со списком
+    ui->diameterCombo->setInsertPolicy(QComboBox::NoInsert);
+    ui->diameterCombo->setEditable(true);
     QSqlQuery query=dataBase.getQueryDiameter();
     while (query.next()) {
         ui->diameterCombo->addItem(query.value(2).toString(), query.value(0));
     }
+
+
+    //Реализуем возможность автозаполнения comboBox
+    QString queryStr;
+    QSqlQueryModel *queryModel;
+    QCompleter* completer;
+
+    queryStr=QString("SELECT Instruments.nameInstruments\
+                     FROM Instruments\
+                     WHERE (((Instruments.idClassInstruments)=1));");
+
+    //Производим инициализацию модели представления данных
+    queryModel = new QSqlQueryModel(this);
+    queryModel->setQuery( queryStr, dataBase.getDatase());
+
+    completer = new QCompleter(queryModel,ui->diameterCombo );
+    completer->setCaseSensitivity( Qt::CaseInsensitive );
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+
+    ui->diameterCombo->setCompleter(completer);
+    ui->diameterCombo->setAutoCompletion(true);
 }
 
 
@@ -195,7 +266,7 @@ void  CardClientWindows::createNewClient()
     dataBegin=ui->dataBegindateEdit->text();
 
     if(ui->dataEndCheckBox->isChecked())
-         dataEnd=ui->dataEndDateEdit->text();
+        dataEnd=ui->dataEndDateEdit->text();
 
 
 
@@ -209,17 +280,17 @@ void  CardClientWindows::createNewClient()
 
     query= QString("INSERT INTO ClientsCard (surname, name_, patronymic, mobilPhone,otherPhone, \
                    id_district, locality, street,dept, id_instruments, pump, service,");
-    if(ui->dataBeginCheckBox->isChecked())
-         query+=QString(" dataBegin, ");
-    if(ui->dataEndCheckBox->isChecked())
-         query+=QString(" dataEnd, ");
+                   if(ui->dataBeginCheckBox->isChecked())
+                   query+=QString(" dataBegin, ");
+            if(ui->dataEndCheckBox->isChecked())
+            query+=QString(" dataEnd, ");
 
     query+= QString(" notes )  SELECT '%1','%2','%3','%4', '%5', %6, '%7', '%8', %9, %10, %11, %12" ).arg(surname).arg(name).\
             arg(patronymic).arg(mobilPhone).arg(otherPhone).arg(id_district).arg(locality).\
             arg(street).arg(dept).arg(id_diameter).arg(pump).arg(service);
 
     if(ui->dataBeginCheckBox->isChecked())
-         query+=QString(" ,'%1' ").arg(dataBegin);
+        query+=QString(" ,'%1' ").arg(dataBegin);
     if(ui->dataEndCheckBox->isChecked())
         query+=QString(" ,'%1' ").arg(dataEnd);
 
@@ -263,7 +334,7 @@ void CardClientWindows::updateClient()
     dataBegin=ui->dataBegindateEdit->text();
 
     if(ui->dataEndCheckBox->isChecked())
-         dataEnd=ui->dataEndDateEdit->text();
+        dataEnd=ui->dataEndDateEdit->text();
 
     pump=ui->pumpCheckBox->isChecked();
     service=ui->serviseCheckBox->isChecked();
@@ -273,13 +344,13 @@ void CardClientWindows::updateClient()
 
 
     query= QString( "update ClientsCard set surname = '%1', name_='%2', patronymic='%3', mobilPhone='%4', otherPhone='%12', \
-                   id_district=%5, locality='%6', street='%7',dept='%8', id_instruments=%9, pump=%10, service='%11',").arg(surname).arg(name).\
+                    id_district=%5, locality='%6', street='%7',dept='%8', id_instruments=%9, pump=%10, service='%11',").arg(surname).arg(name).\
                     arg(patronymic).arg(mobilPhone).arg(id_district).arg(locality).\
                     arg(street).arg(dept).arg(id_diameter).arg(pump).arg(service).arg(otherPhone);
-    if(ui->dataBeginCheckBox->isChecked())
-         query+=QString(" dataBegin='%1', ").arg(dataBegin);
+            if(ui->dataBeginCheckBox->isChecked())
+            query+=QString(" dataBegin='%1', ").arg(dataBegin);
     if(ui->dataEndCheckBox->isChecked())
-         query+=QString(" dataEnd='%1', ").arg(dataEnd);
+        query+=QString(" dataEnd='%1', ").arg(dataEnd);
 
     query+=QString(" notes='%1' where ID=%2 ").arg(notes).arg(id_client);
 
@@ -290,11 +361,11 @@ void CardClientWindows::updateClient()
     query=QString("Select COUNT(*) from Service  where idClient=%1").arg(id_client);
     QSqlQuery queryNew= dataBase.queryToBase(query);
     queryNew.first();
-   // qDebug()<<queryNew.value(0).toInt();
-            if(!(queryNew.value(0).toInt())&& ui->serviseCheckBox->isChecked())
-                createServiceClient(id_client);
-            else  if((queryNew.value(0).toInt())&& !(ui->serviseCheckBox->isChecked()))
-                deleteServiceClient(id_client);
+    // qDebug()<<queryNew.value(0).toInt();
+    if(!(queryNew.value(0).toInt())&& ui->serviseCheckBox->isChecked())
+        createServiceClient(id_client);
+    else  if((queryNew.value(0).toInt())&& !(ui->serviseCheckBox->isChecked()))
+        deleteServiceClient(id_client);
 
 
 
@@ -314,9 +385,9 @@ void CardClientWindows::setIdClient(int id)
 void CardClientWindows::createServiceClient(int idClient)
 {
     QString query= QString("INSERT INTO Service (idClient, idStateService,idStatePayment,\
-    idTypePump,idStatePump,idLocationPump,idSeasone)");
+                           idTypePump,idStatePump,idLocationPump,idSeasone)");
 
-    query+= QString(" SELECT %1,%2,%3,%4,%5,%6,%7" ).arg(idClient).arg(0).arg(0).arg(0).arg(0).arg(0).arg(0);
+            query+= QString(" SELECT %1,%2,%3,%4,%5,%6,%7" ).arg(idClient).arg(0).arg(0).arg(0).arg(0).arg(0).arg(0);
 
     dataBase.queryToBase(query);
 }
@@ -332,3 +403,6 @@ void CardClientWindows::closeEvent(QCloseEvent *event)
     defaultContenWindow();
     emit closeSignal();
 }
+
+
+

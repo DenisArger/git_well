@@ -59,7 +59,6 @@ SOURCES += \
     Gui/busysplashwidget.cpp \
     Gui/addinstruments.cpp \
     Gui/stockwindow_Antony.cpp
-
 FORMS += \
     Gui/editinstrumentsdialog.ui \
     Gui/primewindow.ui \

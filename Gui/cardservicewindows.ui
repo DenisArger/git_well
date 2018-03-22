@@ -279,6 +279,9 @@
                  <pointsize>11</pointsize>
                 </font>
                </property>
+               <property name="editable">
+                <bool>false</bool>
+               </property>
               </widget>
              </item>
             </layout>
@@ -312,6 +315,9 @@
                 <font>
                  <pointsize>11</pointsize>
                 </font>
+               </property>
+               <property name="editable">
+                <bool>false</bool>
                </property>
               </widget>
              </item>
