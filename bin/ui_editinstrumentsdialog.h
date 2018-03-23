@@ -22,6 +22,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QVBoxLayout>
 
@@ -30,7 +31,7 @@ QT_BEGIN_NAMESPACE
 class Ui_EditInstrumentsDialog
 {
 public:
-    QVBoxLayout *verticalLayout_3;
+    QVBoxLayout *verticalLayout_4;
     QGroupBox *groupBox;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout;
@@ -38,7 +39,7 @@ public:
     QComboBox *classInstrumentCombo;
     QHBoxLayout *horizontalLayout_2;
     QLabel *typeInstrLabel;
-    QComboBox *instrumentCombo;
+    QLineEdit *instrumentLineEdit;
     QHBoxLayout *horizontalLayout_3;
     QLabel *typeOperLabel;
     QComboBox *typeOperationCombo;
@@ -54,6 +55,7 @@ public:
     QHBoxLayout *horizontalLayout_7;
     QLabel *noteLabel;
     QTextEdit *noteTextEdit;
+    QVBoxLayout *verticalLayout_3;
     QGroupBox *groupBox_2;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_8;
@@ -65,20 +67,28 @@ public:
     QHBoxLayout *horizontalLayout_10;
     QPushButton *applyButton;
     QPushButton *cancelButton;
+    QSpacerItem *verticalSpacer;
 
     void setupUi(QDialog *EditInstrumentsDialog)
     {
         if (EditInstrumentsDialog->objectName().isEmpty())
             EditInstrumentsDialog->setObjectName(QStringLiteral("EditInstrumentsDialog"));
         EditInstrumentsDialog->setWindowModality(Qt::ApplicationModal);
-        EditInstrumentsDialog->resize(412, 665);
+        EditInstrumentsDialog->resize(412, 475);
+        QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(EditInstrumentsDialog->sizePolicy().hasHeightForWidth());
+        EditInstrumentsDialog->setSizePolicy(sizePolicy);
         QFont font;
         font.setPointSize(11);
         EditInstrumentsDialog->setFont(font);
-        verticalLayout_3 = new QVBoxLayout(EditInstrumentsDialog);
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_4 = new QVBoxLayout(EditInstrumentsDialog);
+        verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
         groupBox = new QGroupBox(EditInstrumentsDialog);
         groupBox->setObjectName(QStringLiteral("groupBox"));
+        sizePolicy.setHeightForWidth(groupBox->sizePolicy().hasHeightForWidth());
+        groupBox->setSizePolicy(sizePolicy);
         verticalLayout = new QVBoxLayout(groupBox);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout = new QHBoxLayout();
@@ -92,7 +102,12 @@ public:
 
         classInstrumentCombo = new QComboBox(groupBox);
         classInstrumentCombo->setObjectName(QStringLiteral("classInstrumentCombo"));
-        classInstrumentCombo->setMinimumSize(QSize(120, 0));
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(classInstrumentCombo->sizePolicy().hasHeightForWidth());
+        classInstrumentCombo->setSizePolicy(sizePolicy1);
+        classInstrumentCombo->setMinimumSize(QSize(189, 0));
 
         horizontalLayout->addWidget(classInstrumentCombo);
 
@@ -108,11 +123,13 @@ public:
 
         horizontalLayout_2->addWidget(typeInstrLabel);
 
-        instrumentCombo = new QComboBox(groupBox);
-        instrumentCombo->setObjectName(QStringLiteral("instrumentCombo"));
-        instrumentCombo->setMinimumSize(QSize(120, 0));
+        instrumentLineEdit = new QLineEdit(groupBox);
+        instrumentLineEdit->setObjectName(QStringLiteral("instrumentLineEdit"));
+        sizePolicy1.setHeightForWidth(instrumentLineEdit->sizePolicy().hasHeightForWidth());
+        instrumentLineEdit->setSizePolicy(sizePolicy1);
+        instrumentLineEdit->setMinimumSize(QSize(120, 0));
 
-        horizontalLayout_2->addWidget(instrumentCombo);
+        horizontalLayout_2->addWidget(instrumentLineEdit);
 
 
         verticalLayout->addLayout(horizontalLayout_2);
@@ -128,7 +145,9 @@ public:
 
         typeOperationCombo = new QComboBox(groupBox);
         typeOperationCombo->setObjectName(QStringLiteral("typeOperationCombo"));
-        typeOperationCombo->setMinimumSize(QSize(120, 0));
+        sizePolicy1.setHeightForWidth(typeOperationCombo->sizePolicy().hasHeightForWidth());
+        typeOperationCombo->setSizePolicy(sizePolicy1);
+        typeOperationCombo->setMinimumSize(QSize(190, 0));
 
         horizontalLayout_3->addWidget(typeOperationCombo);
 
@@ -139,13 +158,13 @@ public:
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         dateLabel = new QLabel(groupBox);
         dateLabel->setObjectName(QStringLiteral("dateLabel"));
-        dateLabel->setMinimumSize(QSize(115, 0));
+        dateLabel->setMinimumSize(QSize(120, 0));
 
         horizontalLayout_4->addWidget(dateLabel);
 
         dateEdit = new QDateEdit(groupBox);
         dateEdit->setObjectName(QStringLiteral("dateEdit"));
-        dateEdit->setMinimumSize(QSize(120, 0));
+        dateEdit->setMinimumSize(QSize(189, 0));
 
         horizontalLayout_4->addWidget(dateEdit);
 
@@ -156,17 +175,14 @@ public:
         horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
         countInstrLabel = new QLabel(groupBox);
         countInstrLabel->setObjectName(QStringLiteral("countInstrLabel"));
-        countInstrLabel->setMinimumSize(QSize(115, 0));
+        countInstrLabel->setMinimumSize(QSize(120, 0));
 
         horizontalLayout_5->addWidget(countInstrLabel);
 
         countInstrEdit = new QLineEdit(groupBox);
         countInstrEdit->setObjectName(QStringLiteral("countInstrEdit"));
-        QSizePolicy sizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(countInstrEdit->sizePolicy().hasHeightForWidth());
-        countInstrEdit->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(countInstrEdit->sizePolicy().hasHeightForWidth());
+        countInstrEdit->setSizePolicy(sizePolicy1);
         countInstrEdit->setMinimumSize(QSize(120, 0));
 
         horizontalLayout_5->addWidget(countInstrEdit);
@@ -178,14 +194,14 @@ public:
         horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
         countInstrLabel_2 = new QLabel(groupBox);
         countInstrLabel_2->setObjectName(QStringLiteral("countInstrLabel_2"));
-        countInstrLabel_2->setMinimumSize(QSize(115, 0));
+        countInstrLabel_2->setMinimumSize(QSize(120, 0));
 
         horizontalLayout_6->addWidget(countInstrLabel_2);
 
         sourseLineEdit = new QLineEdit(groupBox);
         sourseLineEdit->setObjectName(QStringLiteral("sourseLineEdit"));
-        sizePolicy.setHeightForWidth(sourseLineEdit->sizePolicy().hasHeightForWidth());
-        sourseLineEdit->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(sourseLineEdit->sizePolicy().hasHeightForWidth());
+        sourseLineEdit->setSizePolicy(sizePolicy1);
         sourseLineEdit->setMinimumSize(QSize(120, 0));
 
         horizontalLayout_6->addWidget(sourseLineEdit);
@@ -205,8 +221,8 @@ public:
 
         noteTextEdit = new QTextEdit(groupBox);
         noteTextEdit->setObjectName(QStringLiteral("noteTextEdit"));
-        sizePolicy.setHeightForWidth(noteTextEdit->sizePolicy().hasHeightForWidth());
-        noteTextEdit->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(noteTextEdit->sizePolicy().hasHeightForWidth());
+        noteTextEdit->setSizePolicy(sizePolicy1);
         noteTextEdit->setMaximumSize(QSize(16777215, 55));
         noteTextEdit->setFont(font);
 
@@ -216,8 +232,10 @@ public:
         verticalLayout->addLayout(horizontalLayout_7);
 
 
-        verticalLayout_3->addWidget(groupBox);
+        verticalLayout_4->addWidget(groupBox);
 
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
         groupBox_2 = new QGroupBox(EditInstrumentsDialog);
         groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
         verticalLayout_2 = new QVBoxLayout(groupBox_2);
@@ -231,8 +249,8 @@ public:
 
         balanceLineEdit = new QLineEdit(groupBox_2);
         balanceLineEdit->setObjectName(QStringLiteral("balanceLineEdit"));
-        sizePolicy.setHeightForWidth(balanceLineEdit->sizePolicy().hasHeightForWidth());
-        balanceLineEdit->setSizePolicy(sizePolicy);
+        sizePolicy1.setHeightForWidth(balanceLineEdit->sizePolicy().hasHeightForWidth());
+        balanceLineEdit->setSizePolicy(sizePolicy1);
 
         horizontalLayout_8->addWidget(balanceLineEdit);
 
@@ -275,6 +293,13 @@ public:
 
 
         verticalLayout_3->addLayout(horizontalLayout_10);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_3->addItem(verticalSpacer);
+
+
+        verticalLayout_4->addLayout(verticalLayout_3);
 
 
         retranslateUi(EditInstrumentsDialog);

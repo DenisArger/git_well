@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_EditInstrumentsDialog_t {
-    QByteArrayData data[7];
-    char stringdata0[81];
+    QByteArrayData data[9];
+    char stringdata0[130];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -34,15 +34,18 @@ static const qt_meta_stringdata_EditInstrumentsDialog_t qt_meta_stringdata_EditI
 QT_MOC_LITERAL(0, 0, 21), // "EditInstrumentsDialog"
 QT_MOC_LITERAL(1, 22, 10), // "applyClick"
 QT_MOC_LITERAL(2, 33, 0), // ""
-QT_MOC_LITERAL(3, 34, 10), // "clickApply"
-QT_MOC_LITERAL(4, 45, 12), // "clickReCount"
-QT_MOC_LITERAL(5, 58, 11), // "fillBalance"
-QT_MOC_LITERAL(6, 70, 10) // "showWindow"
+QT_MOC_LITERAL(3, 34, 7), // "reCount"
+QT_MOC_LITERAL(4, 42, 11), // "fillBalance"
+QT_MOC_LITERAL(5, 54, 21), // "showEditBalanseWindow"
+QT_MOC_LITERAL(6, 76, 24), // "showEditInstrumentWindow"
+QT_MOC_LITERAL(7, 101, 10), // "setBalance"
+QT_MOC_LITERAL(8, 112, 17) // "setNameInstrument"
 
     },
     "EditInstrumentsDialog\0applyClick\0\0"
-    "clickApply\0clickReCount\0fillBalance\0"
-    "showWindow"
+    "reCount\0fillBalance\0showEditBalanseWindow\0"
+    "showEditInstrumentWindow\0setBalance\0"
+    "setNameInstrument"
 };
 #undef QT_MOC_LITERAL
 
@@ -52,7 +55,7 @@ static const uint qt_meta_data_EditInstrumentsDialog[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -60,18 +63,22 @@ static const uint qt_meta_data_EditInstrumentsDialog[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   39,    2, 0x06 /* Public */,
+       1,    0,   49,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    0,   40,    2, 0x0a /* Public */,
-       4,    0,   41,    2, 0x0a /* Public */,
-       5,    0,   42,    2, 0x0a /* Public */,
-       6,    0,   43,    2, 0x0a /* Public */,
+       3,    0,   50,    2, 0x0a /* Public */,
+       4,    0,   51,    2, 0x0a /* Public */,
+       5,    0,   52,    2, 0x0a /* Public */,
+       6,    0,   53,    2, 0x0a /* Public */,
+       7,    0,   54,    2, 0x0a /* Public */,
+       8,    0,   55,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -87,10 +94,12 @@ void EditInstrumentsDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->applyClick(); break;
-        case 1: _t->clickApply(); break;
-        case 2: _t->clickReCount(); break;
-        case 3: _t->fillBalance(); break;
-        case 4: _t->showWindow(); break;
+        case 1: _t->reCount(); break;
+        case 2: _t->fillBalance(); break;
+        case 3: _t->showEditBalanseWindow(); break;
+        case 4: _t->showEditInstrumentWindow(); break;
+        case 5: _t->setBalance(); break;
+        case 6: _t->setNameInstrument(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -132,13 +141,13 @@ int EditInstrumentsDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 7)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 5;
+        _id -= 7;
     }
     return _id;
 }

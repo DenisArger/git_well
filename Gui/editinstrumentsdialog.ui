@@ -10,8 +10,14 @@
     <x>0</x>
     <y>0</y>
     <width>412</width>
-    <height>665</height>
+    <height>475</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="font">
    <font>
@@ -21,9 +27,15 @@
   <property name="windowTitle">
    <string>Изменение остатка</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="title">
       <string/>
      </property>
@@ -50,9 +62,15 @@
         </item>
         <item>
          <widget class="QComboBox" name="classInstrumentCombo">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
-            <width>120</width>
+            <width>189</width>
             <height>0</height>
            </size>
           </property>
@@ -81,7 +99,13 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="instrumentCombo">
+         <widget class="QLineEdit" name="instrumentLineEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
             <width>120</width>
@@ -114,9 +138,15 @@
         </item>
         <item>
          <widget class="QComboBox" name="typeOperationCombo">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
-            <width>120</width>
+            <width>190</width>
             <height>0</height>
            </size>
           </property>
@@ -130,7 +160,7 @@
          <widget class="QLabel" name="dateLabel">
           <property name="minimumSize">
            <size>
-            <width>115</width>
+            <width>120</width>
             <height>0</height>
            </size>
           </property>
@@ -143,7 +173,7 @@
          <widget class="QDateEdit" name="dateEdit">
           <property name="minimumSize">
            <size>
-            <width>120</width>
+            <width>189</width>
             <height>0</height>
            </size>
           </property>
@@ -157,7 +187,7 @@
          <widget class="QLabel" name="countInstrLabel">
           <property name="minimumSize">
            <size>
-            <width>115</width>
+            <width>120</width>
             <height>0</height>
            </size>
           </property>
@@ -190,7 +220,7 @@
          <widget class="QLabel" name="countInstrLabel_2">
           <property name="minimumSize">
            <size>
-            <width>115</width>
+            <width>120</width>
             <height>0</height>
            </size>
           </property>
@@ -270,88 +300,108 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string/>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_8">
-        <item>
-         <widget class="QLabel" name="balanceLabel">
-          <property name="text">
-           <string>Остаток</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="balanceLineEdit">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_9">
-        <item>
-         <widget class="QPushButton" name="reCountButton">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Пересчитать</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="resetButton">
-          <property name="font">
-           <font>
-            <pointsize>11</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Сброс</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_10">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QPushButton" name="applyButton">
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-        </font>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="title">
+        <string/>
        </property>
-       <property name="text">
-        <string>Применить</string>
-       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLabel" name="balanceLabel">
+            <property name="text">
+             <string>Остаток</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="balanceLineEdit">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QPushButton" name="reCountButton">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Пересчитать</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="resetButton">
+            <property name="font">
+             <font>
+              <pointsize>11</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>Сброс</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="cancelButton">
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-        </font>
+      <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <item>
+        <widget class="QPushButton" name="applyButton">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Применить</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="cancelButton">
+         <property name="font">
+          <font>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Отмена</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
-       <property name="text">
-        <string>Отмена</string>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
        </property>
-      </widget>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>

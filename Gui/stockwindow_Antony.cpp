@@ -167,6 +167,8 @@ void StockWindow_Antony::editNameInstrument()
     }
 
 
+    editInstruments->showEditInstrumentWindow();
+/*
     bool ok;
     QFont  font;
     QString nameClass;
@@ -190,7 +192,7 @@ void StockWindow_Antony::editNameInstrument()
     queryStr=QString("update Instruments_Antony \
     set nameInstruments = '%1'  where ID=%2").arg(nameClass).arg(idInstrument_);
     dataBase.queryToBase(queryStr);
-
+*/
     updateWindows();
 }
 
@@ -710,5 +712,5 @@ void StockWindow_Antony::showEditBalanceWindows()
         QMessageBox::information(NULL,"Подсказка", "Выберите материал для редактирования остатка.");
         return;
     }
-    editInstruments->showWindow();
+    editInstruments->showEditBalanseWindow();
 }

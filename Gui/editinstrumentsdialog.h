@@ -28,11 +28,15 @@ public:
     void setCurrentDate();
     void  setCurrentTab(int currentTab);
     void fillClassInstrument();
+    QString getNameInstrument();
+    int getIdClassInstrument();
 public slots:
-    void clickApply();
-    void clickReCount();
+    void reCount();
     void fillBalance();
-    void showWindow();
+    void showEditBalanseWindow();
+    void showEditInstrumentWindow();
+    void setBalance();
+    void setNameInstrument();
 signals:
      void applyClick();
 private:
@@ -42,6 +46,12 @@ private:
     int currentTab_; //хранит выбранную текущую вкладку
     QMap<int,int> mapComboClassInstr_; // хранит соответсвие комбо и ID групп материалов
     QMap<int,int> mapComboInstr_; // хранит соответсвие комбо и ID материалов
+
+    bool stateConnectSetBalance; //статус  соединения  со слотом изменения баланса
+    bool stateConnectSetNameClass;//статус  соединения  со слотом изменения имени
+
+    bool stateReCount;//статус пересчета остатка материала
+
 };
 
 #endif // EDITINSTRUMENTSDIALOG_H
