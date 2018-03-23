@@ -13,7 +13,10 @@ StockWindow_Antony::StockWindow_Antony(QWidget *parent) :
     idInstrument_(-1)
 {
     ui->setupUi(this);
-    editInstruments=new EditInstrumentsDialog();
+    QIcon icon;
+    icon.addFile(QStringLiteral("../icon/well.png"), QSize(), QIcon::Disabled, QIcon::Off);
+    this->setWindowIcon(icon);
+    editInstruments=new EditInstrumentsDialog_Antony();
 
 
     dataBase.connectToDataBase();

@@ -6,6 +6,9 @@ ClientsWindows::ClientsWindows(QWidget *parent) :
     ui(new Ui::ClientsWindows)
 {
     ui->setupUi(this);
+    QIcon icon;
+    icon.addFile(QStringLiteral("../icon/well.png"), QSize(), QIcon::Disabled, QIcon::Off);
+    this->setWindowIcon(icon);
     cardClientWindows=new CardClientWindows(this);
 
     connect(ui->regionCombo_2, SIGNAL(currentIndexChanged(int)), this, SLOT(fillDistrict()));

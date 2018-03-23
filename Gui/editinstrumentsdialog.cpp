@@ -13,6 +13,9 @@ EditInstrumentsDialog::EditInstrumentsDialog(QWidget *parent) :
     stateReCount(false)
 {
     ui->setupUi(this);
+    QIcon icon;
+    icon.addFile(QStringLiteral("../icon/well.png"), QSize(), QIcon::Disabled, QIcon::Off);
+    this->setWindowIcon(icon);
 
     connect(ui->cancelButton,SIGNAL(clicked(bool)),this,SLOT(close()));
     //connect(ui->applyButton,SIGNAL(clicked(bool)),this,SLOT(close()));
@@ -141,7 +144,7 @@ void EditInstrumentsDialog::setBalance()
                 queryStr+=QString(" SELECT %1,%2,'%3',%4,'%5', '%6'").arg(idInstrument_).arg(typeOperation).arg(dateOperation).arg(countInstr).arg(source).arg(notes);
     }
     else{
-        queryStr="INSERT INTO MovementInstruments_Antony (idInstruments, typeOperation, \
+        queryStr="INSERT INTO MovementInstruments (idInstruments, typeOperation, \
                 dateOperation, countInstr, source, notes)";
                 queryStr+=QString(" SELECT %1,%2,'%3',%4,'%5', '%6'").arg(idInstrument_).arg(typeOperation).arg(dateOperation).arg(countInstr).arg(source).arg(notes);
 
@@ -152,7 +155,7 @@ void EditInstrumentsDialog::setBalance()
         queryStr= QString( "UPDATE Instruments SET balance = %1 WHERE id=%2").arg( balance_).arg( idInstrument_);
     }
     else{
-        queryStr= QString( "UPDATE Instruments_Antony SET balance = %1 WHERE id=%2").arg( balance_).arg( idInstrument_);
+        queryStr= QString( "UPDATE Instruments SET balance = %1 WHERE id=%2").arg( balance_).arg( idInstrument_);
     }
 
     dataBase.queryToBase(queryStr);
@@ -177,7 +180,7 @@ void EditInstrumentsDialog::setNameInstrument()
 nameInstruments='%2' WHERE id=%3").arg( idClassInstrument).arg(nameInstrument).arg( idInstrument_);
     }
     else{
-        queryStr= QString( "UPDATE Instruments_Antony SET idClassInstruments = %1,  \
+        queryStr= QString( "UPDATE Instruments SET idClassInstruments = %1,  \
 nameInstruments='%2' WHERE id=%3").arg( idClassInstrument).arg(nameInstrument).arg( idInstrument_);
     }
 
@@ -252,7 +255,7 @@ void EditInstrumentsDialog::fillBalance()
     if(idLoginGlobal!=1){
         queryStr=QString("SELECT balance FROM Instruments where id=%1").arg(idInstrument_);}
     else{
-        queryStr=QString("SELECT balance FROM Instruments_Antony where id=%1").arg(idInstrument_);
+        queryStr=QString("SELECT balance FROM Instruments where id=%1").arg(idInstrument_);
     }
 
     QSqlQuery query= dataBase.queryToBase(queryStr);
@@ -306,9 +309,9 @@ QString EditInstrumentsDialog::getNameInstrument()
     QString queryStr;
     QSqlQuery query;
     QString nameInstrument;
-    queryStr=QString("SELECT Instruments_Antony.nameInstruments\
-                     FROM Instruments_Antony\
-                     WHERE (((Instruments_Antony.id)=%1));").arg(idInstrument_);
+    queryStr=QString("SELECT Instruments.nameInstruments\
+                     FROM Instruments\
+                     WHERE (((Instruments.id)=%1));").arg(idInstrument_);
     query=dataBase.queryToBase(queryStr);
     query.first();
     nameInstrument=query.value(0).toString();
@@ -324,9 +327,9 @@ int EditInstrumentsDialog::getIdClassInstrument()
     QString queryStr;
     QSqlQuery query;
     int idInstrument;
-    queryStr=QString("SELECT Instruments_Antony.idClassInstruments\
-                     FROM Instruments_Antony\
-                     WHERE (((Instruments_Antony.id)=%1));").arg(idInstrument_);
+    queryStr=QString("SELECT Instruments.idClassInstruments\
+                     FROM Instruments\
+                     WHERE (((Instruments.id)=%1));").arg(idInstrument_);
     query=dataBase.queryToBase(queryStr);
     query.first();
     idInstrument=query.value(0).toInt();

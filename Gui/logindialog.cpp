@@ -10,6 +10,9 @@ LoginDialog::LoginDialog(QWidget *parent) :
     ui(new Ui::LoginDialog)
 {
     ui->setupUi(this);
+    QIcon icon;
+    icon.addFile(QStringLiteral("../icon/key.png"), QSize(), QIcon::Disabled, QIcon::Off);
+    this->setWindowIcon(icon);
 
     keyEnterReturn = new QShortcut(this);   // Инициализируем объект
     keyEnter = new QShortcut(this);   // Инициализируем объект

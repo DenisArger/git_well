@@ -16,6 +16,7 @@ INPUT(
 ./debug/busysplashwidget.o
 ./debug/addinstruments.o
 ./debug/stockwindow_Antony.o
+./debug/editinstrumentsdialog_Antony.o
 ./debug/moc_editinstrumentsdialog.o
 ./debug/moc_database.o
 ./debug/moc_primewindow.o
@@ -27,4 +28,5 @@ INPUT(
 ./debug/moc_logindialog.o
 ./debug/moc_addinstruments.o
 ./debug/moc_stockwindow_Antony.o
+./debug/moc_editinstrumentsdialog_Antony.o
 );

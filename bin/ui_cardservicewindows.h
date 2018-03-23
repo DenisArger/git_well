@@ -588,7 +588,7 @@ public:
 
     void retranslateUi(QMainWindow *CardServiceWindows)
     {
-        CardServiceWindows->setWindowTitle(QApplication::translate("CardServiceWindows", "MainWindow", Q_NULLPTR));
+        CardServiceWindows->setWindowTitle(QApplication::translate("CardServiceWindows", "\320\232\320\260\321\200\321\202\320\276\321\207\320\272\320\260 \320\276\320\261\321\201\320\273\321\203\320\266\320\270\320\262\320\260\320\275\320\270\321\217 \320\272\320\273\320\270\320\265\320\275\321\202\320\260", Q_NULLPTR));
         clientGroupBox_2->setTitle(QApplication::translate("CardServiceWindows", "\320\233\320\270\321\207\320\275\321\213\320\265 \320\264\320\260\320\275\320\275\321\213\320\265", Q_NULLPTR));
         surnameLabel_2->setText(QApplication::translate("CardServiceWindows", "\320\244\320\260\320\274\320\270\320\273\320\270\321\217", Q_NULLPTR));
         nameLabel_2->setText(QApplication::translate("CardServiceWindows", "\320\230\320\274\321\217", Q_NULLPTR));

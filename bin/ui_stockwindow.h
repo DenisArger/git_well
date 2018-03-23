@@ -36,31 +36,34 @@ class Ui_StockWindow
 {
 public:
     QWidget *centralwidget;
-    QVBoxLayout *verticalLayout_3;
-    QHBoxLayout *horizontalLayout_5;
+    QVBoxLayout *verticalLayout_7;
+    QHBoxLayout *horizontalLayout_2;
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
-    QWidget *layoutWidget;
     QVBoxLayout *verticalLayout_6;
     QGroupBox *groupBox_3;
     QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout;
-    QLabel *label;
-    QDateEdit *dataBegindateEdit;
+    QHBoxLayout *horizontalLayout_3;
+    QSpacerItem *horizontalSpacer_5;
     QLabel *label_2;
     QDateEdit *dataEnddateEdit;
+    QSpacerItem *horizontalSpacer_3;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer_4;
+    QLabel *label;
+    QDateEdit *dataBegindateEdit;
+    QSpacerItem *horizontalSpacer_2;
     QHBoxLayout *horizontalLayout_7;
     QPushButton *sumButton;
     QPushButton *clearButtton;
     QGroupBox *groupBox;
-    QHBoxLayout *horizontalLayout_4;
+    QVBoxLayout *verticalLayout_5;
+    QVBoxLayout *verticalLayout_3;
     QPushButton *addInstrButton;
-    QPushButton *editInstrButton;
+    QPushButton *editNameInstrButton;
+    QPushButton *editBalanceInstrButton;
     QPushButton *deleteInstrButton;
-    QGroupBox *groupBox_2;
-    QHBoxLayout *horizontalLayout_3;
-    QPushButton *currBalanceButton;
-    QPushButton *editBalanceButton;
+    QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout_2;
     QTabWidget *tabWidget;
     QWidget *tab;
@@ -82,34 +85,62 @@ public:
         StockWindow->resize(1173, 633);
         centralwidget = new QWidget(StockWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        verticalLayout_3 = new QVBoxLayout(centralwidget);
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        verticalLayout_7 = new QVBoxLayout(centralwidget);
+        verticalLayout_7->setObjectName(QStringLiteral("verticalLayout_7"));
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         scrollArea = new QScrollArea(centralwidget);
         scrollArea->setObjectName(QStringLiteral("scrollArea"));
-        scrollArea->setMaximumSize(QSize(330, 16777215));
+        scrollArea->setMaximumSize(QSize(339, 16777215));
         scrollArea->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 328, 487));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 337, 490));
         QFont font;
         font.setPointSize(11);
         scrollAreaWidgetContents->setFont(font);
-        layoutWidget = new QWidget(scrollAreaWidgetContents);
-        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
-        layoutWidget->setGeometry(QRect(11, 11, 319, 292));
-        verticalLayout_6 = new QVBoxLayout(layoutWidget);
+        verticalLayout_6 = new QVBoxLayout(scrollAreaWidgetContents);
         verticalLayout_6->setObjectName(QStringLiteral("verticalLayout_6"));
-        verticalLayout_6->setContentsMargins(0, 0, 0, 0);
-        groupBox_3 = new QGroupBox(layoutWidget);
+        groupBox_3 = new QGroupBox(scrollAreaWidgetContents);
         groupBox_3->setObjectName(QStringLiteral("groupBox_3"));
         verticalLayout = new QVBoxLayout(groupBox_3);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalSpacer_5 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_5);
+
+        label_2 = new QLabel(groupBox_3);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setMinimumSize(QSize(70, 0));
+        label_2->setFont(font);
+
+        horizontalLayout_3->addWidget(label_2);
+
+        dataEnddateEdit = new QDateEdit(groupBox_3);
+        dataEnddateEdit->setObjectName(QStringLiteral("dataEnddateEdit"));
+        dataEnddateEdit->setFont(font);
+        dataEnddateEdit->setCalendarPopup(true);
+
+        horizontalLayout_3->addWidget(dataEnddateEdit);
+
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_3);
+
+
+        verticalLayout->addLayout(horizontalLayout_3);
+
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalSpacer_4 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_4);
+
         label = new QLabel(groupBox_3);
         label->setObjectName(QStringLiteral("label"));
+        label->setMinimumSize(QSize(70, 0));
         label->setFont(font);
 
         horizontalLayout->addWidget(label);
@@ -121,18 +152,9 @@ public:
 
         horizontalLayout->addWidget(dataBegindateEdit);
 
-        label_2 = new QLabel(groupBox_3);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setFont(font);
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        horizontalLayout->addWidget(label_2);
-
-        dataEnddateEdit = new QDateEdit(groupBox_3);
-        dataEnddateEdit->setObjectName(QStringLiteral("dataEnddateEdit"));
-        dataEnddateEdit->setFont(font);
-        dataEnddateEdit->setCalendarPopup(true);
-
-        horizontalLayout->addWidget(dataEnddateEdit);
+        horizontalLayout->addItem(horizontalSpacer_2);
 
 
         verticalLayout->addLayout(horizontalLayout);
@@ -146,7 +168,7 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(sumButton->sizePolicy().hasHeightForWidth());
         sumButton->setSizePolicy(sizePolicy);
-        sumButton->setMinimumSize(QSize(60, 55));
+        sumButton->setMinimumSize(QSize(120, 55));
         sumButton->setFont(font);
 
         horizontalLayout_7->addWidget(sumButton);
@@ -155,7 +177,7 @@ public:
         clearButtton->setObjectName(QStringLiteral("clearButtton"));
         sizePolicy.setHeightForWidth(clearButtton->sizePolicy().hasHeightForWidth());
         clearButtton->setSizePolicy(sizePolicy);
-        clearButtton->setMinimumSize(QSize(60, 55));
+        clearButtton->setMinimumSize(QSize(120, 55));
         clearButtton->setFont(font);
 
         horizontalLayout_7->addWidget(clearButtton);
@@ -166,10 +188,15 @@ public:
 
         verticalLayout_6->addWidget(groupBox_3);
 
-        groupBox = new QGroupBox(layoutWidget);
+        groupBox = new QGroupBox(scrollAreaWidgetContents);
         groupBox->setObjectName(QStringLiteral("groupBox"));
-        horizontalLayout_4 = new QHBoxLayout(groupBox);
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        QFont font1;
+        font1.setPointSize(9);
+        groupBox->setFont(font1);
+        verticalLayout_5 = new QVBoxLayout(groupBox);
+        verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
         addInstrButton = new QPushButton(groupBox);
         addInstrButton->setObjectName(QStringLiteral("addInstrButton"));
         QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
@@ -177,60 +204,47 @@ public:
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(addInstrButton->sizePolicy().hasHeightForWidth());
         addInstrButton->setSizePolicy(sizePolicy1);
-        addInstrButton->setMinimumSize(QSize(60, 55));
         addInstrButton->setFont(font);
 
-        horizontalLayout_4->addWidget(addInstrButton);
+        verticalLayout_3->addWidget(addInstrButton);
 
-        editInstrButton = new QPushButton(groupBox);
-        editInstrButton->setObjectName(QStringLiteral("editInstrButton"));
-        sizePolicy1.setHeightForWidth(editInstrButton->sizePolicy().hasHeightForWidth());
-        editInstrButton->setSizePolicy(sizePolicy1);
-        editInstrButton->setMinimumSize(QSize(60, 55));
-        editInstrButton->setFont(font);
+        editNameInstrButton = new QPushButton(groupBox);
+        editNameInstrButton->setObjectName(QStringLiteral("editNameInstrButton"));
+        sizePolicy1.setHeightForWidth(editNameInstrButton->sizePolicy().hasHeightForWidth());
+        editNameInstrButton->setSizePolicy(sizePolicy1);
+        editNameInstrButton->setFont(font);
 
-        horizontalLayout_4->addWidget(editInstrButton);
+        verticalLayout_3->addWidget(editNameInstrButton);
+
+        editBalanceInstrButton = new QPushButton(groupBox);
+        editBalanceInstrButton->setObjectName(QStringLiteral("editBalanceInstrButton"));
+        sizePolicy1.setHeightForWidth(editBalanceInstrButton->sizePolicy().hasHeightForWidth());
+        editBalanceInstrButton->setSizePolicy(sizePolicy1);
+        editBalanceInstrButton->setFont(font);
+
+        verticalLayout_3->addWidget(editBalanceInstrButton);
 
         deleteInstrButton = new QPushButton(groupBox);
         deleteInstrButton->setObjectName(QStringLiteral("deleteInstrButton"));
         sizePolicy1.setHeightForWidth(deleteInstrButton->sizePolicy().hasHeightForWidth());
         deleteInstrButton->setSizePolicy(sizePolicy1);
-        deleteInstrButton->setMinimumSize(QSize(0, 55));
         deleteInstrButton->setFont(font);
 
-        horizontalLayout_4->addWidget(deleteInstrButton);
+        verticalLayout_3->addWidget(deleteInstrButton);
+
+
+        verticalLayout_5->addLayout(verticalLayout_3);
+
+        verticalSpacer = new QSpacerItem(288, 16, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_5->addItem(verticalSpacer);
 
 
         verticalLayout_6->addWidget(groupBox);
 
-        groupBox_2 = new QGroupBox(layoutWidget);
-        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
-        horizontalLayout_3 = new QHBoxLayout(groupBox_2);
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        currBalanceButton = new QPushButton(groupBox_2);
-        currBalanceButton->setObjectName(QStringLiteral("currBalanceButton"));
-        sizePolicy.setHeightForWidth(currBalanceButton->sizePolicy().hasHeightForWidth());
-        currBalanceButton->setSizePolicy(sizePolicy);
-        currBalanceButton->setMinimumSize(QSize(0, 55));
-        currBalanceButton->setFont(font);
-
-        horizontalLayout_3->addWidget(currBalanceButton);
-
-        editBalanceButton = new QPushButton(groupBox_2);
-        editBalanceButton->setObjectName(QStringLiteral("editBalanceButton"));
-        sizePolicy.setHeightForWidth(editBalanceButton->sizePolicy().hasHeightForWidth());
-        editBalanceButton->setSizePolicy(sizePolicy);
-        editBalanceButton->setMinimumSize(QSize(0, 55));
-        editBalanceButton->setFont(font);
-
-        horizontalLayout_3->addWidget(editBalanceButton);
-
-
-        verticalLayout_6->addWidget(groupBox_2);
-
         scrollArea->setWidget(scrollAreaWidgetContents);
 
-        horizontalLayout_5->addWidget(scrollArea);
+        horizontalLayout_2->addWidget(scrollArea);
 
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
@@ -241,7 +255,7 @@ public:
         tabWidget->setTabShape(QTabWidget::Rounded);
         tabWidget->setElideMode(Qt::ElideNone);
         tabWidget->setDocumentMode(true);
-        tabWidget->setTabsClosable(false);
+        tabWidget->setTabsClosable(true);
         tabWidget->setMovable(false);
         tabWidget->setTabBarAutoHide(false);
         tab = new QWidget();
@@ -256,9 +270,9 @@ public:
         sizePolicy2.setHeightForWidth(tableView->sizePolicy().hasHeightForWidth());
         tableView->setSizePolicy(sizePolicy2);
         tableView->setMinimumSize(QSize(0, 150));
-        QFont font1;
-        font1.setPointSize(12);
-        tableView->setFont(font1);
+        QFont font2;
+        font2.setPointSize(12);
+        tableView->setFont(font2);
 
         verticalLayout_4->addWidget(tableView);
 
@@ -285,10 +299,10 @@ public:
         verticalLayout_2->addWidget(legendTextEdit);
 
 
-        horizontalLayout_5->addLayout(verticalLayout_2);
+        horizontalLayout_2->addLayout(verticalLayout_2);
 
 
-        verticalLayout_3->addLayout(horizontalLayout_5);
+        verticalLayout_7->addLayout(horizontalLayout_2);
 
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
@@ -310,7 +324,7 @@ public:
         horizontalLayout_6->addWidget(closeButton);
 
 
-        verticalLayout_3->addLayout(horizontalLayout_6);
+        verticalLayout_7->addLayout(horizontalLayout_6);
 
         StockWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(StockWindow);
@@ -331,22 +345,22 @@ public:
 
     void retranslateUi(QMainWindow *StockWindow)
     {
-        StockWindow->setWindowTitle(QApplication::translate("StockWindow", "MainWindow", Q_NULLPTR));
-        groupBox_3->setTitle(QString());
-        label->setText(QApplication::translate("StockWindow", "\320\241", Q_NULLPTR));
+        StockWindow->setWindowTitle(QApplication::translate("StockWindow", "\320\241\320\272\320\273\320\260\320\264", Q_NULLPTR));
+        groupBox_3->setTitle(QApplication::translate("StockWindow", "\320\237\320\276\320\264\321\201\321\207\320\265\321\202 \321\200\320\260\321\201\321\205\320\276\320\264\320\260 \320\274\320\260\321\202\320\265\321\200\320\270\320\260\320\273\320\260", Q_NULLPTR));
         label_2->setText(QApplication::translate("StockWindow", "\320\237\320\276", Q_NULLPTR));
+        label->setText(QApplication::translate("StockWindow", "\320\241", Q_NULLPTR));
         sumButton->setText(QApplication::translate("StockWindow", "\320\237\320\276\321\201\321\207\320\270\321\202\320\260\321\202\321\214 \n"
 "\320\276\321\201\321\202\320\260\321\202\320\276\320\272", Q_NULLPTR));
         clearButtton->setText(QApplication::translate("StockWindow", "\320\241\320\261\321\200\320\276\321\201 ", Q_NULLPTR));
-        groupBox->setTitle(QString());
-        addInstrButton->setText(QApplication::translate("StockWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214", Q_NULLPTR));
-        editInstrButton->setText(QApplication::translate("StockWindow", "\320\230\320\267\320\274\320\265\320\275\320\270\321\202\321\214", Q_NULLPTR));
-        deleteInstrButton->setText(QApplication::translate("StockWindow", "\320\243\320\264\320\260\320\273\320\270\321\202\321\214", Q_NULLPTR));
-        groupBox_2->setTitle(QString());
-        currBalanceButton->setText(QApplication::translate("StockWindow", "\320\242\320\265\320\272\321\203\321\211\320\270\320\271 \n"
-"\320\276\321\201\321\202\320\260\321\202\320\276\320\272", Q_NULLPTR));
-        editBalanceButton->setText(QApplication::translate("StockWindow", "\320\230\320\267\320\274\320\265\320\275\320\270\321\202\321\214 \n"
-"\320\276\321\201\321\202\320\260\321\202\320\276\320\272", Q_NULLPTR));
+        groupBox->setTitle(QApplication::translate("StockWindow", "\320\236\320\277\320\265\321\200\320\260\321\206\320\270\320\270 \321\201 \320\274\320\260\321\202\320\265\321\200\320\270\320\260\320\273\320\276\320\274", Q_NULLPTR));
+        addInstrButton->setText(QApplication::translate("StockWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214 \n"
+" \320\275\320\276\320\262\321\213\320\271 \320\274\320\260\321\202\320\265\321\200\320\270\320\260\320\273", Q_NULLPTR));
+        editNameInstrButton->setText(QApplication::translate("StockWindow", "\320\230\320\267\320\274\320\265\320\275\320\270\321\202\321\214 \n"
+"\320\275\320\260\320\267\320\262\320\260\320\275\320\270\320\265 \320\274\320\260\321\202\320\265\321\200\320\270\320\260\320\273\320\260", Q_NULLPTR));
+        editBalanceInstrButton->setText(QApplication::translate("StockWindow", "\320\230\320\267\320\274\320\265\320\275\320\270\321\202\321\214 \n"
+"\320\276\321\201\321\202\320\260\321\202\320\276\320\272 \320\274\320\260\321\202\320\265\321\200\320\270\320\260\320\273\320\260", Q_NULLPTR));
+        deleteInstrButton->setText(QApplication::translate("StockWindow", "\320\243\320\264\320\260\320\273\320\270\321\202\321\214 \n"
+"\320\274\320\260\321\202\320\265\321\200\320\270\320\260\320\273", Q_NULLPTR));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("StockWindow", "\320\222\321\201\320\265", Q_NULLPTR));
         closeButton->setText(QApplication::translate("StockWindow", "\320\222\321\213\320\271\321\202\320\270", Q_NULLPTR));
     } // retranslateUi

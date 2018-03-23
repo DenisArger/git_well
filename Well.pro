@@ -39,7 +39,8 @@ HEADERS += \
     Gui/busysplashwidget.h \
     Gui/addinstruments.h \
     config.h \
-    Gui/stockwindow_Antony.h
+    Gui/stockwindow_Antony.h \
+    Gui/editinstrumentsdialog_Antony.h
 
 SOURCES += \
     global.cpp \
@@ -58,7 +59,8 @@ SOURCES += \
     Gui/logindialog.cpp \
     Gui/busysplashwidget.cpp \
     Gui/addinstruments.cpp \
-    Gui/stockwindow_Antony.cpp
+    Gui/stockwindow_Antony.cpp \
+    Gui/editinstrumentsdialog_Antony.cpp
 FORMS += \
     Gui/editinstrumentsdialog.ui \
     Gui/primewindow.ui \

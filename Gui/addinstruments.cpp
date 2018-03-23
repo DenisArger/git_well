@@ -7,6 +7,9 @@ AddInstruments::AddInstruments(QWidget *parent) :
     currentTab_(0)
 {
     ui->setupUi(this);
+    QIcon icon;
+    icon.addFile(QStringLiteral("../icon/well.png"), QSize(), QIcon::Disabled, QIcon::Off);
+    this->setWindowIcon(icon);
 
     connect(ui->applyButton,SIGNAL(clicked(bool)), this, SLOT(addNewInstr()));
     connect(ui->applyButton,SIGNAL(clicked(bool)), this, SLOT(close()));

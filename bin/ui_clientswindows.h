@@ -407,7 +407,7 @@ public:
 
     void retranslateUi(QMainWindow *ClientsWindows)
     {
-        ClientsWindows->setWindowTitle(QApplication::translate("ClientsWindows", "MainWindow", Q_NULLPTR));
+        ClientsWindows->setWindowTitle(QApplication::translate("ClientsWindows", "\320\232\320\273\320\270\320\265\320\275\321\202\321\201\320\272\320\260\321\217 \320\261\320\260\320\267\320\260", Q_NULLPTR));
         locationGroupBox->setTitle(QApplication::translate("ClientsWindows", "\320\234\320\265\321\201\321\202\320\276\320\275\320\260\321\205\320\276\320\266\320\264\320\265\320\275\320\270\320\265", Q_NULLPTR));
         regionLabel_2->setText(QApplication::translate("ClientsWindows", "\320\236\320\261\320\273\320\260\321\201\321\202\321\214", Q_NULLPTR));
         districtLabel_2->setText(QApplication::translate("ClientsWindows", "\320\240\320\260\320\271\320\276\320\275", Q_NULLPTR));

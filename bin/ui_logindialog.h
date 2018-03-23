@@ -43,6 +43,9 @@ public:
             LoginDialog->setObjectName(QStringLiteral("LoginDialog"));
         LoginDialog->setWindowModality(Qt::ApplicationModal);
         LoginDialog->resize(270, 197);
+        QIcon icon;
+        icon.addFile(QStringLiteral("../bin/icon/key.png"), QSize(), QIcon::Disabled, QIcon::Off);
+        LoginDialog->setWindowIcon(icon);
         verticalLayout = new QVBoxLayout(LoginDialog);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         horizontalLayout = new QHBoxLayout();

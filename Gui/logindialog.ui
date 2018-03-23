@@ -16,6 +16,11 @@
   <property name="windowTitle">
    <string>Вход в программу</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <disabledoff>../bin/icon/key.png</disabledoff>
+   </iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

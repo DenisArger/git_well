@@ -21,6 +21,11 @@
   <property name="windowTitle">
    <string>Главное окно программы</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <disabledoff>../bin/icon/well.png</disabledoff>
+   </iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>

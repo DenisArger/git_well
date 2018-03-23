@@ -9,6 +9,9 @@ ServiceClientsWindow::ServiceClientsWindow(QWidget *parent) :
     ui(new Ui::ServiceClientsWindow)
 {
     ui->setupUi(this);
+    QIcon icon;
+    icon.addFile(QStringLiteral("../icon/well.png"), QSize(), QIcon::Disabled, QIcon::Off);
+    this->setWindowIcon(icon);
 
     cardServiceWindows=new CardServiceWindows(this);
 

@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "QSqlQueryModel"
-#include "editinstrumentsdialog.h"
+#include "editinstrumentsdialog_Antony.h"
 #include "addinstruments.h"
 
 
@@ -64,7 +64,7 @@ private:
 
     QSqlQueryModel *modelTemp; //временная модель данных
     QSqlQueryModel    *modelMain;// модель данных  вкладки Все
-    EditInstrumentsDialog *editInstruments;
+    EditInstrumentsDialog_Antony *editInstruments;
     AddInstruments * addIntruments;
 
     vector<QTabWidget*>vecTabWidget;

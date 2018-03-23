@@ -65,6 +65,9 @@ public:
         QFont font;
         font.setPointSize(11);
         PrimeWindow->setFont(font);
+        QIcon icon;
+        icon.addFile(QStringLiteral("../bin/icon/well.png"), QSize(), QIcon::Disabled, QIcon::Off);
+        PrimeWindow->setWindowIcon(icon);
         centralwidget = new QWidget(PrimeWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         verticalLayout = new QVBoxLayout(centralwidget);
