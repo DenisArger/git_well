@@ -21,6 +21,9 @@ int main(int argc, char *argv[])
 
     QApplication a(argc, argv);
 
+    if(!dataBase.connectToDataBase())
+        return -1;
+
     #ifndef DEBUG
     LoginDialog *lg= new LoginDialog();
     lg->show();

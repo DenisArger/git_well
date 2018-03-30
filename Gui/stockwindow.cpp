@@ -18,7 +18,8 @@ StockWindow::StockWindow(QWidget *parent) :
     editInstruments=new EditInstrumentsDialog();
 
 
-    dataBase.connectToDataBase();
+    if(!dataBase.connectToDataBase())
+        return;
     this->setupModelBase(QStringList() << trUtf8("ID")
                          << trUtf8("Класс")
                          << trUtf8("Название")

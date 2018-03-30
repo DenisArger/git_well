@@ -11,17 +11,20 @@ DataBase::~DataBase()
 
 }
 
-void DataBase::connectToDataBase()
+bool DataBase::connectToDataBase()
 {
+    bool stateConnect;
     /* Перед подключением к базе данных производим проверку на её существование.
      * В зависимости от результата производим открытие базы данных или её восстановление
      * */
-   if(!QFile("../db/" DATABASE_NAME).exists()){
-       qDebug()<< "Файл базы данных не найден";
-        //QMessageBox::critical(this,'Ошибка открытия БД',"Файл базы данных не найден.");
-    } else {
-        this->openDataBase();
+   if(!QFile("../db/"DATABASE_NAME).exists()){
+        QMessageBox::critical(NULL,"Ошибка открытия БД","Файл базы данных не найден.");
+        stateConnect=false;
     }
+   else {
+        stateConnect=this->openDataBase();
+    }
+    return stateConnect;
 }
 
 bool DataBase::openDataBase()
@@ -29,27 +32,18 @@ bool DataBase::openDataBase()
     /* База данных открывается по заданному пути
      * и имени базы данных, если она существует
      * */
-
-    QString fileDataBase = QDir::currentPath()+"\\db\\DatabaseWell.mdb";
-
-    if(db.isOpen())
+     if(db.isOpen())
         return true;
 
     db = QSqlDatabase::addDatabase("QODBC");
-   QString file;
-   // qDebug()<<file;
-    if(fileName== " ")
-     db.setDatabaseName(ACCESS);
-   // }
-    else{
-         file= ACCESS_SHORT+fileName;
-          db.setDatabaseName(file);
-    }
-     qDebug()<<file;
+    db.setDatabaseName(ACCESS);
+
     if(db.open()){
         return true;
-    } else {
-       // QMessageBox::critical(this,"Ошибка открытия БД","Не  возможно открыть файл базы данных.");
+    }
+    else {
+
+        QMessageBox::critical(NULL,"Ошибка открытия БД",db.lastError().text());
         return false;
     }
 }

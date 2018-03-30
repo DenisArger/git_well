@@ -19,7 +19,8 @@ StockWindow_Antony::StockWindow_Antony(QWidget *parent) :
     editInstruments=new EditInstrumentsDialog_Antony();
 
 
-    dataBase.connectToDataBase();
+    if(!dataBase.connectToDataBase())
+        return;
     this->setupModelBase(QStringList() << trUtf8("ID")
                          << trUtf8("Класс")
                          << trUtf8("Название")

@@ -24,7 +24,8 @@ void ClientsWindows::showWindow()
 {
     this->showMaximized();
 
-    dataBase.connectToDataBase();
+    if(!dataBase.connectToDataBase())
+        return;
     this->setupModel(QStringList() << trUtf8("ID")
                      << trUtf8("Service")
                      << trUtf8("Область")

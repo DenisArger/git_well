@@ -62,7 +62,7 @@ public:
     /* Методы для непосредственной работы с классом
      * Подключение к базе данных и вставка записей в таблицу
      * */
-    void connectToDataBase();
+    bool connectToDataBase();
 
     void closeDataBase();
     QSqlQuery getQueryRegion();

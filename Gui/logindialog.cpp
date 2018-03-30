@@ -14,6 +14,8 @@ LoginDialog::LoginDialog(QWidget *parent) :
     icon.addFile(QStringLiteral("../icon/key.png"), QSize(), QIcon::Disabled, QIcon::Off);
     this->setWindowIcon(icon);
 
+
+
     keyEnterReturn = new QShortcut(this);   // Инициализируем объект
     keyEnter = new QShortcut(this);   // Инициализируем объект
     keyEsc = new QShortcut(this);   // Инициализируем объект
@@ -28,6 +30,8 @@ LoginDialog::LoginDialog(QWidget *parent) :
     connect(keyEsc, SIGNAL(activated()), this,SLOT(close()));
     connect(ui->enterButton,SIGNAL(clicked(bool)), this, SLOT(clickEnterClick()));
     connect(ui->cancelPushButton,SIGNAL(clicked(bool)),this, SLOT(close()));
+
+
 
 }
 
@@ -58,6 +62,10 @@ void LoginDialog::clickEnterClick()
 bool LoginDialog::checkUser()
 {
     bool check=false;
+
+
+
+
     QString loginStr= ui->loginLineEdit->text();
     QString passStr= ui->passLineEdit->text();
     QString queryStr="SELECT Login.ID,Login.NameLogin, Login.Password FROM Login;";

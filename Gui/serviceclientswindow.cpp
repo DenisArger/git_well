@@ -30,7 +30,9 @@ void ServiceClientsWindow::showWindow()
 {
     this->showMaximized();
 
-    dataBase.connectToDataBase();
+    if(!dataBase.connectToDataBase())
+        return;
+
     this->setupModel(QStringList()  << trUtf8("ID")
                      << trUtf8("ID client")
                      << trUtf8("Область")
